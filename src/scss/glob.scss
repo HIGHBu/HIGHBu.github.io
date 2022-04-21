@@ -1,0 +1,45 @@
+@font-face {
+  font-family: 'AlibabaSans';
+  src: url('./font/AlibabaSans-Medium.otf');
+  font-weight: medium;
+}
+@font-face {
+  font-family: 'AlibabaSans';
+  src: url('./font/AlibabaSans-Regular.otf');
+  font-weight: normal;
+}
+
+.title {
+  font-family: 'AlibabaSans';
+  font-size: 24px;
+  font-weight: medium;
+  line-height: 32px;
+}
+.subtitle {
+  font-family: 'AlibabaSans';
+  font-size: 20px;
+  font-weight: medium;
+  line-height: 28px;
+}
+.text {
+  font-family: 'AlibabaSans';
+  font-size: 14px;
+  font-weight: normal;
+  line-height: 22px;
+}
+.auxiliary {
+  font-family: 'AlibabaSans';
+  font-size: 12px;
+  font-weight: normal;
+  line-height: 20px;
+}
+//for debug...
+body {
+  margin: 0;
+  background: linear-gradient(
+    to right,
+    gray,
+    lightgray,
+    gray
+  );
+}

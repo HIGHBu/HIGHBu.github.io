@@ -1,0 +1,42 @@
+@import './colors.scss';
+@mixin topButtonCommon {
+    box-shadow: 0px 2px 0px 0px #0000000B;
+    border: 0;
+    transition: background-color .4s;
+    background-color: $white-2;
+    .anticon {
+        transition: color .4s;
+        color: $main-color-3;
+    }
+    &:hover {
+        background-color: $main-color-3;
+        .anticon {
+            color : $white-1;
+        }
+    }
+}
+.skin-button {
+    margin: 0 16px;
+}
+.favor-button,.menu-button,.skin-button {
+    $button-size: 40px;
+    $icon-size: 26px;
+    border-radius: 2px;
+    height: $button-size;
+    width: $button-size;
+    .anticon {
+        font-size: $icon-size;
+    }
+    @include topButtonCommon;
+}
+.user-button {
+    $button-size: 48px;
+    $icon-size: 28px;
+    border-radius: calc($button-size/2);
+    height: $button-size;
+    width: $button-size;
+    .anticon {
+        font-size: $icon-size;
+    }
+    @include topButtonCommon;
+}
