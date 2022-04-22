@@ -40,3 +40,14 @@
     }
     @include topButtonCommon;
 }
+
+.user-tooltip {
+    div {
+        .ant-tooltip-arrow .ant-tooltip-arrow-content{
+            --antd-arrow-background-color: #{$white-2};
+        }
+        .ant-tooltip-inner {
+            background-color: $white-2;
+        }
+    }
+}
