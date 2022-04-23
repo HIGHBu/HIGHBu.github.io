@@ -1,11 +1,11 @@
 @font-face {
   font-family: 'AlibabaSans';
-  src: url('./font/AlibabaSans-Medium.otf');
+  src: import('./font/AlibabaSans-Medium.otf');
   font-weight: medium;
 }
 @font-face {
   font-family: 'AlibabaSans';
-  src: url('./font/AlibabaSans-Regular.otf');
+  src: import('./font/AlibabaSans-Regular.otf');
   font-weight: normal;
 }
 
