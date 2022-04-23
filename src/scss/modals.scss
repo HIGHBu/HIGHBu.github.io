@@ -1,0 +1,73 @@
+@import './colors.scss';
+@import './mixins.scss';
+.modal-design-detail {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 11rem 11rem;
+    backdrop-filter: blur(1rem);
+    .left-col{
+        display: flex;
+        flex-direction: column;
+        .comment-danmaku {
+            height: 13rem;
+            width: 30rem;
+            overflow: hidden;
+            border: 1px red solid;
+            margin-bottom: 0.8rem;
+            flex-shrink: 0;
+        }
+        .show-more {
+            color: $black-2;
+        }
+        img {
+            margin-top: 0.8rem;
+            margin-bottom: 1.6rem;
+            width: 26rem;
+            height: 54rem;
+        }
+        .comment-group{
+            display: flex;
+            flex-direction: row;
+            .ant-input-textarea {
+                width: 31rem;
+                textarea{
+                    resize: none;
+                    overflow:hidden;
+                }
+                margin-right: 1rem;
+            }
+            button {
+                $button-size: 4rem;
+                $icon-size: 2.5rem;
+                border-radius: calc($button-size/2);
+                height: $button-size;
+                width: $button-size;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .anticon {
+                    font-size: $icon-size;
+                }
+                @include button-common;
+                background-color: $white-1;
+            }
+        }
+    }
+    .back-button {
+        position: absolute;
+        left: 4rem;
+        bottom: 4rem;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 2px;
+        font-size: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include button-common;
+    }
+}

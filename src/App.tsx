@@ -2,17 +2,13 @@ import UserButton from './components/UserButton'
 import SkinButton from './components/SkinButton'
 import FavorButton from './components/FavorButton'
 import MenuButton from './components/MenuButton'
+import DesignDetail from './modal/DesignDetail'
 
 function App() {
   return (
-    <div style={{
-      padding: '20px 40px'
-    }}>
-      <div style={{
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center'
-      }}>
+    <div>
+      <DesignDetail/>
+      <div className='top-button-group'>
         <MenuButton/>
         <div style={{flexGrow:1}}/>
         <UserButton/>
