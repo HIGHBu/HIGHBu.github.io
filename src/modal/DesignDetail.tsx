@@ -16,7 +16,7 @@ function DesignDetail(){
             </a>
             <img src={demoPic}/>
             <div className="comment-group">
-                <TextArea placeholder={commentPlaceholder} showCount maxLength={20} className='text' rows={1}/>
+                <TextArea placeholder={commentPlaceholder} showCount maxLength={20} className='text'/>
                 <button type='button'>
                     <SmileOutlined/>
                 </button>

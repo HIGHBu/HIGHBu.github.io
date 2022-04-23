@@ -34,9 +34,14 @@
             flex-direction: row;
             .ant-input-textarea {
                 width: 31rem;
+                height: 3rem;
                 textarea{
+                    white-space: nowrap;
                     resize: none;
                     overflow:hidden;
+                    ::-webkit-scrollbar{
+                        display: none;
+                    }
                 }
                 margin-right: 1rem;
             }
