@@ -9,6 +9,44 @@
     display: flex;
     padding: 11rem 11rem;
     backdrop-filter: blur(1rem);
+    .right-col{
+        margin-left: 10rem;
+        flex-grow: 1;
+        img {
+            width: 100%;
+            height: 70rem;
+            object-fit: fill;
+        }
+        .nav-and-action {
+            margin-top: 1.5rem;
+            position: relative;
+            text-align: center;
+            .actions {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 10rem;
+                display: flex;
+                flex-direction: row;
+                button {
+                    margin-left: 1rem;
+                    $button-size: 4rem;
+                    $icon-size: 2.5rem;
+                    border-radius: calc($button-size/2);
+                    height: $button-size;
+                    width: $button-size;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .anticon {
+                        font-size: $icon-size;
+                    }
+                    @include button-common;
+                    background-color: $white-1;
+                }
+            }
+        }
+    }
     .left-col{
         display: flex;
         flex-direction: column;
@@ -26,7 +64,7 @@
         img {
             margin-top: 0.8rem;
             margin-bottom: 1.6rem;
-            width: 26rem;
+            object-fit: contain;
             height: 54rem;
         }
         .comment-group{
