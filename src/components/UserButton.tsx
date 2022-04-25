@@ -10,12 +10,10 @@ function UserToolTip(){
     const username=useSelector<RootState,string>((state)=>state.userSlice.username)
     return (
         <div className="user-tooltip-content">
-            <p className="subtitle">
-                {username}
-            </p>
+            <h2>{username}</h2>
             <div>
-                <a className="text">{changeNameAvatar}</a>
-                <a className="text">{generateTicket}</a>
+                <a className="main-text">{changeNameAvatar}</a>
+                <a className="main-text">{generateTicket}</a>
             </div>
         </div>
     )
