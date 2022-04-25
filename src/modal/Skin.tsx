@@ -1,7 +1,7 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Progress } from 'antd';
 import demoPic from '../assets/APP.png'
-import { saveSkin, unlockCondition } from '../text';
+import { saveSkin, skinTitle, unlockCondition } from '../text';
 
 interface SkinItemProp {
     prefix:string;
@@ -26,11 +26,11 @@ function SkinItem(props: SkinItemProp){
 
 function Skin(){
     return (
-        <div className='skin-modal'>
+        <div className='skin-favor-modal'>
             <img src={demoPic}/>
             <div className='panel'>
                 <div className='panel-head'>
-                    <h1>个性装扮</h1>
+                    <h1>{skinTitle}</h1>
                     <CloseOutlined/>
                 </div>
                 <SkinItem prefix='head'/>
