@@ -8,7 +8,6 @@ import Favor from './modal/Favor'
 function App() {
   return (
     <div>
-      <Favor/>
       <div className='top-button-group'>
         <MenuButton/>
         <div style={{flexGrow:1}}/>
