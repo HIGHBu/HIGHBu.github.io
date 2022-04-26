@@ -2,8 +2,13 @@ import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, Sta
 import { commentPlaceholder, showMoreComment } from "../text"
 import demoPic from '../assets/APP.png'
 import { Input, Pagination } from "antd"
+import { useDispatch } from "react-redux"
+import { hideDisignDetail } from "../store/modalSlice"
+import { AppDispatch } from "../store"
 const { TextArea } = Input
 function DesignDetail(){
+    const dispatch=useDispatch<AppDispatch>()
+    const handleClose=()=>dispatch(hideDisignDetail())
     return (
     <div className='modal-design-detail'>
         <div className='left-col'>
@@ -37,7 +42,7 @@ function DesignDetail(){
                 </div>
             </div>
         </div>
-        <button type='button' className='back-button'>
+        <button type='button' className='back-button' onClick={handleClose}>
             <LeftOutlined />  
         </button>
     </div>)

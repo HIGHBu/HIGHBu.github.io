@@ -1,6 +1,9 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Progress } from 'antd';
+import { useDispatch } from 'react-redux';
 import demoPic from '../assets/APP.png'
+import { AppDispatch } from '../store';
+import { hideFavor } from '../store/modalSlice';
 import { designerIs, favorTitle, saveSkin, unlockCondition } from '../text';
 
 interface FavorItemProp {
@@ -20,13 +23,15 @@ function FavorItem(props: FavorItemProp){
 }
 
 function Favor(){
+    const dispatch=useDispatch<AppDispatch>()
+    const handleClose=()=>dispatch(hideFavor())
     return (
         <div className='skin-favor-modal'>
             <img src={demoPic}/>
             <div className='panel'>
                 <div className='panel-head'>
                     <h1>{favorTitle}</h1>
-                    <CloseOutlined/>
+                    <CloseOutlined onClick={handleClose}/>
                 </div>
                 <div className='favor-panel-body'>
                     <FavorItem prefix='a'/>

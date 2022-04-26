@@ -1,6 +1,9 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Progress } from 'antd';
+import { useDispatch } from 'react-redux';
 import demoPic from '../assets/APP.png'
+import { AppDispatch } from '../store';
+import { hideSkin } from '../store/modalSlice';
 import { saveSkin, skinTitle, unlockCondition } from '../text';
 
 interface SkinItemProp {
@@ -25,13 +28,15 @@ function SkinItem(props: SkinItemProp){
 }
 
 function Skin(){
+    const dispatch=useDispatch<AppDispatch>()
+    const handleClose=()=>dispatch(hideSkin())
     return (
         <div className='skin-favor-modal'>
             <img src={demoPic}/>
             <div className='panel'>
                 <div className='panel-head'>
                     <h1>{skinTitle}</h1>
-                    <CloseOutlined/>
+                    <CloseOutlined onClick={handleClose}/>
                 </div>
                 <SkinItem prefix='head'/>
                 <SkinItem prefix='body'/>
