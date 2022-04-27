@@ -1,11 +1,19 @@
 import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarOutlined } from "@ant-design/icons"
 import { commentPlaceholder, showMoreComment } from "../text"
 import demoPic from '../assets/APP.png'
-import { Input, Pagination } from "antd"
+import { Input, Pagination, Tooltip } from "antd"
 import { useDispatch } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch } from "../store"
 const { TextArea } = Input
+function EmojiTooltip(){
+    return (<div>
+        <span>😀</span>
+        <span>🤔</span>
+        <span>🙁</span>
+        <span>😓</span>
+    </div>)
+}
 function DesignDetail(){
     const dispatch=useDispatch<AppDispatch>()
     const handleClose=()=>dispatch(hideDisignDetail())
@@ -22,9 +30,11 @@ function DesignDetail(){
             <img src={demoPic}/>
             <div className="comment-group">
                 <TextArea placeholder={commentPlaceholder} showCount maxLength={20} className='text'/>
-                <button type='button'>
-                    <SmileOutlined/>
-                </button>
+                <Tooltip title={EmojiTooltip} trigger='hover' overlayClassName='emoji-bar'>
+                    <button type='button'>
+                        <SmileOutlined/>
+                    </button>
+                </Tooltip>
             </div>
         </div>
         <div className="right-col">

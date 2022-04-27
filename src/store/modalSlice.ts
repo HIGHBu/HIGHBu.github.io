@@ -1,7 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { AppDispatch } from '.';
-import { apiLogin } from '../api/user';
-
+import { createSlice } from '@reduxjs/toolkit'
 export const modalSlice = createSlice({
   name: 'modal',
   initialState: {
