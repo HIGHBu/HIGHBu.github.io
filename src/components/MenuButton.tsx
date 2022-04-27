@@ -4,8 +4,15 @@ import {
 } from '@ant-design/icons'
 import { Menu, MenuProps } from 'antd';
 import React from 'react';
+import { useDispatch } from 'react-redux';
+import { AppDispatch } from '../store';
+import { showDisignDetail } from '../store/modalSlice';
 function MenuButton(){
     const [collapsed, setCollapsed] = React.useState(false);
+    const dispatch=useDispatch<AppDispatch>()
+    const handleSelect=()=>{
+        dispatch(showDisignDetail())
+    }
     const menuItems:Required<MenuProps>['items'] = [{
         label: '实体产品展厅',
         icon: <MailOutlined/>,
@@ -59,7 +66,7 @@ function MenuButton(){
             <button type="button" className="menu-button" onClick={()=>setCollapsed(!collapsed)}>
                 {collapsed?<MenuUnfoldOutlined/>:<MenuFoldOutlined/>}
             </button>
-            {collapsed && <Menu items={menuItems} mode='inline' className='menu'/>}
+            {collapsed && <Menu items={menuItems} mode='inline' className='menu' onSelect={handleSelect}/>}
         </div>
     )
 }
