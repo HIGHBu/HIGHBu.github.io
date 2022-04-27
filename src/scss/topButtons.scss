@@ -1,12 +1,22 @@
 @import './colors.scss';
 @import './mixins.scss';
 .top-button-group {
-    padding: 20px 40px;
-    display: flex;
-    width: 100%;
-    align-items: center
+    position: absolute;
+    top: 20px;
+    right: 40px;
+    display: flex inline-block;
+    align-items: center;
 }
-
+.menu-group {
+    padding: 20px 40px;
+    .menu {
+        width: 24rem;
+        margin-top: 1rem;
+    }
+    .ant-menu {
+        background-color: $white-2;
+    }
+}
 .skin-button {
     margin: 0 16px;
 }

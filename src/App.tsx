@@ -11,16 +11,14 @@ function App() {
   const designDetailVisible=useSelector<RootState,boolean>(state=>state.modalSlice.disignDetail)
   const favorVisible=useSelector<RootState,boolean>(state=>state.modalSlice.favor)
   const skinVisible=useSelector<RootState,boolean>(state=>state.modalSlice.skin)
-  console.log('render')
   const modal=designDetailVisible && <DesignDetail/> || 
     favorVisible && <Favor/> ||
     skinVisible && <Skin/>;
   return (
     <div>
       {modal}
+      <MenuButton/>
       <div className='top-button-group'>
-        <MenuButton/>
-        <div style={{flexGrow:1}}/>
         <UserButton/>
         <SkinButton/>
         <FavorButton/>
