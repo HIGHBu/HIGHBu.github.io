@@ -2,6 +2,10 @@ import { createSlice } from '@reduxjs/toolkit';
 import { AppDispatch } from '.';
 import { apiLogin } from '../api/user';
 
+export interface userPayload {
+  username: string,
+  token: string
+}
 export const userSlice = createSlice({
   name: 'user',
   initialState: {
@@ -9,7 +13,7 @@ export const userSlice = createSlice({
     token: ''
   },
   reducers: {
-    setuser(state, { payload }) {
+    setuser(state, { payload }:{ payload:userPayload }) {
       state.username = payload.username
       state.token = payload.token
     },

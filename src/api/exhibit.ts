@@ -1,3 +1,5 @@
+import { authoredGet } from "./util"
+
 export interface Exhibit {
     id: string,
     title: string,
@@ -11,6 +13,7 @@ export interface Exhibit {
     updated_at: string
 }
 
-export function fetchExhibits(){
-    
+const pathFetchExhibits='/api/exhibit'
+export const fetchExhibits=async()=>{
+    return await authoredGet(pathFetchExhibits) as Exhibit[]
 }
