@@ -1,5 +1,3 @@
-import { store } from '../store/store'
-
 const baseUrl='http://40.81.21.206:8083'
 
 export async function unauthoredPost(path: string,body: any){
@@ -13,6 +11,7 @@ export async function unauthoredPost(path: string,body: any){
 }
 
 export async function authoredGet(path: string){
+    const { store } = await import('../store/store')
     const token=store.getState().userSlice.token
     if(token==='')
         throw 'Login First'
