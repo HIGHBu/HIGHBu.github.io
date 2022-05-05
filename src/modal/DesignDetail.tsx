@@ -3,7 +3,7 @@ import { commentPlaceholder, showMoreComment } from "../text"
 import { Input, Pagination, Tooltip } from "antd"
 import { useDispatch } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
-import { AppDispatch } from "../store"
+import { AppDispatch } from "../store/store"
 import { Exhibit } from "../api/exhibit"
 const { TextArea } = Input
 function EmojiTooltip(){

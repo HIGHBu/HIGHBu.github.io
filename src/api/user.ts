@@ -22,9 +22,3 @@ export interface resSignin {
 export const apiSignin=async(auth:authBody)=>{
     return await unauthoredPost(pathSignin,auth) as resSignin
 }
-
-//old
-export const apiLogin=()=>Promise.resolve({
-    username: '游客23333',
-    token: 'it is a token'
-})

@@ -5,7 +5,8 @@ const modalSlice = createSlice({
   initialState: {
     disignDetail: false,
     favor: false,
-    skin: false
+    skin: false,
+    login: true
   },
   reducers: {
     hideDisignDetail(state){
@@ -25,10 +26,21 @@ const modalSlice = createSlice({
     },
     showSkin(state){
       state.skin=true;
+    },
+    hideLogin(state){
+      state.login=false;
     }
   },
 })
 
-export const {hideDisignDetail,showDisignDetail,hideFavor,showFavor,hideSkin,showSkin} = modalSlice.actions
+export const {
+  hideDisignDetail,
+  showDisignDetail,
+  hideFavor,
+  showFavor,
+  hideSkin,
+  showSkin,
+  hideLogin
+} = modalSlice.actions
 
 export default modalSlice.reducer

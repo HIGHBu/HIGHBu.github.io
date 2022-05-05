@@ -2,7 +2,7 @@ import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Progress } from 'antd';
 import { useDispatch } from 'react-redux';
 import demoPic from '../assets/APP.png'
-import { AppDispatch } from '../store';
+import { AppDispatch } from '../store/store';
 import { hideSkin } from '../store/modalSlice';
 import { saveSkin, skinTitle, unlockCondition } from '../text';
 

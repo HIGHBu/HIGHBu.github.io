@@ -1,4 +1,4 @@
-import { store } from '../store'
+import { store } from '../store/store'
 
 const baseUrl='http://40.81.21.206:8083'
 

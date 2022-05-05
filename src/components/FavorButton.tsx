@@ -2,7 +2,7 @@ import {
     BookOutlined
 } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../store'
+import { AppDispatch } from '../store/store'
 import { showFavor } from '../store/modalSlice'
 function FavorButton(){
     const dispatch=useDispatch<AppDispatch>()

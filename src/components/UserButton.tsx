@@ -3,8 +3,8 @@ import {
 } from '@ant-design/icons'
 import { Tooltip } from 'antd'
 import { useDispatch, useSelector } from 'react-redux'
-import { AppDispatch, RootState } from '../store'
-import { Login } from '../store/userSlice'
+import { AppDispatch, RootState } from '../store/store'
+import { Signin } from '../store/userSlice'
 import { changeNameAvatar, generateTicket } from '../text'
 function UserToolTip(){
     const username=useSelector<RootState,string>((state)=>state.userSlice.username)
@@ -21,7 +21,10 @@ function UserToolTip(){
 function UserButton(){
     const dispatch=useDispatch<AppDispatch>()
     const handleClick=()=>{
-        dispatch(Login())
+        dispatch(Signin({
+            username: 'test1',
+            password: 'test1'
+        }))
     }
     return (
         <Tooltip

@@ -5,7 +5,7 @@ import {
 import { Menu, MenuProps } from 'antd';
 import React from 'react';
 import { useDispatch } from 'react-redux';
-import { AppDispatch } from '../store';
+import { AppDispatch } from '../store/store';
 import { showDisignDetail } from '../store/modalSlice';
 function MenuButton(){
     const [collapsed, setCollapsed] = React.useState(false);

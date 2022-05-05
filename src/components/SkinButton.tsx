@@ -2,7 +2,7 @@ import {
     SkinOutlined
 } from '@ant-design/icons'
 import { useDispatch } from 'react-redux'
-import { AppDispatch } from '../store'
+import { AppDispatch } from '../store/store'
 import { showSkin } from '../store/modalSlice'
 function SkinButton(){
     const dispatch=useDispatch<AppDispatch>()
