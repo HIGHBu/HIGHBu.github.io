@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit'
-export const modalSlice = createSlice({
+
+const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     disignDetail: false,
@@ -26,7 +27,8 @@ export const modalSlice = createSlice({
       state.skin=true;
     }
   },
-});
+})
+
 export const {hideDisignDetail,showDisignDetail,hideFavor,showFavor,hideSkin,showSkin} = modalSlice.actions
 
-export default modalSlice.reducer;
+export default modalSlice.reducer

@@ -1,10 +1,10 @@
 import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarOutlined } from "@ant-design/icons"
 import { commentPlaceholder, showMoreComment } from "../text"
-import demoPic from '../assets/APP.png'
 import { Input, Pagination, Tooltip } from "antd"
 import { useDispatch } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch } from "../store"
+import { Exhibit } from "../api/exhibit"
 const { TextArea } = Input
 function EmojiTooltip(){
     return (<div>
@@ -14,7 +14,10 @@ function EmojiTooltip(){
         <span>😓</span>
     </div>)
 }
-function DesignDetail(){
+export interface DesignDetailProps {
+    item?: Exhibit
+}
+function DesignDetail(props: DesignDetailProps){
     const dispatch=useDispatch<AppDispatch>()
     const handleClose=()=>dispatch(hideDisignDetail())
     return (
@@ -27,7 +30,7 @@ function DesignDetail(){
                 {showMoreComment}
                 <DoubleRightOutlined />
             </a>
-            <img src={demoPic}/>
+            <img src={props.item?.avatar}/>
             <div className="comment-group">
                 <TextArea placeholder={commentPlaceholder} showCount maxLength={20} className='text'/>
                 <Tooltip title={EmojiTooltip} trigger='hover' overlayClassName='emoji-bar'>
@@ -38,7 +41,7 @@ function DesignDetail(){
             </div>
         </div>
         <div className="right-col">
-            <img src={demoPic}/>
+            <img src={props.item?.pics[0]}/>
             <div className="nav-and-action">
                 <div/>
                 <Pagination total={5}/>

@@ -1,26 +1,23 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { AppDispatch } from '.';
-import { apiLogin } from '../api/user';
+import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
+import { apiSignin, authBody } from '../api/user'
 
-export interface userPayload {
-  username: string,
-  token: string
-}
-export const userSlice = createSlice({
+export const Signin = createAsyncThunk('user/signin',async(auth:authBody)=>{
+  return await apiSignin(auth)
+})
+
+const userSlice = createSlice({
   name: 'user',
   initialState: {
     username: '',
     token: ''
   },
-  reducers: {
-    setuser(state, { payload }:{ payload:userPayload }) {
-      state.username = payload.username
-      state.token = payload.token
-    },
-  },
-});
-export const { setuser } = userSlice.actions
-export const Login = () => async(dispatch:AppDispatch) => {
- dispatch(setuser(await apiLogin()));
-};
-export default userSlice.reducer;
+  reducers: {},
+  extraReducers: (builder)=>{
+    builder.addCase(Signin.fulfilled,(state,action)=>{
+      state.username=action.payload.username
+      state.token=action.payload.accessToken
+    })
+  }
+})
+
+export default userSlice.reducer
