@@ -4,6 +4,7 @@ const modalSlice = createSlice({
   name: 'modal',
   initialState: {
     disignDetail: false,
+    exhibitId: '',
     favor: false,
     skin: false,
     login: true
@@ -12,7 +13,8 @@ const modalSlice = createSlice({
     hideDisignDetail(state){
       state.disignDetail=false;
     },
-    showDisignDetail(state){
+    showDisignDetail(state,{payload}:{payload:string}){
+      state.exhibitId=payload
       state.disignDetail=true;
     },
     hideFavor(state){

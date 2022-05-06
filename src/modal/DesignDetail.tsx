@@ -1,9 +1,9 @@
 import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarOutlined } from "@ant-design/icons"
 import { commentPlaceholder, showMoreComment } from "../text"
 import { Input, Pagination, Tooltip } from "antd"
-import { useDispatch } from "react-redux"
+import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
-import { AppDispatch } from "../store/store"
+import { AppDispatch, RootState } from "../store/store"
 import { Exhibit } from "../api/exhibit"
 const { TextArea } = Input
 function EmojiTooltip(){
@@ -14,12 +14,10 @@ function EmojiTooltip(){
         <span>😓</span>
     </div>)
 }
-export interface DesignDetailProps {
-    item?: Exhibit
-}
-function DesignDetail(props: DesignDetailProps){
+function DesignDetail(){
     const dispatch=useDispatch<AppDispatch>()
     const handleClose=()=>dispatch(hideDisignDetail())
+    const item=useSelector<RootState,Exhibit>(state=>state.exhibitSlice.items.find(v=>v.id===state.modalSlice.exhibitId)!)
     return (
     <div className='modal-design-detail'>
         <div className='left-col'>
@@ -30,7 +28,7 @@ function DesignDetail(props: DesignDetailProps){
                 {showMoreComment}
                 <DoubleRightOutlined />
             </a>
-            <img src={props.item?.avatar}/>
+            <img src={item?.avatar}/>
             <div className="comment-group">
                 <TextArea placeholder={commentPlaceholder} showCount maxLength={20} className='text'/>
                 <Tooltip title={EmojiTooltip} trigger='hover' overlayClassName='emoji-bar'>
@@ -41,7 +39,7 @@ function DesignDetail(props: DesignDetailProps){
             </div>
         </div>
         <div className="right-col">
-            <img src={props.item?.pics[0]}/>
+            <img src={item?.pics[0]}/>
             <div className="nav-and-action">
                 <div/>
                 <Pagination total={5}/>

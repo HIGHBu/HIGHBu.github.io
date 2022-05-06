@@ -10,8 +10,8 @@ import { showDisignDetail } from '../store/modalSlice';
 function MenuButton(){
     const [collapsed, setCollapsed] = React.useState(false);
     const dispatch=useDispatch<AppDispatch>()
-    const handleSelect=()=>{
-        dispatch(showDisignDetail())
+    const handleSelect:Required<MenuProps>['onSelect']=(info)=>{
+        dispatch(showDisignDetail(info.key))
     }
     type ItemsType=Required<MenuProps>['items']
     const menuItems:ItemsType = useSelector<RootState,ItemsType>((state=>state.exhibitSlice.category));
