@@ -39,7 +39,14 @@ function DesignDetail(){
             </div>
         </div>
         <div className="right-col">
-            <img src={item?.pics[0]}/>
+            {/* <img src={item?.pics[0]}/> */}
+            <iframe src="//player.bilibili.com/player.html?aid=807745738&bvid=BV1J34y1z7WU&cid=471414089&page=1"
+                scrolling="no"
+                //border="0"
+                frameBorder="no"
+                //frameSpacing="0"
+                allowFullScreen={true}
+            />
             <div className="nav-and-action">
                 <div/>
                 <Pagination total={5}/>
