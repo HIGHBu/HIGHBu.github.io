@@ -1,5 +1,9 @@
 const baseUrl='http://40.81.21.206:8083'
 
+export interface resMessage {
+    message: string
+}
+
 export async function unauthoredPost(path: string,body: any){
     return await fetch(baseUrl+path,{
         method: 'POST',

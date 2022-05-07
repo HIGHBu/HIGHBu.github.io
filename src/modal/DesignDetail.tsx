@@ -5,6 +5,9 @@ import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch, RootState } from "../store/store"
 import { Exhibit } from "../api/exhibit"
+import { Action } from "../api/action"
+import { useEffect } from "react"
+import { updateActions } from "../store/actionSlice"
 const { TextArea } = Input
 function EmojiTooltip(){
     return (<div>
@@ -17,12 +20,17 @@ function EmojiTooltip(){
 function DesignDetail(){
     const dispatch=useDispatch<AppDispatch>()
     const handleClose=()=>dispatch(hideDisignDetail())
-    const item=useSelector<RootState,Exhibit>(state=>state.exhibitSlice.items.find(v=>v.id===state.modalSlice.exhibitId)!)
+    const itemId=useSelector<RootState,string>(state=>state.modalSlice.exhibitId)
+    const item=useSelector<RootState,Exhibit>(state=>state.exhibitSlice.items.find(v=>v.id===itemId)!)
+    const comments=useSelector<RootState,Action[]>(state=>state.actionSlice.items[itemId] || [])
+    useEffect(()=>{
+        dispatch(updateActions(itemId))
+    },[itemId])
     return (
     <div className='modal-design-detail'>
         <div className='left-col'>
             <div className='comment-danmaku'>
-
+                {comments.map(item=>(<p>{item.comment_text}</p>))}
             </div>
             <a className='show-more text'>
                 {showMoreComment}

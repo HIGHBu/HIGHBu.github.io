@@ -1,15 +1,12 @@
-import { unauthoredPost } from "./util"
+import { resMessage, unauthoredPost } from "./util"
 export interface authBody {
     username: string,
     password: string
 }
 
 const pathSignup='/api/auth/signup'
-export interface resSignup {
-    message: string
-}
 export const apiSignup=async(auth:authBody)=>{
-    return await unauthoredPost(pathSignup,auth) as resSignup
+    return await unauthoredPost(pathSignup,auth) as resMessage
 }
 
 const pathSignin='/api/auth/signin'
