@@ -90,7 +90,6 @@ const Game = () => {
             animation={motion}
             visible={true}
           />
-          {/* <Model src="gun.glb" z={gunSpring} x={20} y={-10} scale={0.2} innerRotationY={-90} /> */}
       </ThirdPersonCamera>
       <ThirdPersonCamera active={!camera_choice}>
         <Cube
