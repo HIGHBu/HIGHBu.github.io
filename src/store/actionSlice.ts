@@ -1,8 +1,8 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { Action, fetchActionsByEid } from '../api/action'
+import { Action, fetchCommentsByEid } from '../api/action'
 
 export const updateActions = createAsyncThunk('action/fetch',async(eid:string)=>{
-  return await fetchActionsByEid(eid)
+  return await fetchCommentsByEid(eid)
 })
 
 const actionSlice = createSlice({
@@ -14,6 +14,7 @@ const actionSlice = createSlice({
   extraReducers: (builder)=>{
     builder.addCase(updateActions.fulfilled,(state,action)=>{
       state.items[action.meta.arg]=action.payload
+      console.log(action.payload)
     })
   }
 })

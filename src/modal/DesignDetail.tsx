@@ -5,9 +5,10 @@ import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch, RootState } from "../store/store"
 import { Exhibit } from "../api/exhibit"
-import { Action } from "../api/action"
-import { useEffect } from "react"
+import { Action, submitComment } from "../api/action"
+import { useEffect, useState } from "react"
 import { updateActions } from "../store/actionSlice"
+import { TextAreaProps } from "antd/lib/input"
 const { TextArea } = Input
 function EmojiTooltip(){
     return (<div>
@@ -26,11 +27,25 @@ function DesignDetail(){
     useEffect(()=>{
         dispatch(updateActions(itemId))
     },[itemId])
+    const [commentInput,setCommentInput]=useState('')
+    const handleChange:Required<TextAreaProps>['onChange']=(event)=>{
+        setCommentInput(event.target.value || '')
+    }
+    const handleSubmit:Required<TextAreaProps>['onPressEnter']=(event)=>{
+        submitComment({
+            eid: itemId,
+            comment_text: commentInput
+        })
+        console.log(comments)
+        dispatch(updateActions(itemId))
+        setCommentInput('')
+        event.preventDefault()
+    }
     return (
     <div className='modal-design-detail'>
         <div className='left-col'>
             <div className='comment-danmaku'>
-                {comments.map(item=>(<p>{item.comment_text}</p>))}
+                {comments.map(item=>(<p key={item.id}>{item.comment_text}</p>))}
             </div>
             <a className='show-more text'>
                 {showMoreComment}
@@ -38,7 +53,15 @@ function DesignDetail(){
             </a>
             <img src={item?.avatar}/>
             <div className="comment-group">
-                <TextArea placeholder={commentPlaceholder} showCount maxLength={20} className='text'/>
+                <TextArea
+                    placeholder={commentPlaceholder}
+                    showCount
+                    maxLength={20}
+                    className='text'
+                    value={commentInput}
+                    onChange={handleChange}
+                    onPressEnter={handleSubmit}
+                />
                 <Tooltip title={EmojiTooltip} trigger='hover' overlayClassName='emoji-bar'>
                     <button type='button'>
                         <SmileOutlined/>

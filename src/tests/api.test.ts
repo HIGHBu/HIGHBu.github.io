@@ -22,7 +22,7 @@ describe('api functions', async()=>{
         expect(ret).toHaveProperty('accessToken')
     })
     test('get exhibits',async()=>{
-        await user.Login(auth);
+        await user.apiSignin(auth);
         console.log(await exhibit.fetchExhibits())
     })
     

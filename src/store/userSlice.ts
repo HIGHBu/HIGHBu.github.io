@@ -9,13 +9,15 @@ const userSlice = createSlice({
   name: 'user',
   initialState: {
     username: '',
-    token: ''
+    token: '',
+    uid: ''
   },
   reducers: {},
   extraReducers: (builder)=>{
     builder.addCase(Signin.fulfilled,(state,action)=>{
       state.username=action.payload.username
       state.token=action.payload.accessToken
+      state.uid=action.payload.id
     })
   }
 })

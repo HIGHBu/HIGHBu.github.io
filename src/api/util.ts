@@ -26,3 +26,18 @@ export async function authoredGet(path: string){
         }
     }).then((res)=>res.json())
 }
+
+export async function authoredPost(path: string,body: any){
+    const { store } = await import('../store/store')
+    const token=store.getState().userSlice.token
+    if(token==='')
+        throw 'Login First'
+    await fetch(baseUrl+path,{
+        method: 'POST',
+        headers: {
+            'x-access-token': token,
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(body)
+    })
+}
