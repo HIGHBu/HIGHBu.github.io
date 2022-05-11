@@ -36,8 +36,9 @@ function DesignDetail(){
         submitComment({
             eid: itemId,
             comment_text: commentInput
+        }).then(()=>{
+            dispatch(updateActions(itemId))
         })
-        dispatch(updateActions(itemId))
         setCommentInput('')
         event.preventDefault()
     }
