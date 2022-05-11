@@ -8,16 +8,19 @@ import Favor from './modal/Favor'
 import { useSelector } from 'react-redux'
 import { RootState } from './store/store'
 import Login from './modal/Login'
+import Welcome from './components/Welcome'
+import { useState } from 'react'
 function App() {
   const designDetailVisible=useSelector<RootState,boolean>(state=>state.modalSlice.disignDetail)
   const favorVisible=useSelector<RootState,boolean>(state=>state.modalSlice.favor)
   const skinVisible=useSelector<RootState,boolean>(state=>state.modalSlice.skin)
   const loginVisible=useSelector<RootState,boolean>(state=>state.modalSlice.login)
+  const [covered,setcovered]=useState(true)
   const modal=designDetailVisible && <DesignDetail/> || 
     favorVisible && <Favor/> ||
     skinVisible && <Skin/> ||
     loginVisible && <Login/>;
-  return (
+  const mainStage=(
     <div>
       {modal}
       <MenuButton/>
@@ -28,6 +31,8 @@ function App() {
       </div>
     </div>
   )
+  const welcomeStage=<Welcome onClick={()=>setcovered(false)}/>
+  return covered?welcomeStage:mainStage
 }
 
 export default App
