@@ -10,13 +10,11 @@ const auth:user.authBody={
 describe('api functions', async()=>{
     test('sign up',async()=>{
         const ret=await user.apiSignup(auth)
-        console.log(ret)
         expect(ret).toHaveProperty('message')
         expect(ret.message).toBeTypeOf('string')
     })
     test('sign in',async()=>{
         const ret=await user.apiSignin(auth)
-        console.log(ret)
         expect(ret).toHaveProperty('id')
         expect(ret).toHaveProperty('username')
         expect(ret).toHaveProperty('accessToken')

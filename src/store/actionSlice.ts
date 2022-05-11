@@ -14,7 +14,6 @@ const actionSlice = createSlice({
   extraReducers: (builder)=>{
     builder.addCase(updateActions.fulfilled,(state,action)=>{
       state.items[action.meta.arg]=action.payload
-      console.log(action.payload)
     })
   }
 })

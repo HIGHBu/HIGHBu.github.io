@@ -36,7 +36,6 @@ function DesignDetail(){
             eid: itemId,
             comment_text: commentInput
         })
-        console.log(comments)
         dispatch(updateActions(itemId))
         setCommentInput('')
         event.preventDefault()
