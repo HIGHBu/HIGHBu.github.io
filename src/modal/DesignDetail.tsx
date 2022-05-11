@@ -9,6 +9,7 @@ import { Action, submitComment } from "../api/action"
 import { useEffect, useState } from "react"
 import { updateActions } from "../store/actionSlice"
 import { TextAreaProps } from "antd/lib/input"
+import AllComments from "./AllComments"
 const { TextArea } = Input
 function EmojiTooltip(){
     return (<div>
@@ -40,13 +41,23 @@ function DesignDetail(){
         setCommentInput('')
         event.preventDefault()
     }
+
+    const [showmore,setshowmore]=useState(false)
+    const handleShowMore=()=>{
+        setshowmore(true)
+    }
+    const handleCloseShowMore=()=>{
+        setshowmore(false)
+    }
+
     return (
     <div className='modal-design-detail'>
         <div className='left-col'>
+            {showmore && <AllComments onClose={handleCloseShowMore} items={comments}/>}
             <div className='comment-danmaku'>
-                {comments.map(item=>(<p key={item.id}>{item.comment_text}</p>))}
+                {!showmore && comments.slice(0,3).map(item=>(<div key={item.id}><span className='main-text'>{item.comment_text}</span></div>))}
             </div>
-            <a className='show-more text'>
+            <a className='show-more text' onClick={handleShowMore}>
                 {showMoreComment}
                 <DoubleRightOutlined />
             </a>

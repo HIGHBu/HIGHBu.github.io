@@ -30,8 +30,8 @@
         margin-left: 10rem;
         flex-grow: 1;
         iframe {
-            height: 70rem;
-            width: 130rem;
+            height: 63rem;
+            width: 117rem;
         }
         .nav-and-action {
             margin-top: 1.5rem;
@@ -64,15 +64,41 @@
         }
     }
     .left-col{
+        position: relative;
         display: flex;
         flex-direction: column;
+        #all-comments {
+            position: absolute;
+            width: 300px;
+            height: calc(130px + 55rem);
+            background-color: $white-2;
+            backdrop-filter: blur(50px);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            #header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 16px;
+                padding: 15px;
+            }
+        }
         .comment-danmaku {
-            height: 13rem;
-            width: 30rem;
+            height: 130px;
+            width: 300px;
             overflow: hidden;
-            border: 1px red solid;
             margin-bottom: 0.8rem;
             flex-shrink: 0;
+            div {
+                span {
+                    border-radius: 5px;
+                    background-color: white;
+                    padding: 5px 10px;
+                }
+                margin-top: 16px;
+            }
         }
         .show-more {
             color: $black-2;
