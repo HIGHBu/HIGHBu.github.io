@@ -2,11 +2,11 @@ import { MouseEventHandler } from 'react'
 import ball from '../assets/ball.png'
 import { welcomeText } from '../text'
 export interface WelcomeProps {
-    onClick: MouseEventHandler<HTMLDivElement>
+    onExit: MouseEventHandler<HTMLDivElement>
 }
 function Welcome(props:WelcomeProps){
-    const {onClick}=props
-    return (<div id='welcome-page' onClick={onClick}>
+    const {onExit}=props
+    return (<div id='welcome-page' onClick={onExit}>
         <img src={ball}/>
         <h1>{welcomeText}</h1>
     </div>)

@@ -7,7 +7,7 @@ const modalSlice = createSlice({
     exhibitId: '',
     favor: false,
     skin: false,
-    login: true
+    //login: true
   },
   reducers: {
     hideDisignDetail(state){
@@ -28,9 +28,6 @@ const modalSlice = createSlice({
     },
     showSkin(state){
       state.skin=true;
-    },
-    hideLogin(state){
-      state.login=false;
     }
   },
 })
@@ -41,8 +38,7 @@ export const {
   hideFavor,
   showFavor,
   hideSkin,
-  showSkin,
-  hideLogin
+  showSkin
 } = modalSlice.actions
 
 export default modalSlice.reducer

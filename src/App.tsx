@@ -14,12 +14,11 @@ function App() {
   const designDetailVisible=useSelector<RootState,boolean>(state=>state.modalSlice.disignDetail)
   const favorVisible=useSelector<RootState,boolean>(state=>state.modalSlice.favor)
   const skinVisible=useSelector<RootState,boolean>(state=>state.modalSlice.skin)
-  const loginVisible=useSelector<RootState,boolean>(state=>state.modalSlice.login)
+  //const loginVisible=useSelector<RootState,boolean>(state=>state.modalSlice.login)
   const [covered,setcovered]=useState(true)
   const modal=designDetailVisible && <DesignDetail/> || 
     favorVisible && <Favor/> ||
-    skinVisible && <Skin/> ||
-    loginVisible && <Login/>;
+    skinVisible && <Skin/>;
   const mainStage=(
     <div>
       {modal}
@@ -31,7 +30,7 @@ function App() {
       </div>
     </div>
   )
-  const welcomeStage=<Welcome onClick={()=>setcovered(false)}/>
+  const welcomeStage=<Welcome onExit={()=>setcovered(false)}/>
   return covered?welcomeStage:mainStage
 }
 
