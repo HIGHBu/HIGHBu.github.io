@@ -1,7 +1,7 @@
 import { useDispatch } from "react-redux"
 import { AppDispatch } from "../store/store"
 import { updateExhibits } from "../store/exhibitSlice"
-import { hideLogin } from "../store/modalSlice"
+//import { hideLogin } from "../store/modalSlice"
 import { Signin } from "../store/userSlice"
 
 function Login(){
@@ -10,7 +10,7 @@ function Login(){
         const auth={username:'test1',password:'test1'}
         await dispatch(Signin(auth))
         await dispatch(updateExhibits())
-        dispatch(hideLogin())
+        //dispatch(hideLogin())
     }
     return (<div>
         <button onClick={handleLogin} type='button'>

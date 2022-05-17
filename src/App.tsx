@@ -7,7 +7,6 @@ import Skin from './modal/Skin'
 import Favor from './modal/Favor'
 import { useSelector } from 'react-redux'
 import { RootState } from './store/store'
-import Login from './modal/Login'
 import Welcome from './components/Welcome'
 import { useState } from 'react'
 function App() {
