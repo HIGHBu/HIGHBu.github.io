@@ -1,8 +1,12 @@
-import { QuestionCircleOutlined } from '@ant-design/icons'
-import { Checkbox, Tooltip } from 'antd'
+import { QuestionCircleOutlined, UserOutlined } from '@ant-design/icons'
+import { Avatar, Checkbox, Input, Tooltip } from 'antd'
 import { MouseEventHandler, useState } from 'react'
+import { useDispatch } from 'react-redux'
 import bg from '../assets/card-bg.png'
-import { agreement, guestLogin,loginTypePrompt1,loginTypePrompt2,startVisit,userLogin } from '../text'
+import { updateExhibits } from '../store/exhibitSlice'
+import { AppDispatch } from '../store/store'
+import { Signin } from '../store/userSlice'
+import { agreement, guestLogin,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,startVisit,userLogin } from '../text'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>
@@ -10,11 +14,35 @@ function Prompt(){
         <p>{loginTypePrompt2}</p>
     </div>)
 }
+function UserLogin(){
+    return (<div>
+        <Avatar size={50} icon={<UserOutlined />} />
+        <h1>{loginWelcome}</h1>
+        <Input placeholder={loginNamePlaceholder} />
+        <Input.Password placeholder={loginPasswordPlaceholder} />
+    </div>)
+}
+function GuestLogin(){
+    return (<div>
+        <Avatar size={50} icon={<UserOutlined />} />
+        <h1>{loginWelcome}</h1>
+        <Input placeholder={loginNamePlaceholder} />
+    </div>)
+}
 function Login(props:WelcomeProps){
     const {onExit}=props
     const [isUser,setisUser]=useState(false)
     const selectGuest=()=>setisUser(false)
     const selectUser=()=>setisUser(true)
+    const dispatch=useDispatch<AppDispatch>()
+    const handleSubmit=async()=>{
+        await dispatch(Signin({
+            username: 'test1',
+            password: 'test1'
+        }))
+        await dispatch(updateExhibits())
+        onExit()
+    }
     return (<div id='login-page'>
         <div id='login-select'>
             <span className={isUser?'unselected':'selected'} onClick={selectGuest}>{guestLogin}</span>
@@ -24,12 +52,15 @@ function Login(props:WelcomeProps){
                 <QuestionCircleOutlined/>
             </Tooltip>
         </div>
-        <img src={bg}/>
+        <div id='login-body'>
+            <img src={bg}/>
+            {isUser?<UserLogin/>:<GuestLogin/>}
+        </div>
         <div id='check'>
             <Checkbox/>
             <span>{agreement}</span>
         </div>
-        <h1>{startVisit}</h1>
+        <h1 id='login-submit' onClick={handleSubmit}>{startVisit}</h1>
     </div>)
 }
 export default Login

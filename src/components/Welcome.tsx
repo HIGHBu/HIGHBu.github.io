@@ -3,7 +3,7 @@ import ball from '../assets/ball.png'
 import Login from '../components/Login'
 import { welcomeText } from '../text'
 export interface WelcomeProps {
-    onExit: MouseEventHandler<HTMLDivElement>
+    onExit: ()=>void
 }
 function Welcome(props:WelcomeProps){
     const {onExit}=props
