@@ -67,7 +67,11 @@
         position: relative;
         display: flex;
         flex-direction: column;
+        .blurred {
+            filter: blur(5px);
+        }
         #all-comments {
+            z-index: 100;
             position: absolute;
             width: 300px;
             height: calc(130px + 55rem);
@@ -76,13 +80,62 @@
             border-radius: 8px;
             display: flex;
             flex-direction: column;
+            padding: 15px;
             #header {
                 display: flex;
                 flex-direction: row;
                 justify-content: space-between;
                 align-items: center;
                 font-size: 16px;
-                padding: 15px;
+            }
+            #content {
+                overflow: hidden scroll;
+                &::-webkit-scrollbar {
+                    width: 2px;
+                }
+                /* 滚动槽 */
+                &::-webkit-scrollbar-track {
+                    box-shadow: $white-2;
+                    border-radius: 2px;
+                }
+                /* 滚动条滑块 */
+                &::-webkit-scrollbar-thumb {
+                    border-radius: 2px;
+                    background: rgba(0, 0, 0, 0.1);
+                    box-shadow: $white-1;
+                }
+                .comment-item {
+                    margin-right: 2px;
+                    padding-top: 16px;
+                    padding-bottom: 20px;
+                    display: flex;
+                    flex-direction: row;
+                    border-bottom: 1px $black-4 solid;
+                    .comment-avatar {
+                        flex-shrink: 0;
+                        margin-right: 10px;
+                    }
+                    .comment-body {
+                        .comment-user {
+                            color: $black-2;
+                            width: 80px;
+                            display: inline-block;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            overflow: hidden;
+                        }
+                        .comment-date {
+                            color: $black-3;
+                        }
+                        .comment-footer {
+                            color: $black-2;
+                            .comment-likes {
+                                margin-left: 10px;
+                                margin-right: 10px;
+                            }
+                        }
+                    }
+                }
             }
         }
         .comment-danmaku {

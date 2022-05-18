@@ -55,14 +55,14 @@ function DesignDetail(){
     <div className='modal-design-detail'>
         <div className='left-col'>
             {showmore && <AllComments onClose={handleCloseShowMore} items={comments}/>}
-            <div className='comment-danmaku'>
-                {!showmore && comments.slice(0,3).map(item=>(<div key={item.id}><span className='main-text'>{item.comment_text}</span></div>))}
+            <div className={'comment-danmaku '+(showmore && 'blurred')}>
+                {comments.slice(0,3).map(item=>(<div key={item.id}><span className='main-text'>{item.comment_text}</span></div>))}
             </div>
-            <a className='show-more text' onClick={handleShowMore}>
+            <a className={'show-more text '+(showmore && 'blurred')} onClick={handleShowMore}>
                 {showMoreComment}
                 <DoubleRightOutlined />
             </a>
-            <img src={item?.avatar}/>
+            <img src={item?.avatar} className={(showmore?'blurred':undefined)}/>
             <div className="comment-group">
                 <TextArea
                     placeholder={commentPlaceholder}
