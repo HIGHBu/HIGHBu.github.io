@@ -19,11 +19,11 @@ function Comment(props: {item: Action}){
                 {item.comment_text}
             </p>
             <div className='comment-footer'>
-                <LikeOutlined/>
+                <LikeOutlined className='like-button'/>
                 <span className='comment-likes'>
                     {item.comment_likes}
                 </span>
-                <DislikeOutlined/>
+                <DislikeOutlined className='dislike-button'/>
             </div>
         </div>
     </div>)
