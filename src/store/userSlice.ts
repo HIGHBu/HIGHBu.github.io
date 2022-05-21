@@ -1,8 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { apiSignin, authBody } from '../api/user'
+import { apiSignin, apiSignup, authBody } from '../api/user'
 
 export const Signin = createAsyncThunk('user/signin',async(auth:authBody)=>{
   return await apiSignin(auth)
+})
+export const Signup = createAsyncThunk('user/signup',async(auth:authBody)=>{
+  return await apiSignup(auth)
 })
 
 const userSlice = createSlice({
