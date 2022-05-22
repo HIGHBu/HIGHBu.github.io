@@ -1,5 +1,5 @@
 export const changeNameAvatar='修改昵称/头像'
-export const generateTicket='生成我的观战纪念票'
+export const generateTicket='生成我的观展纪念票'
 export const showMoreComment='查看更多评论'
 export const commentPlaceholder='说说你的想法吧~'
 export const unlockCondition='解锁条件：'
@@ -18,3 +18,6 @@ export const loginTypePrompt2='用户账号：可重复登录，保留用户数�
 export const loginWelcome='欢迎！'
 export const loginNamePlaceholder='请输入你的名字'
 export const loginPasswordPlaceholder='请输入访问密码'
+export const agreeWarning='请先同意相关协议'
+export const emptyUsername='用户名不可为空'
+export const emptyPassword='密码不可为空'

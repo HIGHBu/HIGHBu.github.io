@@ -22,7 +22,7 @@
 }
 .favor-button,.menu-button,.skin-button {
     $button-size: 40px;
-    $icon-size: 26px;
+    $icon-size: 22px;
     border-radius: 2px;
     height: $button-size;
     width: $button-size;
@@ -33,7 +33,7 @@
 }
 .user-button {
     $button-size: 48px;
-    $icon-size: 28px;
+    $icon-size: 24px;
     border-radius: calc($button-size/2);
     height: $button-size;
     width: $button-size;

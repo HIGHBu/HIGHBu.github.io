@@ -11,6 +11,12 @@
     }
     h1 {
         color: white;
+        &:hover {
+            color: $main-color-2;
+        }
+        transition: color .2s;
+        user-select: none;
+        cursor: pointer;
     }
 }
 #login-page {
@@ -78,5 +84,9 @@
         color: $white-1;
         user-select: none;
         cursor: pointer;
+        &:hover {
+            color: $main-color-2;
+        }
+        transition: color .2s;
     }
 }

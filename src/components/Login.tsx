@@ -1,12 +1,12 @@
 import { QuestionCircleOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Checkbox, Input, Tooltip } from 'antd'
+import { Avatar, Checkbox, Input, message, Tooltip } from 'antd'
 import { MouseEventHandler, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import bg from '../assets/card-bg.png'
 import { updateExhibits } from '../store/exhibitSlice'
 import { AppDispatch } from '../store/store'
 import { Signin, Signup } from '../store/userSlice'
-import { agreement, guestLogin,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,startVisit,userLogin } from '../text'
+import { agreement, agreeWarning, emptyPassword, emptyUsername, guestLogin,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,startVisit,userLogin } from '../text'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>
@@ -34,6 +34,7 @@ function Login(props:WelcomeProps){
     const [isUser,setisUser]=useState(false)
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
+    const [checked,setchecked]=useState(false)
     const selectGuest=()=>{
         setisUser(false)
         setpassword('')
@@ -41,6 +42,18 @@ function Login(props:WelcomeProps){
     const selectUser=()=>setisUser(true)
     const dispatch=useDispatch<AppDispatch>()
     const handleSubmit=async()=>{
+        if(!checked){
+            message.error(agreeWarning)
+            return;
+        }
+        if(username===''){
+            message.error(emptyUsername)
+            return;
+        }
+        if(isUser && password===''){
+            message.error(emptyPassword)
+            return;
+        }
         const generatedPassword=crypto.randomUUID()
         await dispatch(Signup({
             username: username,
@@ -63,7 +76,7 @@ function Login(props:WelcomeProps){
             </Tooltip>
         </div>
         <div id='login-body'>
-            <img src={bg}/>
+            <img src={bg} width={920} height={450}/>
             {isUser?
                 <UserLogin
                     username={[username,(e)=>setusername(e.target.value)]}
@@ -74,7 +87,7 @@ function Login(props:WelcomeProps){
                 />}
         </div>
         <div id='check'>
-            <Checkbox/>
+            <Checkbox checked={checked} onChange={e=>setchecked(e.target.checked)}/>
             <span>{agreement}</span>
         </div>
         <h1 id='login-submit' onClick={handleSubmit}>{startVisit}</h1>

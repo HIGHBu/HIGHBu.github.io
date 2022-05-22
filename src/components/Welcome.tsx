@@ -8,9 +8,9 @@ export interface WelcomeProps {
 function Welcome(props:WelcomeProps){
     const {onExit}=props
     const [isLoginPage,setisLoginPage]=useState(false)
-    return isLoginPage?(<Login onExit={onExit}/>):(<div id='welcome-page' onClick={()=>{setisLoginPage(true)}}>
+    return isLoginPage?(<Login onExit={onExit}/>):(<div id='welcome-page'>
         <img src={ball}/>
-        <h1>{welcomeText}</h1>
+        <h1 id='welcome-text' onClick={()=>{setisLoginPage(true)}}>{welcomeText}</h1>
     </div>)
 }
 export default Welcome
