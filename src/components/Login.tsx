@@ -54,7 +54,7 @@ function Login(props:WelcomeProps){
             message.error(emptyPassword)
             return;
         }
-        const generatedPassword=crypto.randomUUID()
+        const generatedPassword=new Date().toLocaleString()+username
         await dispatch(Signup({
             username: username,
             password: isUser?password:generatedPassword
