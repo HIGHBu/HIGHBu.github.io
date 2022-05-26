@@ -1,1 +1,1 @@
-# NFT Gallery Example
+Lingo3D based gallery
