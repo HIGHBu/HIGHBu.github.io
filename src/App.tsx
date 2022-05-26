@@ -1,9 +1,8 @@
 import { useMachine } from '@xstate/react'
-import {LingoEditor,Plane, Cube,  Find, HTML, Keyboard, Model, Reticle, ThirdPersonCamera, types, usePreload, useSpring, useWindowSize, World, AreaLight, useLoop } from 'lingo3d-react'
+import {LingoEditor, Plane, Cube,  Find, HTML, Keyboard, Model, Reticle, ThirdPersonCamera, types, usePreload, useSpring, useWindowSize, World, AreaLight, useLoop } from 'lingo3d-react'
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import character_poseMachine from './stateMachines/character_poseMachine'
-import AnimText from "@lincode/react-anim-text"
 
 const Game = () => {
   const characterRef = useRef<types.Model>(null)
@@ -18,7 +17,7 @@ const Game = () => {
   const texture_select = ["doughnut", "leaves", "original", "palette", "star", "tie"]
   var gallery_select_id = 0     //TODO 后端接口
   var character_select_id = 1   //TODO 后端接口
-  var texture_select_id = 4     //TODO 后端接口
+  var texture_select_id = 0     //TODO 后端接口
   const gallery_scale = 6.40
   const src_select = "character_model/character/"+character_select[character_select_id]+"/src.glb"
   const walk_select = "character_model/character/"+character_select[character_select_id]+"/walk.glb"
@@ -26,7 +25,7 @@ const Game = () => {
   const textuere_select = "character_model/texture/"+texture_select[texture_select_id]+".png"
   //后端修改该数组，获得17个texture和要出现的人物模型的数量
   const poster = [
-    {id: "1", name: "Board-1", texture:"poster/poster1.png", number:2,position:[
+    {id: "1", name: "Board-1", texture:"", number:2,position:[
       {
         id: "1_1",
         src:"character_model/camera/src.glb",
@@ -65,7 +64,7 @@ const Game = () => {
       },
 
     ]},
-    {id: "2", name: "Board-2", texture:"poster/poster2.jpg", number:3,position:[
+    {id: "2", name: "Board-2", texture:"", number:3,position:[
       {
         id: "2_1",
         src:"character_model/record/src.glb",
@@ -103,7 +102,7 @@ const Game = () => {
         texture:4
       },
     ]},
-    {id: "3", name: "Board-3", texture:"poster/poster3.png", number:3,position:[
+    {id: "3", name: "Board-3", texture:"", number:3,position:[
       {
         id: "3_1",
         src:"character_model/record/src.glb",
@@ -141,7 +140,7 @@ const Game = () => {
         texture:5
       },
     ]},
-    {id: "4", name: "Board-4", texture:"poster/poster4.png", number:3,position:[
+    {id: "4", name: "Board-4", texture:"", number:3,position:[
       {
         id: "4_1",
         src:"character_model/record/src.glb",
@@ -179,7 +178,7 @@ const Game = () => {
         texture:1
       },
     ]},
-    {id: "5", name: "Board-5", texture:"poster/poster5.png", number:3,position:[
+    {id: "5", name: "Board-5", texture:"", number:3,position:[
       {
         id: "5_1",
         src:"character_model/record/src.glb",
@@ -217,7 +216,7 @@ const Game = () => {
         texture:2
       },
     ]},
-    {id: "6", name: "Board-6", texture:"poster/poster6.png", number:3,position:[
+    {id: "6", name: "Board-6", texture:"", number:3,position:[
       {
         id: "6_1",
         src:"character_model/record/src.glb",
@@ -255,7 +254,7 @@ const Game = () => {
         texture:1
       },
     ]},
-    {id: "7", name: "Board-7", texture:"poster/poster7.png", number:3,position:[
+    {id: "7", name: "Board-7", texture:"", number:3,position:[
       {
         id: "7_1",
         src:"character_model/record/src.glb",
@@ -293,7 +292,7 @@ const Game = () => {
         texture:5
       },
     ]},
-    {id: "8", name: "Board-8", texture:"poster/poster8.png", number:3,position:[
+    {id: "8", name: "Board-8", texture:"", number:3,position:[
       {
         id: "8_1",
         src:"character_model/record/src.glb",
@@ -331,7 +330,7 @@ const Game = () => {
         texture:3
       },
     ]},
-    {id: "9", name: "Board-9", texture:"poster/poster9.png", number:3,position:[
+    {id: "9", name: "Board-9", texture:"", number:3,position:[
       {
         id: "9_1",
         src:"character_model/record/src.glb",
@@ -369,7 +368,7 @@ const Game = () => {
         texture:1
       },
     ]},
-    {id: "10", name: "Board-10", texture:"poster/poster10.png", number:3,position:[
+    {id: "10", name: "Board-10", texture:"", number:3,position:[
       {
         id: "10_1",
         src:"character_model/record/src.glb",
@@ -407,7 +406,7 @@ const Game = () => {
         texture:0
       },
     ]},
-    {id: "11", name: "Board-11", texture:"poster/poster11.png", number:3,position:[
+    {id: "11", name: "Board-11", texture:"", number:3,position:[
       {
         id: "11_1",
         src:"character_model/record/src.glb",
@@ -445,7 +444,7 @@ const Game = () => {
         texture:4
       },
     ]},
-    {id: "12", name: "Board-12", texture:"poster/poster12.png", number:3,position:[
+    {id: "12", name: "Board-12", texture:"", number:3,position:[
       {
         id: "12_1",
         src:"character_model/record/src.glb",
@@ -483,7 +482,7 @@ const Game = () => {
         texture:1
       },
     ]},
-    {id: "13", name: "Board-13", texture:"poster/poster13.png", number:3,position:[
+    {id: "13", name: "Board-13", texture:"", number:3,position:[
       {
         id: "13_1",
         src:"character_model/record/src.glb",
@@ -521,7 +520,7 @@ const Game = () => {
         texture:4
       },
     ]},
-    {id: "14", name: "Board-14", texture:"poster/poster14.png", number:3,position:[
+    {id: "14", name: "Board-14", texture:"", number:3,position:[
       {
         id: "14_1",
         src:"character_model/record/src.glb",
@@ -559,7 +558,7 @@ const Game = () => {
         texture:4
       },
     ]},
-    {id: "15", name: "Board-15", texture:"poster/poster15.png", number:3,position:[
+    {id: "15", name: "Board-15", texture:"", number:3,position:[
       {
         id: "15_1",
         src:"character_model/record/src.glb",
@@ -597,7 +596,7 @@ const Game = () => {
         texture:2
       },
     ]},
-    {id: "16", name: "Board-16", texture:"poster/poster16.png", number:3,position:[
+    {id: "16", name: "Board-16", texture:"", number:3,position:[
       {
         id: "16_1",
         src:"character_model/record/src.glb",
@@ -635,7 +634,7 @@ const Game = () => {
         texture:0
       },
     ]},
-    {id: "17", name: "Board-17", texture:"poster/poster17.png", number:3,position:[
+    {id: "17", name: "Board-17", texture:"", number:3,position:[
       {
         id: "17_1",
         src:"character_model/record/src.glb",
@@ -695,10 +694,9 @@ const Game = () => {
   return (
     <>
       <World
-       defaultLight={true}
-       defaultLightScale={1}
+       exposure={0.8} 
+       defaultLightScale={1.5}
        skybox="sky.jpg"
-       ambientOcclusion={true}
        logarithmicDepth
       >
         <Plane
@@ -725,7 +723,8 @@ const Game = () => {
           }}
         />
         <Cube id="intersect_cube" scale={0.5} x={position.x} y={position.y} z={position.z} visible={false}/>
-        <Model name="gallery_model" id="gallery_model" src="gallery_model/gallery_test3.glb" scale={gallery_scale} physics="map" >
+        <Model name="gallery_model" id="gallery_model" src="gallery_model/gallery.glb" scale={gallery_scale} physics="map" 
+        >
           <Find name="gallery" 
             onClick={(ev)=>{
               ev.point.y = -234.02
@@ -735,7 +734,6 @@ const Game = () => {
               model?.lookAt(ev.point)
             }}
           />
-          {/* <Find name="wall" id="wall"/> */}
           <Find name="portal"
             onMouseOver={() => setMouseOver(true)}
             onMouseOut={() => setMouseOver(false)}
@@ -772,6 +770,9 @@ const Game = () => {
                       rotationX={m.rotationX}
                       rotationY={m.rotationY}
                       rotationZ={m.rotationZ}
+                      environmentFactor={1}
+                      metalnessFactor={0}
+                      roughnessFactor={1}
                       physics="map"
                       boxVisible={false}
                       visible={index<post.number?true:false}
@@ -781,23 +782,16 @@ const Game = () => {
                       }}
                       animation="anim"
                       >
-                        <Find 
-                          name="body"
+                        <Find name="body"
                           texture={"character_model/texture/"+texture_select[m.texture]+".png"}
-                      ></Find>
+                        />
                     </Model>
                   </div>
-                  
                 )
-                // new Array(Number(post.number)).fill(0).map(v=>{
-                //   //  return Math.floor(Math.random()*10)
-                //   return 
-                // })
               }
             </div>
             )
           }
-          <Find name="gallery" texture="gallery_model/lightmap.png"></Find>
         </Model>
         <ThirdPersonCamera
           mouseControl="drag" mouseControlMode="orbit" active
@@ -810,75 +804,36 @@ const Game = () => {
           minPolarAngle={90} maxPolarAngle={105}
         >
           <Model
-           src= {src_select}
-           ref={characterRef}
-           physics="character"
-           scale={0.2}
-           animations={{
-            idle:idle_select,
-            walk:walk_select,
-          }}
-          //  animation={character_pose.value as any}
-           animation={walking? "walk": "idle"}
-           x={101.71}
-           y={-220.1}
-           z={-2510.98}
-           width={400}
-           height={1200}
-           depth={400}
-           rotationY={84.34}
-           boxVisible={false}
-           innerY={-460}
-           intersectIds={[
-            "intersect_cube",
-          ]}
-          onIntersect={() => {
-            setWalking(false)
-          }}
+            // pbr={true}
+            src= {src_select}
+            ref={characterRef}
+            physics="character"
+            scale={0.2}
+            animations={{
+              idle:idle_select,
+              walk:walk_select,
+            }}
+            //  animation={character_pose.value as any}
+            animation={walking? "walk": "idle"}
+            x={101.71}
+            y={-220.1}
+            z={-2510.98}
+            width={400}
+            height={1200}
+            depth={400}
+            rotationY={84.34}
+            boxVisible={false}
+            innerY={-460}
+            intersectIds={[
+              "intersect_cube",
+            ]}
+            onIntersect={() => {
+              setWalking(false)
+            }}                      
           >
-          <Find name="body" texture={textuere_select}/>
+            <Find name="body" texture={"character_model/texture/"+texture_select[texture_select_id]+".png"}/>
           </Model>
         </ThirdPersonCamera>
-        {/* <Keyboard
-         onKeyPress={key => {
-           console.log(key)
-           if (key === "w" || key === "ArrowUp") {
-            sendCharacter_Pose("KEY_W_DOWN")
-            characterRef.current?.moveForward(-1*walking_speed)
-           }
-           else if (key === "s" || key === "ArrowDown"){
-            sendCharacter_Pose("KEY_S_DOWN")
-            characterRef.current?.moveForward(walking_speed)
-           }
-           else if (key === "a" || key === "ArrowLeft"){
-            sendCharacter_Pose("KEY_A_DOWN")
-            characterRef.current?.moveRight(walking_speed)
-           }
-           else if (key === "d" || key === "ArrowRight"){
-            sendCharacter_Pose("KEY_D_DOWN")
-            characterRef.current?.moveRight(-1*walking_speed)
-           }
-           else if (key === "Escape"){
-             if(focus){
-              setFocus(false)
-             }
-           }
-         }}
-         onKeyUp={key => {
-           if (key === "w" || key === "ArrowUp"){
-            sendCharacter_Pose("KEY_W_UP")
-           }
-           else if (key === "s" || key === "ArrowDown"){
-            sendCharacter_Pose("KEY_S_UP")
-           }
-           else if (key === "a" || key === "ArrowLeft"){
-            sendCharacter_Pose("KEY_A_UP")
-           }
-           else if (key === "d" || key === "ArrowRight"){
-            sendCharacter_Pose("KEY_D_UP")
-           }
-         }}
-        /> */}
         {/* <LingoEditor /> */}
       </World>
     </>
@@ -888,8 +843,7 @@ const Game = () => {
 const App = () => {
   const progress = usePreload(
     [
-      "gallery_model/gallery_test3.glb",
-      "gallery_model/lightmap.png",
+      "gallery_model/gallery.glb",
       "character_model/texture/doughnut.png",
       "character_model/texture/leaves.png",
       "character_model/texture/original.png",
