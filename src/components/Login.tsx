@@ -31,7 +31,7 @@ function GuestLogin(props: {username: [string,React.ChangeEventHandler<HTMLInput
         avatars[`../assets/avatar/${props.avatar}.png`]().then(res=>{
             setasrc(res.default)
         })
-    })
+    },[])
     return (<div>
         <Avatar size={50} icon={asrc===""?<UserOutlined />:<img src={asrc}></img>} />
         <h1>{loginWelcome}</h1>
@@ -47,7 +47,7 @@ function Login(props:WelcomeProps){
     const [avatar,setavatar]=useState(1)
     useEffect(()=>{
         setavatar(Math.floor(Math.random()*5)+1);
-    })
+    },[])
     const selectGuest=()=>{
         setisUser(false)
         setpassword('')
