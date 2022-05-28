@@ -1,4 +1,4 @@
-import { resMessage, unauthoredPost } from "./util"
+import { authoredGet, authoredPost, resMessage, unauthoredPost } from "./util"
 export interface authBody {
     username: string,
     password: string
@@ -32,7 +32,7 @@ export const apiSignin=async(auth:authBody)=>{
     return 'unknown';
 }
 
-const pathModifyUser='/api/user/'
+const pathUser='/api/user/'
 export interface userProfile {
     avatar:   string;
     clothes:  number[];
@@ -40,6 +40,11 @@ export interface userProfile {
     password: string;
     username: string;
 }
-export const apiModifyProfile=async()=>{
-    
+export const apiFetchProfile=async(uid:string)=>{
+    const mes=await authoredGet(pathUser+uid)
+    console.log(mes)
+}
+export const apiModifyProfile=async(uid:string,profile:userProfile)=>{
+    const mes=await authoredPost(pathUser+uid,profile)
+    console.log(mes)
 }

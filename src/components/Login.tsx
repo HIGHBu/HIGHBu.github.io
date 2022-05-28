@@ -2,12 +2,12 @@ import { QuestionCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Checkbox, Input, message, Tooltip } from 'antd'
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { apiSignup } from '../api/user'
+import { apiModifyProfile, apiSignup, resSignin } from '../api/user'
 import bg from '../assets/card-bg.png'
 import { updateExhibits } from '../store/exhibitSlice'
 import { AppDispatch } from '../store/store'
-import { Signin } from '../store/userSlice'
-import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingExhibits,pendingProfile,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
+import { setGuest, Signin, UpdateProfile } from '../store/userSlice'
+import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingExhibits,pendingInit,pendingProfile,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>
@@ -23,9 +23,17 @@ function UserLogin(props: {username:[string,React.ChangeEventHandler<HTMLInputEl
         <Input.Password placeholder={loginPasswordPlaceholder} value={props.password[0]} onChange={props.password[1]}/>
     </div>)
 }
-function GuestLogin(props: {username: [string,React.ChangeEventHandler<HTMLInputElement>]}){
+function GuestLogin(props: {username: [string,React.ChangeEventHandler<HTMLInputElement>],avatar: number}){
+    const avatars=import.meta.glob('../assets/avatar/*.png')
+    console.log(avatars)
+    const [asrc,setasrc]=useState("")
+    useEffect(()=>{
+        avatars[`../assets/avatar/${props.avatar}.png`]().then(res=>{
+            setasrc(res.default)
+        })
+    })
     return (<div>
-        <Avatar size={50} icon={<UserOutlined />} />
+        <Avatar size={50} icon={asrc===""?<UserOutlined />:<img src={asrc}></img>} />
         <h1>{loginWelcome}</h1>
         <Input placeholder={loginNamePlaceholder} value={props.username[0]} onChange={props.username[1]}/>
     </div>)
@@ -64,7 +72,7 @@ function Login(props:WelcomeProps){
             message.info(pendingSignUp)
             const result=await apiSignup({
                 username: username,
-                password: isUser?password:generatedPassword
+                password: generatedPassword
             })
             if(result==='unknown'){
                 message.error(unknownError)
@@ -74,6 +82,7 @@ function Login(props:WelcomeProps){
                 message.error(conflictError)
                 return
             }
+            await dispatch(setGuest())
         }
         message.info(pendingSignin)
         const result=(await dispatch(Signin({
@@ -92,7 +101,18 @@ function Login(props:WelcomeProps){
             message.error(unknownError)
             return
         }
+        if(!isUser){
+            message.info(pendingInit)
+            await apiModifyProfile((result as resSignin).id,{
+                username: username,
+                password: generatedPassword,
+                nickname: username,
+                avatar: avatar.toString(),
+                clothes: []
+            })
+        }
         message.info(pendingProfile)
+        await dispatch(UpdateProfile((result as resSignin).id))
         message.info(pendingExhibits)
         await dispatch(updateExhibits())
         onExit()
@@ -115,6 +135,7 @@ function Login(props:WelcomeProps){
                 />:
                 <GuestLogin
                     username={[username,(e)=>setusername(e.target.value)]}
+                    avatar={avatar}
                 />}
         </div>
         <div id='check'>

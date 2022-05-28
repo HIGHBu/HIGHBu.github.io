@@ -1,8 +1,11 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { apiSignin, apiSignup, authBody } from '../api/user'
+import { apiFetchProfile, apiSignin, apiSignup, authBody, userProfile } from '../api/user'
 
 export const Signin = createAsyncThunk('user/signin',async(auth:authBody)=>{
   return await apiSignin(auth)
+})
+export const UpdateProfile=createAsyncThunk('user/profile',async(uid:string)=>{
+  return await apiFetchProfile(uid)
 })
 
 const userSlice = createSlice({
@@ -11,9 +14,20 @@ const userSlice = createSlice({
     username: '',
     token: '',
     uid: '',
-    isGuest: false
+    isGuest: false,
+    profile: {
+      avatar:   "",
+      clothes:  [],
+      nickname: "",
+      password: "",
+      username: ""
+    } as userProfile
   },
-  reducers: {},
+  reducers: {
+    setGuest(state){
+      state.isGuest=true;
+    }
+  },
   extraReducers: (builder)=>{
     builder.addCase(Signin.fulfilled,(state,action)=>{
       if(typeof action.payload==='string')
@@ -25,4 +39,7 @@ const userSlice = createSlice({
   }
 })
 
+export const {
+  setGuest
+}=userSlice.actions
 export default userSlice.reducer
