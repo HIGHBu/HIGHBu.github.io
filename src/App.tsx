@@ -1,18 +1,21 @@
 import { useMachine } from '@xstate/react'
-import {LingoEditor, Plane, Cube,  Find, HTML, Keyboard, Model, Reticle, ThirdPersonCamera, types, usePreload, useSpring, useWindowSize, World, AreaLight, useLoop } from 'lingo3d-react'
+import {LingoEditor,Plane, Cube,  Find, HTML, Keyboard, Model, Reticle, ThirdPersonCamera, types, usePreload, useSpring, useWindowSize, World, AreaLight, useLoop } from 'lingo3d-react'
 import { useEffect, useRef, useState } from 'react'
 import './App.css'
 import character_poseMachine from './stateMachines/character_poseMachine'
+import AnimText from "@lincode/react-anim-text"
 
 const Game = () => {
   const characterRef = useRef<types.Model>(null)
+  const cameraRef = useRef<types.ThirdPersonCamera>(null)
+  const FocusRef = useRef<types.ThirdPersonCamera>(null)
   const walking_speed = 30
   const [walking, setWalking] = useState(false)
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
   const [character_pose, sendCharacter_Pose] = useMachine(character_poseMachine)
   const [mouseOver, setMouseOver] = useState(false)
   const [click, setClick] = useState(false)
-  const [focus, setFocus] = useState(false)
+  const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
   const character_select = ["basic", "band", "doughnu", "glasses", "hat", "ring"]
   const texture_select = ["doughnut", "leaves", "original", "palette", "star", "tie"]
   var gallery_select_id = 0     //TODO 后端接口
@@ -23,6 +26,7 @@ const Game = () => {
   const walk_select = "character_model/character/"+character_select[character_select_id]+"/walk.glb"
   const idle_select = "character_model/character/"+character_select[character_select_id]+"/idle.glb"
   const textuere_select = "character_model/texture/"+texture_select[texture_select_id]+".png"
+  
   //后端修改该数组，获得17个texture和要出现的人物模型的数量
   const poster = [
     {id: "1", name: "Board-1", texture:"", number:2,position:[
@@ -62,7 +66,6 @@ const Game = () => {
         anim_anim_src: "character_model/browse/browse.glb",
         texture:3
       },
-
     ]},
     {id: "2", name: "Board-2", texture:"", number:3,position:[
       {
@@ -674,13 +677,35 @@ const Game = () => {
     ]},
   ]
 
-  const camX = click ? 25 : 0
-  const camY = click ? 100 : 50
-  const camZ = click ? 50 : 400
+  const camera_target = [
+    {x:  204.12, y: -207.42, z: -2977.87, rotationX: 0, rotationY: 0,   rotationZ: 0}, //portal
+    {x: 1212.35, y: -128.33, z: -2684.49, rotationX: 0, rotationY: -25, rotationZ: 0}, //board-1 standard
+    {x: 2057.89, y: -128.33, z: -2108.94, rotationX: 0, rotationY: -45, rotationZ: 0}, //board-2 done
+    {x: 2654.95, y: -128.33, z: -1277.26, rotationX: 0, rotationY: -65, rotationZ: 0}, //board-3 done
+    {x: 2931.78, y: -128.33, z:  -292.99, rotationX: 0, rotationY: -85, rotationZ: 0}, //board-4 done
+    {x: 2855.44, y: -128.33, z:   726.45, rotationX: 0, rotationY:-105, rotationZ: 0}, //board-5 done
+    {x: 2434.94, y: -128.33, z:  1660.04, rotationX: 0, rotationY:-125, rotationZ: 0}, //board-6 done
+    {x: 1721.72, y: -128.33, z:  2388.31, rotationX: 0, rotationY:-145, rotationZ: 0}, //board-7 done
+    {x:  799.91, y: -128.33, z:  2835.62, rotationX: 0, rotationY:-165, rotationZ: 0}, //board-8 done
+    {x: -219.62, y: -128.33, z:  2941.78, rotationX: 0, rotationY:175,  rotationZ: 0}, //board-9 done
+    {x: -1210.32,y: -128.33, z:  2686.04, rotationX: 0, rotationY:155,  rotationZ: 0}, //board-10 done
+    {x: -2057.83,y: -128.33, z:  2109.23, rotationX: 0, rotationY:135,  rotationZ: 0}, //board-11 done
+    {x: -2652.68,y: -128.33, z:  1276.51, rotationX: 0, rotationY:115,  rotationZ: 0}, //board-12 done
+    {x: -2930.81,y: -128.33, z:   294.81, rotationX: 0, rotationY: 95,  rotationZ: 0}, //board-13 done
+    {x: -2857.20,y: -128.33, z:  -726.53, rotationX: 0, rotationY: 75,  rotationZ: 0}, //board-14 done
+    {x: -2435.07,y: -128.33, z: -1662.77, rotationX: 0, rotationY: 55,  rotationZ: 0}, //board-15 done
+    {x: -1721.01,y: -128.33, z: -2394.99, rotationX: 0, rotationY: 35,  rotationZ: 0}, //board-16 done
+    {x: -796.75, y: -128.33, z: -2837.18, rotationX: 0, rotationY: 15,  rotationZ: 0}, //board-17 done
 
-  const xSpring = useSpring({ to: camX, bounce: 0 })
-  const ySpring = useSpring({ to: camY, bounce: 0 })
-  const zSpring = useSpring({ to: camZ, bounce: 0 })
+  ]
+
+  const camX = 0
+  const camY = 50
+  const camZ = 400
+
+  // const xSpring = useSpring({ to: camX, bounce: 0 })
+  // const ySpring = useSpring({ to: camY, bounce: 0 })
+  // const zSpring = useSpring({ to: camZ, bounce: 0 })
   // useEffect(()=>{
   //   console.log(document?.getElementById("hello-button"))
   //   document?.getElementById('hello-button')?.addEventListener("click",()=>{
@@ -690,23 +715,27 @@ const Game = () => {
   useLoop(()=>{
     let model = characterRef.current
     model?.moveForward(-1*walking_speed)
+    console.log(FocusRef.current?.x,FocusRef.current?.y,FocusRef.current?.z)
   },walking)
   return (
-    <>
+    <div >
+    {/* <div style={{position: 'absolute'}}> */}
       <World
+      //  defaultLight="skybox.hdr"
        exposure={0.8} 
        defaultLightScale={1.5}
+      //  skybox="skybox.hdr"
        skybox="sky.jpg"
+      //  ambientOcclusion={true}
        logarithmicDepth
       >
         <Plane
           x={233.16} y={-190.27} z={-2872.50}
           width={54} height={18}
-          visible={mouseOver}
+          visible={focus == 0 && mouseOver}
           texture="plane/38.png"
           onClick={()=>{
             //到下一个场馆
-            console.log("Clicked")
           }}
         />
         <Plane
@@ -715,15 +744,15 @@ const Game = () => {
           z={-2872.50}
           width={54}
           height={18}
-          visible={mouseOver}
+          visible={focus == 0 && mouseOver}
           texture="plane/39.png"
           onClick={()=>{
             //到上一个场馆
-            console.log("Clicked")
           }}
         />
         <Cube id="intersect_cube" scale={0.5} x={position.x} y={position.y} z={position.z} visible={false}/>
-        <Model name="gallery_model" id="gallery_model" src="gallery_model/gallery.glb" scale={gallery_scale} physics="map" 
+        <Model name="gallery_model" id="gallery_model" src="gallery_model/gallery-v1.glb" scale={gallery_scale} physics="map" 
+          // pbr={true}
         >
           <Find name="gallery" 
             onClick={(ev)=>{
@@ -737,71 +766,100 @@ const Game = () => {
           <Find name="portal"
             onMouseOver={() => setMouseOver(true)}
             onMouseOut={() => setMouseOver(false)}
+            onClick={() => {
+              setFocus(0)
+            }}
           />
           {
-            poster.map((post)=>
+            poster.map((post,index)=>
             <div key={post.id}>
               <Find 
                 name={post.name} 
                 texture={post.texture}
                 onClick={()=>{
-                  setFocus(true)
-                  console.log("Clicked")
+
+                  setFocus(index+1)
                 }}
               />
               {
-                (post.position)?.map((m,index)=>
-                  <div key={m.id}>
-                    <Model
-                      name={m.id}
-                      id={m.id}
-                      frustumCulled={false}
-                      src={m.src}
-                      width={m.width}
-                      height={m.height}
-                      depth={m.depth}
-                      x={m.x/gallery_scale}
-                      y={(index<post.number)?m.y/gallery_scale:m.y/gallery_scale+60000}
-                      z={m.z/gallery_scale}
-                      scale={m.scale/gallery_scale}
-                      innerX={m.innerX}
-                      innerY={m.innerY}
-                      innerZ={m.innerZ}
-                      rotationX={m.rotationX}
-                      rotationY={m.rotationY}
-                      rotationZ={m.rotationZ}
-                      environmentFactor={1}
-                      metalnessFactor={0}
-                      roughnessFactor={1}
-                      physics="map"
-                      boxVisible={false}
-                      visible={index<post.number?true:false}
-                      animations={{
-                        idle: m.anim_idle_src,
-                        anim: m.anim_anim_src
-                      }}
-                      animation="anim"
-                      >
-                        <Find name="body"
-                          texture={"character_model/texture/"+texture_select[m.texture]+".png"}
-                        />
-                    </Model>
-                  </div>
+                (post.position)?.map((m,index)=>{
+                  if (index<post.number){
+                    return (
+                      <div key={m.id}>
+                      <Model
+                        name={m.id}
+                        id={m.id}
+                        frustumCulled={false}
+                        src={m.src}
+                        width={m.width}
+                        height={m.height}
+                        depth={m.depth}
+                        x={m.x/gallery_scale}
+                        y={m.y/gallery_scale}
+                        z={m.z/gallery_scale}
+                        scale={m.scale/gallery_scale}
+                        innerX={m.innerX}
+                        innerY={m.innerY}
+                        innerZ={m.innerZ}
+                        rotationX={m.rotationX}
+                        rotationY={m.rotationY}
+                        rotationZ={m.rotationZ}
+                        environmentFactor={1}
+                        metalnessFactor={0}
+                        roughnessFactor={1}
+                        physics="map"
+                        visible={true}
+                        animations={{
+                          idle: m.anim_idle_src,
+                          anim: m.anim_anim_src
+                        }}
+                        animation="anim"
+                        // pbr={true}
+                        >
+                          <Find name="body"
+                            texture={"character_model/texture/"+texture_select[m.texture]+".png"}
+                          />
+                      </Model>
+                      </div>
+                    )                  
+                  }
+                }
+
                 )
               }
             </div>
             )
           }
         </Model>
-        <ThirdPersonCamera
-          mouseControl="drag" mouseControlMode="orbit" active
+        <ThirdPersonCamera 
+          name="FocusCamera"
+          ref={FocusRef}
+          active={focus != -1 ? true : false}
+          // active
+          mouseControl={false}
           lockTargetRotation={false}
-          innerX={xSpring} innerY={ySpring} innerZ={zSpring}
+          x={focus != -1 ? camera_target[focus].x : cameraRef.current?.x}
+          y={focus != -1 ? camera_target[focus].y : cameraRef.current?.y}
+          z={focus != -1 ? camera_target[focus].z : cameraRef.current?.z}
+          rotationX={focus != -1 ? camera_target[focus].rotationX : cameraRef.current?.rotationX}
+          rotationY={focus != -1 ? camera_target[focus].rotationY : cameraRef.current?.rotationY}
+          rotationZ={focus != -1 ? camera_target[focus].rotationZ : cameraRef.current?.rotationZ}
+          innerRotationX={focus != -1 ? 0 : cameraRef.current?.innerRotationX}
+          innerRotationY={focus != -1 ? 0 : cameraRef.current?.innerRotationY}
+          innerRotationZ={focus != -1 ? 0 : cameraRef.current?.innerRotationZ}
+          innerX={focus != -1 ? 0 : cameraRef.current?.innerX}
+          innerY={focus != -1 ? 0 : cameraRef.current?.innerY}
+          innerZ={focus != -1 ? 200 : cameraRef.current?.innerZ}
+        />
+        <ThirdPersonCamera
+          name="CharacterCamera"
+          mouseControl="drag" mouseControlMode="orbit" active={focus == -1 ? true : false}
+          lockTargetRotation={false}
+          innerX={camX} innerY={camY} innerZ={camZ}
           zoom={1.0} fov={45} 
-          x={89.15} y={-219.04} z={-2509.94}
           width={50} height={50} depth={50}
-          rotationX={-113.63} rotationY={-76.11} rotationZ={-114.26} rotation={-114.26}
           minPolarAngle={90} maxPolarAngle={105}
+          ref={cameraRef}
         >
           <Model
             // pbr={true}
@@ -834,18 +892,31 @@ const Game = () => {
             <Find name="body" texture={"character_model/texture/"+texture_select[texture_select_id]+".png"}/>
           </Model>
         </ThirdPersonCamera>
+
+        <Keyboard
+         onKeyPress={key => {
+           if (key === "Escape"){
+             if(focus != -1){
+              setFocus(-1)
+             }
+           }
+         }}
+         onKeyUp={key => {
+           
+         }}
+        />
         {/* <LingoEditor /> */}
       </World>
-    </>
+    </div>
   )
 }
 
 const App = () => {
   const progress = usePreload(
     [
-      "gallery_model/gallery.glb",
+      "gallery_model/gallery-v1.glb",
       "character_model/texture/doughnut.png",
-      "character_model/texture/leaves.png",
+      "character_model/texture/leaves.png", 
       "character_model/texture/original.png",
       "character_model/texture/palette.png",
       "character_model/texture/star.png",
