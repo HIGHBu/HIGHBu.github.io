@@ -10,7 +10,8 @@ const userSlice = createSlice({
   initialState: {
     username: '',
     token: '',
-    uid: ''
+    uid: '',
+    isGuest: false
   },
   reducers: {},
   extraReducers: (builder)=>{

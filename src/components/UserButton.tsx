@@ -20,12 +20,6 @@ function UserToolTip(){
 }
 function UserButton(){
     const dispatch=useDispatch<AppDispatch>()
-    const handleClick=()=>{
-        dispatch(Signin({
-            username: 'test1',
-            password: 'test1'
-        }))
-    }
     return (
         <Tooltip
             placement="bottomLeft"
@@ -35,7 +29,7 @@ function UserButton(){
             //visible={true}
             overlayClassName='user-tooltip'
         >
-            <button type="button" className='user-button' onClick={handleClick}>
+            <button type="button" className='user-button'>
                 <UserOutlined/>
             </button>
         </Tooltip>

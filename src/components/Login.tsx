@@ -7,7 +7,7 @@ import bg from '../assets/card-bg.png'
 import { updateExhibits } from '../store/exhibitSlice'
 import { AppDispatch } from '../store/store'
 import { Signin } from '../store/userSlice'
-import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
+import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingExhibits,pendingProfile,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>
@@ -92,6 +92,8 @@ function Login(props:WelcomeProps){
             message.error(unknownError)
             return
         }
+        message.info(pendingProfile)
+        message.info(pendingExhibits)
         await dispatch(updateExhibits())
         onExit()
     }

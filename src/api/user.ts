@@ -31,3 +31,15 @@ export const apiSignin=async(auth:authBody)=>{
         return mes as resSignin;
     return 'unknown';
 }
+
+const pathModifyUser='/api/user/'
+export interface userProfile {
+    avatar:   string;
+    clothes:  number[];
+    nickname: string;
+    password: string;
+    username: string;
+}
+export const apiModifyProfile=async()=>{
+    
+}
