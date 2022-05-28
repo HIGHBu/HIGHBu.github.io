@@ -1,12 +1,13 @@
 import { QuestionCircleOutlined, UserOutlined } from '@ant-design/icons'
 import { Avatar, Checkbox, Input, message, Tooltip } from 'antd'
-import { MouseEventHandler, useState } from 'react'
+import { MouseEventHandler, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
+import { apiSignup } from '../api/user'
 import bg from '../assets/card-bg.png'
 import { updateExhibits } from '../store/exhibitSlice'
 import { AppDispatch } from '../store/store'
-import { Signin, Signup } from '../store/userSlice'
-import { agreement, agreeWarning, emptyPassword, emptyUsername, guestLogin,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,startVisit,userLogin } from '../text'
+import { Signin } from '../store/userSlice'
+import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>
@@ -16,7 +17,7 @@ function Prompt(){
 }
 function UserLogin(props: {username:[string,React.ChangeEventHandler<HTMLInputElement>],password:[string,React.ChangeEventHandler<HTMLInputElement>]}){
     return (<div>
-        <Avatar size={50} icon={<UserOutlined />} />
+        {/* <Avatar size={50} icon={<UserOutlined />} /> */}
         <h1>{loginWelcome}</h1>
         <Input placeholder={loginNamePlaceholder} value={props.username[0]} onChange={props.username[1]}/>
         <Input.Password placeholder={loginPasswordPlaceholder} value={props.password[0]} onChange={props.password[1]}/>
@@ -35,6 +36,10 @@ function Login(props:WelcomeProps){
     const [username,setusername]=useState('')
     const [password,setpassword]=useState('')
     const [checked,setchecked]=useState(false)
+    const [avatar,setavatar]=useState(1)
+    useEffect(()=>{
+        setavatar(Math.floor(Math.random()*5)+1);
+    })
     const selectGuest=()=>{
         setisUser(false)
         setpassword('')
@@ -54,15 +59,39 @@ function Login(props:WelcomeProps){
             message.error(emptyPassword)
             return;
         }
-        const generatedPassword=new Date().toLocaleString()+username
-        await dispatch(Signup({
+        const generatedPassword=username
+        if(!isUser){
+            message.info(pendingSignUp)
+            const result=await apiSignup({
+                username: username,
+                password: isUser?password:generatedPassword
+            })
+            if(result==='unknown'){
+                message.error(unknownError)
+                return
+            }
+            if(result==='conflict'){
+                message.error(conflictError)
+                return
+            }
+        }
+        message.info(pendingSignin)
+        const result=(await dispatch(Signin({
             username: username,
             password: isUser?password:generatedPassword
-        }))
-        await dispatch(Signin({
-            username: username,
-            password: isUser?password:generatedPassword
-        }))
+        }))).payload
+        if(result==='notfound'){
+            message.error(notFoundError)
+            return
+        }
+        if(result==='invalid'){
+            message.error(invalidError)
+            return
+        }
+        if(result==='unknown'){
+            message.error(unknownError)
+            return
+        }
         await dispatch(updateExhibits())
         onExit()
     }

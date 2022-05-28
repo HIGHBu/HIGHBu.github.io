@@ -6,7 +6,12 @@ export interface authBody {
 
 const pathSignup='/api/auth/signup'
 export const apiSignup=async(auth:authBody)=>{
-    return await unauthoredPost(pathSignup,auth) as resMessage
+    const mes=await unauthoredPost(pathSignup,auth) as resMessage
+    if(mes.message==="User was registered successfully!")
+        return 'ok';
+    if(mes.message==="Failed! Username is already in use!")
+        return 'conflict';
+    return 'unknown';
 }
 
 const pathSignin='/api/auth/signin'
@@ -17,5 +22,12 @@ export interface resSignin {
     accessToken: string
 }
 export const apiSignin=async(auth:authBody)=>{
-    return await unauthoredPost(pathSignin,auth) as resSignin
+    const mes=await unauthoredPost(pathSignin,auth)
+    if(mes.message==="User Not found.")
+        return 'notfound'
+    if(mes.message==="Invalid Password!")
+        return 'invalid';
+    if(mes.accessToken)
+        return mes as resSignin;
+    return 'unknown';
 }

@@ -11,7 +11,11 @@ export async function unauthoredPost(path: string,body: any){
             'Content-Type': 'application/json'
         },
         body: JSON.stringify(body)
-    }).then((res)=>res.json())
+    }).then((res)=>{
+        //if(res.ok)
+            return res.json()
+        //else return Promise.reject('error')
+    })
 }
 
 export async function authoredGet(path: string){
