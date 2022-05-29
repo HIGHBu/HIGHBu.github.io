@@ -4,7 +4,7 @@ import { useDispatch } from 'react-redux';
 import demoPic from '../assets/APP.png'
 import { AppDispatch } from '../store/store';
 import { hideSkin } from '../store/modalSlice';
-import { saveSkin, skinTitle, unlockCondition } from '../text';
+import { progressComplete, progressNotComplete, saveSkin, skinTitle, unlockCondition } from '../text';
 
 interface SkinItemProp {
     prefix:string;
@@ -12,7 +12,7 @@ interface SkinItemProp {
 
 function SkinItem(props: SkinItemProp){
     const title='学士帽'
-    const percent=50
+    const percent:number=50
     return (
         <div className='skin-item'>
             <LeftOutlined/>
@@ -21,7 +21,10 @@ function SkinItem(props: SkinItemProp){
             <div className='detail'>
                 <h1>{title}</h1>
                 <h2>{unlockCondition}</h2>
-                <Progress percent={percent}/>
+                <div className='progress-group'>
+                    <Progress showInfo={false} percent={percent}/>
+                    {percent===100?progressComplete:progressNotComplete}
+                </div>
             </div>
         </div>
     )
