@@ -12,6 +12,7 @@ import { useRef, useState } from 'react'
 import { Button } from 'antd'
 import { SoundFilled, SoundOutlined } from '@ant-design/icons'
 import bgm from './assets/bgm.mp3'
+import Web3d from './web3d/Web3d'
 function App() {
   const designDetailVisible=useSelector<RootState,boolean>(state=>state.modalSlice.disignDetail)
   const favorVisible=useSelector<RootState,boolean>(state=>state.modalSlice.favor)
@@ -32,7 +33,7 @@ function App() {
     skinVisible && <Skin/>;
   const mainStage=(
     <div>
-      {modal}
+      <Web3d/>
       <MenuButton/>
       <div className='top-button-group'>
         <UserButton/>
@@ -40,6 +41,7 @@ function App() {
         <FavorButton/>
       </div>
       <audio src={bgm} ref={audioRef} autoPlay loop></audio>
+      {modal}
       <Button type='link' size="large" className="bgm-button" icon={sound?<SoundFilled/>:<SoundOutlined/>} onClick={handleBgm}></Button>    </div>
   )
   const welcomeStage=<Welcome onExit={()=>setcovered(false)}/>

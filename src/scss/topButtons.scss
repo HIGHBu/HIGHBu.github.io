@@ -8,7 +8,9 @@
     align-items: center;
 }
 .menu-group {
-    padding: 20px 40px;
+    position: absolute;
+    top: 20px;
+    left: 40px;
     .menu {
         width: 24rem;
         margin-top: 1rem;
