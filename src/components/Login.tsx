@@ -7,7 +7,7 @@ import bg from '../assets/card-bg.png'
 import { updateExhibits } from '../store/exhibitSlice'
 import { AppDispatch } from '../store/store'
 import { setGuest, Signin, UpdateProfile } from '../store/userSlice'
-import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingExhibits,pendingInit,pendingProfile,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
+import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,guestNamePlaceholder,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingExhibits,pendingInit,pendingProfile,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>
@@ -34,7 +34,7 @@ function GuestLogin(props: {username: [string,React.ChangeEventHandler<HTMLInput
     return (<div>
         <Avatar size={50} icon={asrc===""?<UserOutlined />:<img src={asrc}></img>} />
         <h1>{loginWelcome}</h1>
-        <Input placeholder={loginNamePlaceholder} value={props.username[0]} onChange={props.username[1]}/>
+        <Input placeholder={guestNamePlaceholder} value={props.username[0]} onChange={props.username[1]}/>
     </div>)
 }
 function Login(props:WelcomeProps){
@@ -69,11 +69,12 @@ function Login(props:WelcomeProps){
         const generatedUsername=isUser?username:(username+new Date().toLocaleString())
         const generatedPassword=isUser?password:username
         if(!isUser){
-            message.info(pendingSignUp)
+            const hideSignup=message.loading(pendingSignUp,0)
             const result=await apiSignup({
                 username: generatedUsername,
                 password: generatedPassword
             })
+            hideSignup()
             if(result==='unknown'){
                 message.error(unknownError)
                 return
@@ -84,11 +85,12 @@ function Login(props:WelcomeProps){
             }
             await dispatch(setGuest())
         }
-        message.info(pendingSignin)
+        const hideSignin=message.loading(pendingSignin,0)
         const result=(await dispatch(Signin({
             username: generatedUsername,
             password: generatedPassword
         }))).payload
+        hideSignin()
         if(result==='notfound'){
             message.error(notFoundError)
             return
@@ -102,7 +104,7 @@ function Login(props:WelcomeProps){
             return
         }
         if(!isUser){
-            message.info(pendingInit)
+            const hideInit=message.loading(pendingInit,0)
             const initResult=await apiModifyProfile((result as resSignin).id,{
                 username: generatedUsername,
                 password: generatedPassword,
@@ -110,15 +112,18 @@ function Login(props:WelcomeProps){
                 avatar: avatar.toString(),
                 clothes: []
             })
+            hideInit()
             if(initResult==='unknown'){
                 message.error(unknownError)
                 return
             }
         }
-        message.info(pendingProfile)
+        const hideProfile=message.loading(pendingProfile,0)
         await dispatch(UpdateProfile((result as resSignin).id))
-        message.info(pendingExhibits)
+        hideProfile()
+        const hideExhibits=message.loading(pendingExhibits,0)
         await dispatch(updateExhibits())
+        hideExhibits()
         onExit()
     }
     return (<div id='login-page'>
@@ -143,8 +148,9 @@ function Login(props:WelcomeProps){
                 />}
         </div>
         <div id='check'>
-            <Checkbox checked={checked} onChange={e=>setchecked(e.target.checked)}/>
-            <span>{agreement}</span>
+            <Checkbox checked={checked} onChange={e=>setchecked(e.target.checked)}>
+                <span>{agreement}</span>
+            </Checkbox>
         </div>
         <h1 id='login-submit' onClick={handleSubmit}>{startVisit}</h1>
     </div>)
