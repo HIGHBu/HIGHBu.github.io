@@ -27,6 +27,7 @@ const exhibitSlice = createSlice({
   extraReducers: (builder)=>{
     builder.addCase(updateExhibits.fulfilled,(state,action)=>{
       state.items=action.payload
+      console.log(action.payload)
       action.payload.forEach(item=>{
         const [fir,sec]=item.location.split('-')
         let firdir=state.category.find(v=>v.key===fir)
