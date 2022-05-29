@@ -1,0 +1,325 @@
+@import './colors.scss';
+@import './mixins.scss';
+
+.emoji-bar {
+    .ant-tooltip-arrow {
+        span {
+            --antd-arrow-background-color: white;
+        }
+    }
+    .ant-tooltip-inner {
+        background-color: white;
+        padding: 0;
+        padding-bottom: 5px;
+        width: 40px;
+        div {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 24px;
+            user-select: none;
+        };
+    }
+}
+
+.modal-design-detail {
+    @include modal-common;
+    padding: 88px 88px;
+    display: flex;
+    .right-col{
+        margin-top: 16px;
+        margin-left: 80px;
+        flex-grow: 1;
+        iframe {
+            height: 504px;
+            width: 896px;
+        }
+        .nav-and-action {
+            margin-top: 9px;
+            position: relative;
+            text-align: center;
+            .actions {
+                position: absolute;
+                right: 0;
+                top: 0;
+                width: 10rem;
+                display: flex;
+                flex-direction: row;
+                button {
+                    margin-left: 1rem;
+                    $button-size: 4rem;
+                    $icon-size: 2.5rem;
+                    border-radius: calc($button-size/2);
+                    height: $button-size;
+                    width: $button-size;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    .anticon {
+                        font-size: $icon-size;
+                    }
+                    @include button-common;
+                    background-color: $white-1;
+                }
+            }
+        }
+    }
+    .left-col{
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        .blurred {
+            filter: blur(5px);
+        }
+        #all-comments {
+            z-index: 100;
+            position: absolute;
+            width: 300px;
+            height: 520px;
+            background-color: $white-2;
+            backdrop-filter: blur(50px);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            #header {
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+                align-items: center;
+                font-size: 16px;
+            }
+            #content {
+                overflow: hidden scroll;
+                &::-webkit-scrollbar {
+                    width: 2px;
+                }
+                /* 滚动槽 */
+                &::-webkit-scrollbar-track {
+                    box-shadow: $white-2;
+                    border-radius: 2px;
+                }
+                /* 滚动条滑块 */
+                &::-webkit-scrollbar-thumb {
+                    border-radius: 2px;
+                    background: rgba(0, 0, 0, 0.1);
+                    box-shadow: $white-1;
+                }
+                .comment-item {
+                    margin-right: 2px;
+                    padding-top: 16px;
+                    padding-bottom: 20px;
+                    display: flex;
+                    flex-direction: row;
+                    border-bottom: 1px $black-4 solid;
+                    .comment-avatar {
+                        flex-shrink: 0;
+                        margin-right: 10px;
+                    }
+                    .comment-body {
+                        .comment-user {
+                            color: $black-2;
+                            width: 80px;
+                            display: inline-block;
+                            text-overflow: ellipsis;
+                            white-space: nowrap;
+                            overflow: hidden;
+                        }
+                        .comment-date {
+                            color: $black-3;
+                        }
+                        .comment-footer {
+                            color: $black-2;
+                            .comment-likes {
+                                margin-left: 10px;
+                                margin-right: 10px;
+                            }
+                            .like-button,.dislike-button {
+                                cursor: pointer;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        .comment-danmaku {
+            height: 60px;
+            width: 300px;
+            overflow: hidden;
+            margin-bottom: 0.8rem;
+            flex-shrink: 0;
+            div {
+                span {
+                    border-radius: 5px;
+                    background-color: white;
+                    padding: 5px 10px;
+                }
+                margin-top: 16px;
+            }
+            #no-comment {
+                user-select: none;
+                font-size: 30px;
+                color: $black-2;
+            }
+        }
+        .show-more {
+            color: $black-2;
+        }
+        img {
+            margin-top: 0.8rem;
+            margin-bottom: 1.6rem;
+            height: 429px;
+            width: 297px;
+            object-fit: contain;
+        }
+        .comment-group{
+            display: flex;
+            flex-direction: row;
+            .ant-input-textarea {
+                width: 260px;
+                height: 25px;
+                textarea{
+                    white-space: nowrap;
+                    resize: none;
+                    overflow:hidden;
+                    ::-webkit-scrollbar{
+                        display: none;
+                    }
+                }
+                margin-right: 1rem;
+            }
+            button {
+                $button-size: 30px;
+                $icon-size: 20px;
+                border-radius: calc($button-size/2);
+                height: $button-size;
+                width: $button-size;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                .anticon {
+                    font-size: $icon-size;
+                }
+                @include button-common;
+                background-color: $white-1;
+            }
+        }
+    }
+    .back-button {
+        position: absolute;
+        left: 4rem;
+        bottom: 4rem;
+        width: 4rem;
+        height: 4rem;
+        border-radius: 2px;
+        font-size: 3rem;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        @include button-common;
+    }
+}
+
+.skin-favor-modal {
+    padding: 17rem 16rem;
+    display: flex;
+    .panel {
+        flex-grow: 1;
+        margin-left: 7rem;
+        border-radius: 8px;
+        height: 74rem;
+        width: 97rem;
+        background-color: $white-2;
+        padding: 4rem 6rem;
+        display: flex;
+        flex-direction: column;
+        .panel-head {
+            display: flex;
+            justify-content: space-between;
+            font-size: 26px;
+            margin-bottom: 7rem;
+        }
+        .save-button {
+            width: 21rem;
+            margin-left: 7rem;
+            height: 3rem;
+            background-color: $main-color-3;
+            color: white;
+            border: 0;
+            border-radius: 2px;
+        }
+        .thumb {
+            height: 21rem;
+            width: 21rem;
+            background-color: $white-2;
+            border-radius: 2px;
+        }
+        .favor-panel-body {
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            .favor-item {
+                display: flex;
+                flex-direction: column;
+                margin: 3rem 4rem;
+                h2 {
+                    color: $black-2;
+                }
+            }
+            overflow: hidden scroll;
+            /* 设置滚动条的样式 */
+            &::-webkit-scrollbar {
+                width: 12px;
+            }
+            /* 滚动槽 */
+            &::-webkit-scrollbar-track {
+                box-shadow: $white-2;
+                border-radius: 10px;
+            }
+            /* 滚动条滑块 */
+            &::-webkit-scrollbar-thumb {
+                border-radius: 10px;
+                background: rgba(0, 0, 0, 0.1);
+                box-shadow: $white-1;
+            }
+        }
+        .skin-item {
+            margin-bottom: 3rem;
+            height: 21rem;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            .anticon {
+                font-size: 3rem;
+                color: $black-3;
+                margin: 0 2rem;
+            }
+            .detail {
+                display: flex;
+                flex-direction: column;
+                height: 100%;
+                flex-grow: 1;
+                h1 {
+                    font-size: 25px;
+                    font-weight: bold;
+                }
+                h2 {
+                    font-size: 16px;
+                    color: $black-2;
+                    margin-top: 8px;
+                    margin-bottom: 4rem;
+                }
+                .progress-group {
+                    display: flex;
+                    flex-direction: row;
+                    color: $black-2;
+                }
+                .ant-progress {
+                    width: 200px;
+                    margin-right: 10px;
+                }
+            }
+        }
+    }
+    @include modal-common;
+}

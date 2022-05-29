@@ -1,0 +1,92 @@
+@import './colors.scss';
+#welcome-page {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    img {
+        width: 70rem;
+    }
+    h1 {
+        color: white;
+        &:hover {
+            color: $main-color-2;
+        }
+        transition: color .2s;
+        user-select: none;
+        cursor: pointer;
+    }
+}
+#login-page {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    #login-select {
+        font-family: 'AlibabaSans';
+        font-size: 20px;
+        font-style: normal;
+        line-height: 28px;
+        font-weight: 400;
+        margin: 0;
+        color: $white-1;
+        user-select: none;
+        span {
+            margin-left: 20px;
+            &.anticon {
+                margin-left: 5px;
+                font-size: 15px;
+                color: $black-3;
+                position: relative;
+                top: -10px;
+            }
+        }
+        .selected {
+            color: $main-color-3;
+        }
+        .unselected {
+            cursor: pointer;
+        }
+        margin-bottom: 10px;
+    }
+    #login-body {
+        position: relative;
+        div {
+            position: absolute;
+            top: 245px;
+            right: 55px;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            h1 {
+                color: $black-1;
+                user-select: none;
+                margin-top: 8px;
+                margin-bottom: 6px;
+            }
+            input {
+                width: 260px;
+            }
+            span.ant-input-password {
+                margin-top: 8px;
+                width: 260px;
+            }
+        }
+    }
+    #check {
+        color: $black-2;
+        margin-bottom: 90px;
+    }
+    #login-submit {
+        color: $white-1;
+        user-select: none;
+        cursor: pointer;
+        &:hover {
+            color: $main-color-2;
+        }
+        transition: color .2s;
+    }
+}
