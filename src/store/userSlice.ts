@@ -28,7 +28,7 @@ const userSlice = createSlice({
       state.isGuest=true;
     },
     unsetGuest(state){
-      state.isGuest=true;
+      state.isGuest=false;
     }
   },
   extraReducers: (builder)=>{
