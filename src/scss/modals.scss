@@ -156,6 +156,11 @@
                 }
                 margin-top: 16px;
             }
+            #no-comment {
+                user-select: none;
+                font-size: 30px;
+                color: $black-2;
+            }
         }
         .show-more {
             color: $black-2;

@@ -1,5 +1,5 @@
 import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarOutlined } from "@ant-design/icons"
-import { commentPlaceholder, showMoreComment } from "../text"
+import { commentPlaceholder, noComment, showMoreComment } from "../text"
 import { Input, Pagination, Tooltip } from "antd"
 import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
@@ -45,7 +45,8 @@ function DesignDetail(){
 
     const [showmore,setshowmore]=useState(false)
     const handleShowMore=()=>{
-        setshowmore(true)
+        if(comments.length)
+            setshowmore(true)
     }
     const handleCloseShowMore=()=>{
         setshowmore(false)
@@ -56,6 +57,7 @@ function DesignDetail(){
         <div className='left-col'>
             {showmore && <AllComments onClose={handleCloseShowMore} items={comments}/>}
             <div className={'comment-danmaku '+(showmore && 'blurred')}>
+                {comments.length==0 && <span id='no-comment'>{noComment}</span>}
                 {comments.slice(0,3).map(item=>(<div key={item.id}><span className='main-text'>{item.comment_text}</span></div>))}
             </div>
             <a className={'show-more text '+(showmore && 'blurred')} onClick={handleShowMore}>
