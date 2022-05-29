@@ -1,4 +1,4 @@
-import { authoredGet, authoredPost, resMessage, unauthoredPost } from "./util"
+import { authoredGet, authoredPatch, authoredPost, resMessage, unauthoredPost } from "./util"
 export interface authBody {
     username: string,
     password: string
@@ -41,10 +41,11 @@ export interface userProfile {
     username: string;
 }
 export const apiFetchProfile=async(uid:string)=>{
-    const mes=await authoredGet(pathUser+uid)
-    console.log(mes)
+    return await authoredGet(pathUser+uid) as userProfile
 }
 export const apiModifyProfile=async(uid:string,profile:userProfile)=>{
-    const mes=await authoredPost(pathUser+uid,profile)
-    console.log(mes)
+    const mes=await authoredPatch(pathUser+uid,profile) as resMessage
+    if(mes.message==="User was update successfully!")
+        return 'ok';
+    return 'unknown';
 }

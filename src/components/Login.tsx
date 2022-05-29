@@ -25,7 +25,6 @@ function UserLogin(props: {username:[string,React.ChangeEventHandler<HTMLInputEl
 }
 function GuestLogin(props: {username: [string,React.ChangeEventHandler<HTMLInputElement>],avatar: number}){
     const avatars=import.meta.glob('../assets/avatar/*.png')
-    console.log(avatars)
     const [asrc,setasrc]=useState("")
     useEffect(()=>{
         avatars[`../assets/avatar/${props.avatar}.png`]().then(res=>{
@@ -67,11 +66,12 @@ function Login(props:WelcomeProps){
             message.error(emptyPassword)
             return;
         }
-        const generatedPassword=username
+        const generatedUsername=isUser?username:(username+new Date().toLocaleString())
+        const generatedPassword=isUser?password:username
         if(!isUser){
             message.info(pendingSignUp)
             const result=await apiSignup({
-                username: username,
+                username: generatedUsername,
                 password: generatedPassword
             })
             if(result==='unknown'){
@@ -86,8 +86,8 @@ function Login(props:WelcomeProps){
         }
         message.info(pendingSignin)
         const result=(await dispatch(Signin({
-            username: username,
-            password: isUser?password:generatedPassword
+            username: generatedUsername,
+            password: generatedPassword
         }))).payload
         if(result==='notfound'){
             message.error(notFoundError)
@@ -103,13 +103,17 @@ function Login(props:WelcomeProps){
         }
         if(!isUser){
             message.info(pendingInit)
-            await apiModifyProfile((result as resSignin).id,{
-                username: username,
+            const initResult=await apiModifyProfile((result as resSignin).id,{
+                username: generatedUsername,
                 password: generatedPassword,
                 nickname: username,
                 avatar: avatar.toString(),
                 clothes: []
             })
+            if(initResult==='unknown'){
+                message.error(unknownError)
+                return
+            }
         }
         message.info(pendingProfile)
         await dispatch(UpdateProfile((result as resSignin).id))

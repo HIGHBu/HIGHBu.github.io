@@ -1,14 +1,14 @@
 import {
     UserOutlined
 } from '@ant-design/icons'
-import { Button, Modal, Tooltip } from 'antd'
+import { Button, Form, Input, Modal, Tooltip } from 'antd'
 import { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { AppDispatch, RootState } from '../store/store'
 import { Signin } from '../store/userSlice'
 import { changeNameAvatar, generateTicket, updateAccount } from '../text'
 function UserToolTip(){
-    const username=useSelector<RootState,string>((state)=>state.userSlice.username)
+    const username=useSelector<RootState,string>((state)=>state.userSlice.profile.nickname)
     const isGuest=useSelector<RootState,boolean>((state)=>state.userSlice.isGuest)
     const [update,setupdate]=useState(false)
     const showUpdate=()=>{
@@ -33,11 +33,9 @@ function UserToolTip(){
                     onOk={handleSubmit}
                     onCancel={hideUpdate}
                 >
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
-                    <p>Some contents...</p>
+                    <Form>
+                        <Input></Input>
+                    </Form>
                 </Modal>
         </div>
     )

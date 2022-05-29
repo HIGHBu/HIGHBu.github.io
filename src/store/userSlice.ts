@@ -11,7 +11,7 @@ export const UpdateProfile=createAsyncThunk('user/profile',async(uid:string)=>{
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    username: '',
+    //username: '',
     token: '',
     uid: '',
     isGuest: false,
@@ -32,9 +32,15 @@ const userSlice = createSlice({
     builder.addCase(Signin.fulfilled,(state,action)=>{
       if(typeof action.payload==='string')
         return
-      state.username=action.payload.username
+      //state.username=action.payload.username
       state.token=action.payload.accessToken
       state.uid=action.payload.id
+    })
+    builder.addCase(UpdateProfile.fulfilled,(state,action)=>{
+      if(typeof action.payload==='string')
+        return
+      state.profile=action.payload
+      console.log(action.payload)
     })
   }
 })
