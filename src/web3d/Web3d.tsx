@@ -1,20 +1,19 @@
-import { useMachine } from '@xstate/react'
-import {LingoEditor,Plane, Cube,  Find, HTML, Keyboard, Model, Reticle, ThirdPersonCamera, types, usePreload, useSpring, useWindowSize, World, AreaLight, useLoop } from 'lingo3d-react'
-import { useEffect, useRef, useState } from 'react'
-import character_poseMachine from './stateMachines/character_poseMachine'
-//import AnimText from "@lincode/react-anim-text"
+import {LingoEditor, Plane, Cube,  Find, Keyboard, Model, ThirdPersonCamera, types, usePreload, World, useLoop, Sprite } from 'lingo3d-react'
+import {useEffect, useRef, useState } from 'react'
+import * as exhibit from '../api/exhibit'
 
-const Game = () => {
+var pos_tex: { texture: string; }[];
+
+const Game=() => {
   const characterRef = useRef<types.Model>(null)
   const cameraRef = useRef<types.ThirdPersonCamera>(null)
   const FocusRef = useRef<types.ThirdPersonCamera>(null)
   const walking_speed = 30
   const [walking, setWalking] = useState(false)
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
-  const [character_pose, sendCharacter_Pose] = useMachine(character_poseMachine)
   const [mouseOver, setMouseOver] = useState(false)
-  const [click, setClick] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
+  const [refresh, setRefresh] = useState(false);
   const character_select = ["basic", "band", "doughnu", "glasses", "hat", "ring"]
   const texture_select = ["doughnut", "leaves", "original", "palette", "star", "tie"]
   var gallery_select_id = 0     //TODO 后端接口
@@ -25,10 +24,13 @@ const Game = () => {
   const walk_select = "character_model/character/"+character_select[character_select_id]+"/walk.glb"
   const idle_select = "character_model/character/"+character_select[character_select_id]+"/idle.glb"
   const textuere_select = "character_model/texture/"+texture_select[texture_select_id]+".png"
-  
+  useEffect(() => {
+      refresh && setTimeout(() => setRefresh(false))
+  }, [refresh])
+  const doRefresh = () => setRefresh(true)
   //后端修改该数组，获得17个texture和要出现的人物模型的数量
   const poster = [
-    {id: "1", name: "Board-1", texture:"", number:2,position:[
+    {id: "1", name: "Board-1", number:2,position:[
       {
         id: "1_1",
         src:"character_model/camera/src.glb",
@@ -53,7 +55,7 @@ const Game = () => {
         // anim_idle_src: "character_model/record/idle.glb",
         anim_anim_src: "character_model/record/record.glb",
         texture:2,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "1_3",
@@ -66,10 +68,10 @@ const Game = () => {
         // anim_idle_src: "character_model/browse/idle.glb",
         anim_anim_src: "character_model/browse/browse.glb",
         texture:3,
-        img:"",
+        img:"bubble/comment.png",
       },
     ]},
-    {id: "2", name: "Board-2", texture:"", number:3,position:[
+    {id: "2", name: "Board-2", number:3,position:[
       {
         id: "2_1",
         src:"character_model/record/src.glb",
@@ -81,7 +83,7 @@ const Game = () => {
         // anim_idle_src: "character_model/record/idle.glb",
         anim_anim_src: "character_model/record/record.glb",
         texture:1,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "2_2",
@@ -94,7 +96,7 @@ const Game = () => {
         // anim_idle_src: "character_model/browse/idle.glb",
         anim_anim_src: "character_model/browse/browse.glb",
         texture:0,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "2_3",
@@ -107,10 +109,10 @@ const Game = () => {
         // anim_idle_src: "character_model/camera/idle.glb",
         anim_anim_src: "character_model/camera/camera.glb",
         texture:4,
-        img:"",
+        img:"bubble/comment.png",
       },
     ]},
-    {id: "3", name: "Board-3", texture:"", number:3,position:[
+    {id: "3", name: "Board-3", number:3,position:[
       {
         id: "3_1",
         src:"character_model/record/src.glb",
@@ -122,7 +124,7 @@ const Game = () => {
         // anim_idle_src: "character_model/record/idle.glb",
         anim_anim_src: "character_model/record/record.glb",
         texture:5,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "3_2",
@@ -135,7 +137,7 @@ const Game = () => {
         // anim_idle_src: "character_model/browse/idle.glb",
         anim_anim_src: "character_model/browse/browse.glb",
         texture:4,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "3_3",
@@ -148,10 +150,10 @@ const Game = () => {
         // anim_idle_src: "character_model/camera/idle.glb",
         anim_anim_src: "character_model/camera/camera.glb",
         texture:5,
-        img:"",
+        img:"bubble/comment.png",
       },
     ]},
-    {id: "4", name: "Board-4", texture:"", number:3,position:[
+    {id: "4", name: "Board-4", number:3,position:[
       {
         id: "4_1",
         src:"character_model/record/src.glb",
@@ -163,7 +165,7 @@ const Game = () => {
         // anim_idle_src: "character_model/record/idle.glb",
         anim_anim_src: "character_model/record/record.glb",
         texture:2,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "4_2",
@@ -176,7 +178,7 @@ const Game = () => {
         // anim_idle_src: "character_model/browse/idle.glb",
         anim_anim_src: "character_model/browse/browse.glb",
         texture:3,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "4_3",
@@ -189,10 +191,10 @@ const Game = () => {
         // anim_idle_src: "character_model/camera/idle.glb",
         anim_anim_src: "character_model/camera/camera.glb",
         texture:1,
-        img:"",
+        img:"bubble/comment.png",
       },
     ]},
-    {id: "5", name: "Board-5", texture:"", number:3,position:[
+    {id: "5", name: "Board-5", number:3,position:[
       {
         id: "5_1",
         src:"character_model/record/src.glb",
@@ -204,7 +206,7 @@ const Game = () => {
         // anim_idle_src: "character_model/record/idle.glb",
         anim_anim_src: "character_model/record/record.glb",
         texture:5,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "5_2",
@@ -217,7 +219,7 @@ const Game = () => {
         // anim_idle_src: "character_model/browse/idle.glb",
         anim_anim_src: "character_model/browse/browse.glb",
         texture:4,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "5_3",
@@ -230,10 +232,10 @@ const Game = () => {
         // anim_idle_src: "character_model/camera/idle.glb",
         anim_anim_src: "character_model/camera/camera.glb",
         texture:2,
-        img:"",
+        img:"bubble/comment.png",
       },
     ]},
-    {id: "6", name: "Board-6", texture:"", number:3,position:[
+    {id: "6", name: "Board-6", number:3,position:[
       {
         id: "6_1",
         src:"character_model/record/src.glb",
@@ -245,7 +247,7 @@ const Game = () => {
         // anim_idle_src: "character_model/record/idle.glb",
         anim_anim_src: "character_model/record/record.glb",
         texture:3,
-        img:"",
+        img:"bubble/comment.png",
       },
       {
         id: "6_2",
@@ -274,7 +276,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "7", name: "Board-7", texture:"", number:3,position:[
+    {id: "7", name: "Board-7", number:3,position:[
       {
         id: "7_1",
         src:"character_model/record/src.glb",
@@ -315,7 +317,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "8", name: "Board-8", texture:"", number:3,position:[
+    {id: "8", name: "Board-8", number:3,position:[
       {
         id: "8_1",
         src:"character_model/record/src.glb",
@@ -356,7 +358,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "9", name: "Board-9", texture:"", number:3,position:[
+    {id: "9", name: "Board-9", number:3,position:[
       {
         id: "9_1",
         src:"character_model/record/src.glb",
@@ -397,7 +399,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "10", name: "Board-10", texture:"", number:3,position:[
+    {id: "10", name: "Board-10", number:3,position:[
       {
         id: "10_1",
         src:"character_model/record/src.glb",
@@ -438,7 +440,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "11", name: "Board-11", texture:"", number:3,position:[
+    {id: "11", name: "Board-11", number:3,position:[
       {
         id: "11_1",
         src:"character_model/record/src.glb",
@@ -479,7 +481,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "12", name: "Board-12", texture:"", number:3,position:[
+    {id: "12", name: "Board-12", number:3,position:[
       {
         id: "12_1",
         src:"character_model/record/src.glb",
@@ -520,7 +522,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "13", name: "Board-13", texture:"", number:3,position:[
+    {id: "13", name: "Board-13", number:3,position:[
       {
         id: "13_1",
         src:"character_model/record/src.glb",
@@ -561,7 +563,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "14", name: "Board-14", texture:"", number:3,position:[
+    {id: "14", name: "Board-14", number:3,position:[
       {
         id: "14_1",
         src:"character_model/record/src.glb",
@@ -602,7 +604,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "15", name: "Board-15", texture:"", number:3,position:[
+    {id: "15", name: "Board-15", number:3,position:[
       {
         id: "15_1",
         src:"character_model/record/src.glb",
@@ -643,7 +645,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "16", name: "Board-16", texture:"", number:3,position:[
+    {id: "16", name: "Board-16", number:3,position:[
       {
         id: "16_1",
         src:"character_model/record/src.glb",
@@ -684,7 +686,7 @@ const Game = () => {
         img:"",
       },
     ]},
-    {id: "17", name: "Board-17", texture:"", number:3,position:[
+    {id: "17", name: "Board-17", number:3,position:[
       {
         id: "17_1",
         src:"character_model/record/src.glb",
@@ -753,15 +755,6 @@ const Game = () => {
   const camY = 50
   const camZ = 400
 
-  // const xSpring = useSpring({ to: camX, bounce: 0 })
-  // const ySpring = useSpring({ to: camY, bounce: 0 })
-  // const zSpring = useSpring({ to: camZ, bounce: 0 })
-  // useEffect(()=>{
-  //   console.log(document?.getElementById("hello-button"))
-  //   document?.getElementById('hello-button')?.addEventListener("click",()=>{
-  //     alert('hello')
-  //   })
-  // },[mouseOver])
   useLoop(()=>{
     let model = characterRef.current
     model?.moveForward(-1*walking_speed)
@@ -771,8 +764,9 @@ const Game = () => {
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
        position='relative'
-       exposure={0.8} 
-       defaultLightScale={1.5}
+      //  exposure={0.8} 
+      //  defaultLightScale={0.8}
+      //  defaultLight="skybox.hdr"
        skybox="sky.jpg"
       //  ambientOcclusion
       //  logarithmicDepth
@@ -784,6 +778,7 @@ const Game = () => {
           texture="plane/38.png"
           onClick={()=>{
             //到下一个场馆
+            doRefresh()
           }}
         />
         <Plane
@@ -795,12 +790,12 @@ const Game = () => {
           visible={focus == 0 && mouseOver}
           texture="plane/39.png"
           onClick={()=>{
+            doRefresh()
             //到上一个场馆
           }}
         />
         <Cube id="intersect_cube" scale={0.5} x={position.x} y={position.y} z={position.z} visible={false}/>
-        <Model name="gallery_model" id="gallery_model" src="gallery_model/gallery-v1.glb" scale={gallery_scale} physics="map" 
-          // pbr={true}
+        <Model name="gallery_model" id="gallery_model" src="gallery_model/test4.glb" scale={gallery_scale} physics="map" environmentFactor={10}
         >
           <Find name="gallery" 
             onClick={(ev)=>{
@@ -823,9 +818,8 @@ const Game = () => {
             <div key={post.id}>
               <Find 
                 name={post.name} 
-                texture={post.texture}
+                texture={pos_tex[index]?.texture}
                 onClick={()=>{
-
                   setFocus(index+1)
                 }}
               />
@@ -858,28 +852,29 @@ const Game = () => {
                         physics="map"
                         visible={true}
                         animations={{
-                          // idle: m.anim_idle_src,
                           anim: m.anim_anim_src
                         }}
                         animation="anim"
-                        // pbr={true}
                         >
-                          <HTML 
-                          >
-                            <img 
-                              className=""
-                            src={m.img} width={50} ></img>
-                          </HTML>
-                          <Find name="body"
-                            texture={"character_model/texture/"+texture_select[m.texture]+".png"}
-                          />
+                          {(m.img != "" && 
+                            ((
+                              m.src == "character_model/camera/src.glb" &&
+                              <Sprite id={m.id} texture={m.img} width={54.6/m.scale} height={38.1/m.scale} y={865.69} />
+                            ) || 
+                            (
+                              m.src == "character_model/record/src.glb" &&
+                              <Sprite id={m.id} texture={m.img} width={54.6/m.scale} height={38.1/m.scale} y={185.69}/>
+                            ) || 
+                            (
+                              m.src == "character_model/browse/src.glb" &&
+                              <Sprite id={m.id} texture={m.img} width={54.6/m.scale} height={38.1/m.scale} y={376.43}/>
+                            ))
+                          )}
                       </Model>
-
                       </div>
                     )                  
                   }
                 }
-
                 )
               }
             </div>
@@ -890,7 +885,6 @@ const Game = () => {
           name="FocusCamera"
           ref={FocusRef}
           active={focus != -1 ? true : false}
-          // active
           mouseControl={false}
           lockTargetRotation={false}
           x={focus != -1 ? camera_target[focus].x : cameraRef.current?.x}
@@ -917,7 +911,6 @@ const Game = () => {
           ref={cameraRef}
         >
           <Model
-            // pbr={true}
             src= {src_select}
             ref={characterRef}
             physics="character"
@@ -926,7 +919,6 @@ const Game = () => {
               idle:idle_select,
               walk:walk_select,
             }}
-            //  animation={character_pose.value as any}
             animation={walking? "walk": "idle"}
             x={101.71}
             y={-220.1}
@@ -944,7 +936,7 @@ const Game = () => {
               setWalking(false)
             }}                      
           >
-            <Find name="body" texture={"character_model/texture/"+texture_select[texture_select_id]+".png"}/>
+            <Find name="body" texture={textuere_select}/>
           </Model>
         </ThirdPersonCamera>
 
@@ -969,7 +961,7 @@ const Game = () => {
 const App = () => {
   const progress = usePreload(
     [
-      "gallery_model/gallery-v1.glb",
+      "gallery_model/test4.glb",
       "character_model/texture/doughnut.png",
       "character_model/texture/leaves.png", 
       "character_model/texture/original.png",
@@ -1004,9 +996,11 @@ const App = () => {
     ],
     "63.2mb"
   )
-  useEffect(()=>{
-    console.log(progress)
-  },[progress])
+  exhibit.fetchExhibits().then(res=>{
+    pos_tex=res.map(item=>({
+      texture: item.avatar
+    }))
+  })
   if (progress < 100)
     return (
       <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,display:'flex',justifyContent:'center',alignItems:'center',color:'white'}}>
