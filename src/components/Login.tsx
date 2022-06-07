@@ -34,7 +34,7 @@ function GuestLogin(props: {username: [string,React.ChangeEventHandler<HTMLInput
     return (<div>
         <Avatar size={50} icon={asrc===""?<UserOutlined />:<img src={asrc}></img>} />
         <h1>{loginWelcome}</h1>
-        <Input placeholder={guestNamePlaceholder} value={props.username[0]} onChange={props.username[1]}/>
+        <Input maxLength={12} showCount placeholder={guestNamePlaceholder} value={props.username[0]} onChange={props.username[1]}/>
     </div>)
 }
 function Login(props:WelcomeProps){

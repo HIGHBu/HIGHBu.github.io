@@ -39,10 +39,8 @@
     border-radius: calc($button-size/2);
     height: $button-size;
     width: $button-size;
-    .anticon {
-        font-size: $icon-size;
-    }
-    @include button-common;
+    padding: 0;
+    border: 0;
 }
 
 .user-tooltip {
@@ -80,6 +78,6 @@
 
 .bgm-button {
   position: absolute;
-  left: 50px;
+  right: 50px;
   bottom: 50px;
 }

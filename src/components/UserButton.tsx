@@ -1,13 +1,13 @@
 import {
     UserOutlined
 } from '@ant-design/icons'
-import { Button, Form, FormProps, Input, message, Modal, Tooltip } from 'antd'
-import { useState } from 'react'
+import { Avatar, Button, Form, FormProps, Input, message, Modal, Tooltip } from 'antd'
+import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { apiModifyProfile, userProfile } from '../api/user'
 import { AppDispatch, RootState } from '../store/store'
 import { unsetGuest, UpdateProfile } from '../store/userSlice'
-import { changeNameAvatar, emptyNickname, emptyPassword, emptyUsername, generateTicket, nicknameLabel, nicknamePending, nicknameSubmit, nicknameSuccess, registerError, registerPassword, registerPending, registerSubmit, registerSuccess, registerTitle, registerUsername, unknownError, updateAccount } from '../text'
+import { changeNameAvatar, emptyNickname, emptyPassword, emptyUsername, generateTicket, nicknameLabel, nicknamePending, nicknameSubmit, nicknameSuccess, registerError, registerPassword, registerPending, registerSubmit, registerSuccess, registerTitle, registerUsername, regularUsername, unknownError, updateAccount } from '../text'
 function UserToolTip(){
     const profile=useSelector<RootState,userProfile>((state)=>state.userSlice.profile)
     const uid=useSelector<RootState,string>((state)=>state.userSlice.uid)
@@ -84,7 +84,13 @@ function UserToolTip(){
                         <Form.Item
                             label={registerUsername}
                             name="username"
-                            rules={[{ required: true, message: emptyUsername }]}
+                            rules={[{
+                                required: true, message: emptyUsername
+                            },{
+                                //type: 'regexp',
+                                pattern: /^[a-zA-Z0-9_]*$/,
+                                message: regularUsername
+                            }]}
                         >
                             <Input></Input>
                         </Form.Item>
@@ -131,6 +137,14 @@ function UserToolTip(){
     )
 }
 function UserButton(){
+    const avatar=useSelector<RootState,string>(state=>state.userSlice.profile.avatar)
+    const avatars=import.meta.glob('../assets/avatar/*.png')
+    const [asrc,setasrc]=useState("")
+    useEffect(()=>{
+        avatars[`../assets/avatar/${avatar}.png`]().then(res=>{
+            setasrc(res.default)
+        })
+    },[])
     return (
         <Tooltip
             placement="bottomLeft"
@@ -141,7 +155,7 @@ function UserButton(){
             overlayClassName='user-tooltip'
         >
             <button type="button" className='user-button'>
-                <UserOutlined/>
+                <Avatar size={50} icon={asrc===""?<UserOutlined />:<img src={asrc}></img>} />
             </button>
         </Tooltip>
     )
