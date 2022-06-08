@@ -1,4 +1,5 @@
 import {
+    CloseOutlined,
     UserOutlined
 } from '@ant-design/icons'
 import { Avatar, Button, Form, FormProps, Input, message, Modal, Tooltip } from 'antd'
@@ -8,12 +9,29 @@ import { apiModifyProfile, userProfile } from '../api/user'
 import { AppDispatch, RootState } from '../store/store'
 import { unsetGuest, UpdateProfile } from '../store/userSlice'
 import { changeNameAvatar, emptyNickname, emptyPassword, emptyUsername, generateTicket, nicknameLabel, nicknamePending, nicknameSubmit, nicknameSuccess, registerError, registerPassword, registerPending, registerSubmit, registerSuccess, registerTitle, registerUsername, regularUsername, unknownError, updateAccount } from '../text'
+function Ticket(){
+    const nickname=useSelector<RootState,string>(state=>state.userSlice.profile.nickname)
+    const viewnum=0
+    const likenum=0
+    return (<div>
+        <div>
+            {nickname}
+        </div>
+        <div>
+            {`观看了${viewnum}个精彩展品`}
+        </div>
+        <div>
+            {`点赞了${likenum}个趣味设计`}
+        </div>
+    </div>)
+}
 function UserToolTip(){
     const profile=useSelector<RootState,userProfile>((state)=>state.userSlice.profile)
     const uid=useSelector<RootState,string>((state)=>state.userSlice.uid)
     const isGuest=useSelector<RootState,boolean>((state)=>state.userSlice.isGuest)
     const [update,setupdate]=useState(false)
     const [nickname,setnickname]=useState(false)
+    const [ticket,setticket]=useState(false)
     const dispatch=useDispatch<AppDispatch>()
     const showUpdate=()=>{
         setupdate(true)
@@ -26,6 +44,12 @@ function UserToolTip(){
     }
     const hideNickname=()=>{
         setnickname(false)
+    }
+    const showTicket=()=>{
+        setticket(true)
+    }
+    const hideTicket=()=>{
+        setticket(false)
     }
     const handleSubmit=async({username,password}:{username:string,password:string})=>{
         const hideSubmit=message.loading(registerPending)
@@ -68,7 +92,7 @@ function UserToolTip(){
                         :
                         <a className="main-text" onClick={showNickname}>{changeNameAvatar}</a>
                     }
-                    <a className="main-text">{generateTicket}</a>
+                    <a className="main-text" onClick={showTicket}>{generateTicket}</a>
                 </div>
                 <Modal
                     visible={update}
@@ -132,6 +156,16 @@ function UserToolTip(){
                             </Button>
                         </Form.Item>
                     </Form>
+                </Modal>
+                <Modal
+                    visible={ticket}
+                    footer={null}
+                    onCancel={hideTicket}
+                    //</div>modalRender={()=>(
+                    //    <Ticket onClose={hideTicket}/>
+                    //)}
+                >
+                    <Ticket/>
                 </Modal>
         </div>
     )
