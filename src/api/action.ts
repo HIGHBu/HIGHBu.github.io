@@ -39,3 +39,14 @@ export const submitComment=async({
     })
     return true
 }
+
+export const likeExhibit=async({
+    eid
+}:{eid:string}):Promise<boolean>=>{
+    await authoredPost(pathFetchExhibits,{
+        action: 'favorite',
+        uid: (await import('../store/store')).store.getState().userSlice.uid,
+        eid
+    })
+    return true
+}

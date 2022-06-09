@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch, RootState } from "../store/store"
 import { Exhibit } from "../api/exhibit"
-import { Action, submitComment } from "../api/action"
+import { Action, likeExhibit, submitComment } from "../api/action"
 import { useEffect, useState } from "react"
 import { updateActions } from "../store/actionSlice"
 import { TextAreaProps } from "antd/lib/input"
@@ -51,7 +51,11 @@ function DesignDetail(){
     const handleCloseShowMore=()=>{
         setshowmore(false)
     }
-
+    const handleFavorite=()=>{
+        likeExhibit({
+            eid: itemId
+        })
+    }
     return (
     <div className='modal-design-detail'>
         <div className='left-col'>
@@ -95,7 +99,7 @@ function DesignDetail(){
                 <div/>
                 <Pagination total={5}/>
                 <div className="actions">
-                    <button type='button'>
+                    <button type='button' onClick={handleFavorite}>
                         <StarOutlined/>
                     </button>
                     <button type='button'>
