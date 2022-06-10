@@ -15,7 +15,7 @@ const Game=() => {
   const [mouseOver, setMouseOver] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
   const [refresh, setRefresh] = useState(false);
-  const character_select = ["basic", "band", "doughnu", "glasses", "hat", "ring"]
+  const character_select = ["basic", "band", "doughnut", "glasses", "hat", "ring"]
   const texture_select = ["doughnut", "leaves", "original", "palette", "star", "tie"]
   var gallery_select_id = 0     //TODO 后端接口
   var character_select_id = 1   //TODO 后端接口
@@ -24,7 +24,7 @@ const Game=() => {
   const src_select = "character_model/character/"+character_select[character_select_id]+"/src.glb"
   const walk_select = "character_model/character/"+character_select[character_select_id]+"/walk.glb"
   const idle_select = "character_model/character/"+character_select[character_select_id]+"/idle.glb"
-  const textuere_select = "character_model/texture/"+texture_select[texture_select_id]+".png"
+  const detail_texture_select = "character_model/texture/"+texture_select[texture_select_id]+".png"
   useEffect(() => {
       refresh && setTimeout(() => setRefresh(false))
   }, [refresh])
@@ -785,12 +785,7 @@ const Game=() => {
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
        position='relative'
-      //  exposure={0.8} 
-      //  defaultLightScale={0.8}
-      //  defaultLight="skybox.hdr"
        skybox="sky.jpg"
-      //  ambientOcclusion
-      //  logarithmicDepth
       >
         <Plane
           x={233.16} y={-190.27} z={-2872.50}
@@ -895,8 +890,6 @@ const Game=() => {
                       rotationX={m.rotationX}
                       rotationY={m.rotationY}
                       rotationZ={m.rotationZ}
-                      metalnessFactor={0}
-                      roughnessFactor={1}
                       physics={false}
                       visible={true}
                       animations={{
@@ -983,7 +976,7 @@ const Game=() => {
               setWalking(false)
             }}                      
           >
-            <Find name="body" texture={textuere_select}/>
+            <Find name="body" texture={detail_texture_select}/>
           </Model>
         </ThirdPersonCamera>
 
