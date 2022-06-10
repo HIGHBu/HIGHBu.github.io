@@ -7,7 +7,31 @@ import bg from '../assets/card-bg.png'
 import { updateExhibits } from '../store/exhibitSlice'
 import { AppDispatch } from '../store/store'
 import { setGuest, Signin, UpdateProfile } from '../store/userSlice'
-import { agreement, agreeWarning, conflictError, emptyPassword, emptyUsername, guestLogin,guestNamePlaceholder,invalidError,loginNamePlaceholder,loginPasswordPlaceholder,loginTypePrompt1,loginTypePrompt2,loginWelcome,notFoundError,pendingExhibits,pendingInit,pendingLoading,pendingProfile,pendingSignin,pendingSignUp,startVisit,unknownError,userLogin } from '../text'
+import { 
+    agreement,
+    agreeWarning,
+    conflictError,
+    emptyPassword,
+    emptyUsername,
+    guestLogin,
+    guestNamePlaceholder,
+    invalidError,
+    loginNamePlaceholder,
+    loginPasswordPlaceholder,
+    loginTypePrompt1,
+    loginTypePrompt2,
+    loginWelcome,
+    notFoundError,
+    pendingExhibits,
+    pendingInit,
+    pendingLoading,
+    pendingProfile,
+    pendingSignin,
+    pendingSignUp,
+    startVisit,
+    unknownError,
+    userLogin 
+} from '../text'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>
@@ -124,12 +148,6 @@ function Login(props:WelcomeProps){
         const hideExhibits=message.loading(pendingExhibits,0)
         await dispatch(updateExhibits())
         hideExhibits()
-        const hideLoading=message.loading(pendingLoading,0)
-        await (new Promise<void>((resolve,reject)=>{
-            //while(props.progress<100);
-            resolve();
-        }))
-        hideLoading()
         onExit()
     }
     return (<div id='login-page'>

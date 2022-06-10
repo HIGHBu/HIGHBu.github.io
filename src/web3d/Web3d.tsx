@@ -1,6 +1,7 @@
 import {LingoEditor, Plane, Cube,  Find, Keyboard, Model, ThirdPersonCamera, types, usePreload, World, useLoop, Sprite, Camera } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
 import * as exhibit from '../api/exhibit'
+import loading from '../assets/loading.png'
 
 var pos_tex: { texture: string; }[];
 
@@ -1004,7 +1005,7 @@ const Game=() => {
   )
 }
 
-const App = () => {
+const App = (props:{progress:number}) => {
   useEffect(()=>{
     exhibit.fetchExhibits().then(res=>{
       pos_tex=res.map(item=>({
@@ -1012,6 +1013,9 @@ const App = () => {
       }))
     })
   },[])
+  if(props.progress<100)
+    return (<img height={"100%"} width={"100%"} src={loading}></img>)
+  else
   return (
     <Game />
   )

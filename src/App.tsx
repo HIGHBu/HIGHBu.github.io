@@ -34,9 +34,48 @@ function App() {
   const modal=designDetailVisible && <DesignDetail/> || 
     favorVisible && <Favor/> ||
     skinVisible && <Skin/>;
+
+    const progress = usePreload(
+      [
+        "gallery_model/test4.glb",
+        "character_model/texture/doughnut.png",
+        "character_model/texture/leaves.png", 
+        "character_model/texture/original.png",
+        "character_model/texture/palette.png",
+        "character_model/texture/star.png",
+        "character_model/texture/tie.png",
+        "character_model/character/basic/src.glb",
+        "character_model/character/basic/walk.glb",
+        "character_model/character/basic/idle.glb",
+        "character_model/character/band/src.glb",
+        "character_model/character/band/walk.glb",
+        "character_model/character/band/idle.glb",
+        "character_model/character/doughnu/src.glb",
+        "character_model/character/doughnu/walk.glb",
+        "character_model/character/doughnu/idle.glb",
+        "character_model/character/glasses/src.glb",
+        "character_model/character/glasses/walk.glb",
+        "character_model/character/glasses/idle.glb",
+        "character_model/character/hat/src.glb",
+        "character_model/character/hat/walk.glb",
+        "character_model/character/hat/idle.glb",
+        "character_model/character/ring/src.glb",
+        "character_model/character/ring/walk.glb",
+        "character_model/character/ring/idle.glb",
+        "character_model/browse/browse.glb",
+        "character_model/browse/src.glb",
+        "character_model/camera/src.glb",
+        "character_model/camera/camera.glb",
+        "character_model/record/src.glb",
+        "character_model/record/record.glb",
+        "sky.jpg",
+      ],
+      "63.2mb"
+    )
+  
   const mainStage=(
     <div>
-      <Web3d/>
+      <Web3d progress={progress}/>
       <MenuButton/>
       <div className='top-button-group'>
         <UserButton/>
@@ -47,46 +86,7 @@ function App() {
       {modal}
       <Button type='link' size="large" className="bgm-button" icon={<img height={50} width={50} src={sound?AudioOn:AudioOff}/>} onClick={handleBgm}></Button>    </div>
   )
-
-  const progress = usePreload(
-    [
-      "gallery_model/test4.glb",
-      "character_model/texture/doughnut.png",
-      "character_model/texture/leaves.png", 
-      "character_model/texture/original.png",
-      "character_model/texture/palette.png",
-      "character_model/texture/star.png",
-      "character_model/texture/tie.png",
-      "character_model/character/basic/src.glb",
-      "character_model/character/basic/walk.glb",
-      "character_model/character/basic/idle.glb",
-      "character_model/character/band/src.glb",
-      "character_model/character/band/walk.glb",
-      "character_model/character/band/idle.glb",
-      "character_model/character/doughnu/src.glb",
-      "character_model/character/doughnu/walk.glb",
-      "character_model/character/doughnu/idle.glb",
-      "character_model/character/glasses/src.glb",
-      "character_model/character/glasses/walk.glb",
-      "character_model/character/glasses/idle.glb",
-      "character_model/character/hat/src.glb",
-      "character_model/character/hat/walk.glb",
-      "character_model/character/hat/idle.glb",
-      "character_model/character/ring/src.glb",
-      "character_model/character/ring/walk.glb",
-      "character_model/character/ring/idle.glb",
-      "character_model/browse/browse.glb",
-      "character_model/browse/src.glb",
-      "character_model/camera/src.glb",
-      "character_model/camera/camera.glb",
-      "character_model/record/src.glb",
-      "character_model/record/record.glb",
-      "sky.jpg",
-    ],
-    "63.2mb"
-  )
-
-  const welcomeStage=<Welcome progress={progress} onExit={()=>setcovered(false)}/>
+  const welcomeStage=<Welcome onExit={()=>setcovered(false)}/>
   return covered?welcomeStage:mainStage
 }
 
