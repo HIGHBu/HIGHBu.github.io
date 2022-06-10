@@ -31,12 +31,8 @@ h2 {
 //for debug...
 body {
   margin: 0;
-  background: linear-gradient(
-    to right,
-    gray,
-    lightgray,
-    gray
-  );
+  background-image: url('../assets/welcome-bg.png');
+  background-size: cover;
   #root {
     height: 100%;
   }

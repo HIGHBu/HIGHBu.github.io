@@ -13,7 +13,7 @@ function Ticket(){
     const nickname=useSelector<RootState,string>(state=>state.userSlice.profile.nickname)
     const viewnum=0
     const likenum=0
-    return (<div>
+    return (<div style={{display:'flex',alignItems: 'flex-end',justifyContent: 'center',flexDirection:'column',height: 300}}>
         <div>
             {nickname}
         </div>

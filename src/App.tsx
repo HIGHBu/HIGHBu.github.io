@@ -13,6 +13,8 @@ import { Button } from 'antd'
 import { SoundFilled, SoundOutlined } from '@ant-design/icons'
 import bgm from './assets/bgm.mp3'
 import Web3d from './web3d/Web3d'
+import AudioOn from './assets/musicon.png'
+import AudioOff from './assets/musicoff.png'
 function App() {
   const designDetailVisible=useSelector<RootState,boolean>(state=>state.modalSlice.disignDetail)
   const favorVisible=useSelector<RootState,boolean>(state=>state.modalSlice.favor)
@@ -42,7 +44,7 @@ function App() {
       </div>
       <audio src={bgm} ref={audioRef} autoPlay loop></audio>
       {modal}
-      <Button type='link' size="large" className="bgm-button" icon={sound?<SoundFilled/>:<SoundOutlined/>} onClick={handleBgm}></Button>    </div>
+      <Button type='link' size="large" className="bgm-button" icon={<img height={50} width={50} src={sound?AudioOn:AudioOff}/>} onClick={handleBgm}></Button>    </div>
   )
   const welcomeStage=<Welcome onExit={()=>setcovered(false)}/>
   return covered?welcomeStage:mainStage
