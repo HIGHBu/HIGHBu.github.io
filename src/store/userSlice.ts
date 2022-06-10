@@ -15,6 +15,7 @@ const userSlice = createSlice({
     token: '',
     uid: '',
     isGuest: false,
+    favor: [] as string[],
     profile: {
       avatar:   "",
       clothes:  [],
