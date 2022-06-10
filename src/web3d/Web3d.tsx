@@ -959,55 +959,13 @@ const Game=() => {
 }
 
 const App = () => {
-  const progress = usePreload(
-    [
-      "gallery_model/test4.glb",
-      "character_model/texture/doughnut.png",
-      "character_model/texture/leaves.png", 
-      "character_model/texture/original.png",
-      "character_model/texture/palette.png",
-      "character_model/texture/star.png",
-      "character_model/texture/tie.png",
-      "character_model/character/basic/src.glb",
-      "character_model/character/basic/walk.glb",
-      "character_model/character/basic/idle.glb",
-      "character_model/character/band/src.glb",
-      "character_model/character/band/walk.glb",
-      "character_model/character/band/idle.glb",
-      "character_model/character/doughnu/src.glb",
-      "character_model/character/doughnu/walk.glb",
-      "character_model/character/doughnu/idle.glb",
-      "character_model/character/glasses/src.glb",
-      "character_model/character/glasses/walk.glb",
-      "character_model/character/glasses/idle.glb",
-      "character_model/character/hat/src.glb",
-      "character_model/character/hat/walk.glb",
-      "character_model/character/hat/idle.glb",
-      "character_model/character/ring/src.glb",
-      "character_model/character/ring/walk.glb",
-      "character_model/character/ring/idle.glb",
-      "character_model/browse/browse.glb",
-      "character_model/browse/src.glb",
-      "character_model/camera/src.glb",
-      "character_model/camera/camera.glb",
-      "character_model/record/src.glb",
-      "character_model/record/record.glb",
-      "sky.jpg",
-    ],
-    "63.2mb"
-  )
-  exhibit.fetchExhibits().then(res=>{
-    pos_tex=res.map(item=>({
-      texture: item.avatar
-    }))
-  })
-  if (progress < 100)
-    return (
-      <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,display:'flex',justifyContent:'center',alignItems:'center',color:'white'}}>
-        loading {Math.floor(progress)}%
-      </div>
-    )
-  
+  useEffect(()=>{
+    exhibit.fetchExhibits().then(res=>{
+      pos_tex=res.map(item=>({
+        texture: item.avatar
+      }))
+    })
+  },[])
   return (
     <Game />
   )

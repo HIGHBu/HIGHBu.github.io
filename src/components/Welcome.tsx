@@ -3,12 +3,13 @@ import ball from '../assets/ball.png'
 import Login from '../components/Login'
 import { welcomeText } from '../text'
 export interface WelcomeProps {
-    onExit: ()=>void
+    onExit: ()=>void,
+    progress: number
 }
 function Welcome(props:WelcomeProps){
-    const {onExit}=props
+    const {onExit,progress}=props
     const [isLoginPage,setisLoginPage]=useState(false)
-    return isLoginPage?(<Login onExit={onExit}/>):(<div id='welcome-page'>
+    return isLoginPage?(<Login onExit={onExit} progress={progress}/>):(<div id='welcome-page'>
         <img src={ball}/>
         <h1 id='welcome-text' onClick={()=>{setisLoginPage(true)}}>{welcomeText}</h1>
     </div>)
