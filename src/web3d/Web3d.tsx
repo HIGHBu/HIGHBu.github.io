@@ -1,4 +1,4 @@
-import {LingoEditor, Plane, Cube,  Find, Keyboard, Model, ThirdPersonCamera, types, usePreload, World, useLoop, Sprite } from 'lingo3d-react'
+import {LingoEditor, Plane, Cube,  Find, Keyboard, Model, ThirdPersonCamera, types, usePreload, World, useLoop, Sprite, Camera } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
 import * as exhibit from '../api/exhibit'
 
@@ -8,7 +8,7 @@ const Game=() => {
   const characterRef = useRef<types.Model>(null)
   const cameraRef = useRef<types.ThirdPersonCamera>(null)
   const FocusRef = useRef<types.ThirdPersonCamera>(null)
-  const walking_speed = 30
+  const walking_speed = 20
   const [walking, setWalking] = useState(false)
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
   const [mouseOver, setMouseOver] = useState(false)
@@ -751,6 +751,26 @@ const Game=() => {
 
   ]
 
+  const back_boards = [
+    {id: 1,x: 162.57,z: -419.37},
+    {id: 2,x: 297.44,z: -338.79},
+    {id: 3,x: 394.80,z: -216.22},
+    {id: 4,x: 445.28,z: -68.18},
+    {id: 5,x: 441.93,z: 88.52},
+    {id: 6,x: 385.11,z: 234.35},
+    {id: 7,x: 283.71,z: 350.20},
+    {id: 8,x: 143.10,z: 427.25},
+    {id: 9,x: -10.24,z: 450.59},
+    {id: 10,x: -165.22,z: 419.13},
+    {id: 11,x: -295.54,z: 339.92},
+    {id: 12,x: -394.72,z: 217.43},
+    {id: 13,x: -445.33,z: 68.04},
+    {id: 14,x: -442.09,z: -88.37},
+    {id: 15,x: -385.58,z: -233.24},
+    {id: 16,x: -277.96,z: -347.01},
+    {id: 17,x: -144.60,z: -426.43}
+  ]
+
   const camX = 0
   const camY = 50
   const camZ = 400
@@ -794,16 +814,20 @@ const Game=() => {
             //到上一个场馆
           }}
         />
+
         <Cube id="intersect_cube" scale={0.5} x={position.x} y={position.y} z={position.z} visible={false}/>
-        <Model name="gallery_model" id="gallery_model" src="gallery_model/test4.glb" scale={gallery_scale} physics="map" environmentFactor={10}
+        <Model name="gallery_model" id="gallery_model" src="gallery_model/test4.glb" scale={gallery_scale} physics="map"
         >
           <Find name="gallery" 
             onClick={(ev)=>{
-              ev.point.y = -234.02
-              setPosition(ev.point)
-              setWalking(true)
-              let model=characterRef.current
-              model?.lookAt(ev.point)
+              console.log(ev.distance)
+              if(ev.distance>=600){
+                ev.point.y = -234.02
+                setPosition(ev.point)
+                setWalking(true)
+                let model=characterRef.current
+                model?.lookAt(ev.point)  
+              }
             }}
           />
           <Find name="portal"
@@ -814,6 +838,23 @@ const Game=() => {
             }}
           />
           {
+            back_boards.map((board,index)=>
+              <Sprite
+                key={board.id}
+                name={board.id.toString()}
+                x={board.x}
+                y={-33.04}
+                z={board.z}
+                width={1.5} height={1.5}
+                visible={focus == index+1}
+                texture="plane/back.png"
+                onClick={()=>{
+                  setFocus(-1)
+                }}
+              />
+            )
+          }
+          {
             poster.map((post,index)=>
             <div key={post.id}>
               <Find 
@@ -823,70 +864,74 @@ const Game=() => {
                   setFocus(index+1)
                 }}
               />
-              {
-                (post.position)?.map((m,index)=>{
-                  if (index<post.number){
-                    return (
-                      <div key={m.id}>
-                      <Model
-                        name={m.id}
-                        id={m.id}
-                        frustumCulled={false}
-                        src={m.src}
-                        width={m.width}
-                        height={m.height}
-                        depth={m.depth}
-                        x={m.x/gallery_scale}
-                        y={m.y/gallery_scale}
-                        z={m.z/gallery_scale}
-                        scale={m.scale/gallery_scale}
-                        innerX={m.innerX}
-                        innerY={m.innerY}
-                        innerZ={m.innerZ}
-                        rotationX={m.rotationX}
-                        rotationY={m.rotationY}
-                        rotationZ={m.rotationZ}
-                        environmentFactor={1}
-                        metalnessFactor={0}
-                        roughnessFactor={1}
-                        physics="map"
-                        visible={true}
-                        animations={{
-                          anim: m.anim_anim_src
-                        }}
-                        animation="anim"
-                        >
-                          {(m.img != "" && 
-                            ((
-                              m.src == "character_model/camera/src.glb" &&
-                              <Sprite id={m.id} texture={m.img} width={54.6/m.scale} height={38.1/m.scale} y={865.69} />
-                            ) || 
-                            (
-                              m.src == "character_model/record/src.glb" &&
-                              <Sprite id={m.id} texture={m.img} width={54.6/m.scale} height={38.1/m.scale} y={185.69}/>
-                            ) || 
-                            (
-                              m.src == "character_model/browse/src.glb" &&
-                              <Sprite id={m.id} texture={m.img} width={54.6/m.scale} height={38.1/m.scale} y={376.43}/>
-                            ))
-                          )}
-                      </Model>
-                      </div>
-                    )                  
-                  }
-                }
-                )
-              }
             </div>
             )
           }
         </Model>
-        <ThirdPersonCamera 
+        {
+          poster.map((post)=>
+          <div key={post.id}>
+            {
+              (post.position)?.map((m,index)=>{
+                if (index<post.number){
+                  return (
+                  <div key={m.id}>
+                    <Model
+                      name={m.id}
+                      id={m.id}
+                      frustumCulled={false}
+                      src={m.src}
+                      width={m.width}
+                      height={m.height}
+                      depth={m.depth}
+                      x={m.x}
+                      y={m.y}
+                      z={m.z}
+                      scale={m.scale}
+                      innerX={m.innerX}
+                      innerY={m.innerY}
+                      innerZ={m.innerZ}
+                      rotationX={m.rotationX}
+                      rotationY={m.rotationY}
+                      rotationZ={m.rotationZ}
+                      metalnessFactor={0}
+                      roughnessFactor={1}
+                      physics={false}
+                      visible={true}
+                      animations={{
+                        anim: m.anim_anim_src
+                      }}
+                      animation="anim"
+                    >
+                      {(m.img != "" && 
+                        ((
+                          m.src == "character_model/camera/src.glb" &&
+                          <Sprite id={m.id} texture={m.img} width={27.3/m.scale} height={19.05/m.scale} y={792.29} />
+                        ) || 
+                        (
+                          m.src == "character_model/record/src.glb" &&
+                          <Sprite id={m.id} texture={m.img} width={27.3/m.scale} height={19.05/m.scale} y={166.16}/>
+                        ) || 
+                        (
+                          m.src == "character_model/browse/src.glb" &&
+                          <Sprite id={m.id} texture={m.img} width={27.3/m.scale} height={19.05/m.scale} y={270.59}/>
+                        ))
+                      )}
+                    </Model>
+                  </div>
+                  )                  
+                }
+              }
+              )
+            }
+            </div>
+            )
+          }
+        <Camera 
           name="FocusCamera"
           ref={FocusRef}
-          active={focus != -1 ? true : false}
+          active={focus != -1 ? "transition" : false}
           mouseControl={false}
-          lockTargetRotation={false}
           x={focus != -1 ? camera_target[focus].x : cameraRef.current?.x}
           y={focus != -1 ? camera_target[focus].y : cameraRef.current?.y}
           z={focus != -1 ? camera_target[focus].z : cameraRef.current?.z}
@@ -902,7 +947,8 @@ const Game=() => {
         />
         <ThirdPersonCamera
           name="CharacterCamera"
-          mouseControl="drag" mouseControlMode="orbit" active={focus == -1 ? true : false}
+          mouseControl="drag" mouseControlMode="orbit" 
+          active={focus == -1 ? true : false}
           lockTargetRotation={false}
           innerX={camX} innerY={camY} innerZ={camZ}
           zoom={1.0} fov={45} 
