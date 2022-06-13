@@ -6,7 +6,7 @@ import { apiModifyProfile, apiSignup, resSignin } from '../api/user'
 import bg from '../assets/card-bg.png'
 import { updateExhibits } from '../store/exhibitSlice'
 import { AppDispatch } from '../store/store'
-import { setGuest, Signin, UpdateProfile } from '../store/userSlice'
+import { setGuest, Signin, UpdateFavorite, UpdateProfile } from '../store/userSlice'
 import { 
     agreement,
     agreeWarning,
@@ -23,6 +23,7 @@ import {
     loginWelcome,
     notFoundError,
     pendingExhibits,
+    pendingFavor,
     pendingInit,
     pendingLoading,
     pendingProfile,
@@ -148,6 +149,9 @@ function Login(props:WelcomeProps){
         const hideExhibits=message.loading(pendingExhibits,0)
         await dispatch(updateExhibits())
         hideExhibits()
+        const hideFavor=message.loading(pendingFavor,0)
+        await dispatch(UpdateFavorite((result as resSignin).id))
+        hideFavor()
         onExit()
     }
     return (<div id='login-page'>

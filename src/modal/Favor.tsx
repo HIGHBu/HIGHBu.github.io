@@ -1,13 +1,13 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Progress } from 'antd';
-import { useDispatch } from 'react-redux';
+import { useDispatch,useSelector } from 'react-redux';
 import demoPic from '../assets/APP.png'
-import { AppDispatch } from '../store/store';
+import { AppDispatch, RootState } from '../store/store';
 import { hideFavor } from '../store/modalSlice';
 import { designerIs, favorTitle, saveSkin, unlockCondition } from '../text';
 
 interface FavorItemProp {
-    prefix:string;
+    eid:string;
 }
 
 function FavorItem(props: FavorItemProp){
@@ -24,6 +24,7 @@ function FavorItem(props: FavorItemProp){
 
 function Favor(){
     const dispatch=useDispatch<AppDispatch>()
+    const favor_list=useSelector<RootState,string[]>(state=>state.userSlice.favor)
     const handleClose=()=>dispatch(hideFavor())
     return (
         <div className='skin-favor-modal'>
@@ -34,14 +35,9 @@ function Favor(){
                     <CloseOutlined onClick={handleClose}/>
                 </div>
                 <div className='favor-panel-body'>
-                    <FavorItem prefix='a'/>
-                    <FavorItem prefix='b'/>
-                    <FavorItem prefix='a'/>
-                    <FavorItem prefix='b'/>
-                    <FavorItem prefix='a'/>
-                    <FavorItem prefix='b'/>
-                    <FavorItem prefix='a'/>
-                    <FavorItem prefix='b'/>
+                    {favor_list.map((item,index)=>(
+                        <FavorItem key={"favor"+index} eid={item}/>
+                    ))}
                 </div>
             </div>
         </div>

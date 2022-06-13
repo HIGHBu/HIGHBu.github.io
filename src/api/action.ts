@@ -20,7 +20,13 @@ export const fetchCommentsByEid=async(eid: string):Promise<Action[]>=>{
     else
         return []
 }
-
+export const fetchFavorite=async(uid: string):Promise<string[]>=>{
+    const res=await authoredGet(pathFetchExhibits+uid+'?action=farvorite')
+    if(res.favorited instanceof Array<string>)
+        return res.favorited
+    else
+        return []
+}
 export interface actionSubmission {
     eid: string,
     comment_text: string
