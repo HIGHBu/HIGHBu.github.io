@@ -8,7 +8,7 @@ var pos_tex: { texture: string; }[];
 const Game=() => {
   const characterRef = useRef<types.Model>(null)
   const cameraRef = useRef<types.ThirdPersonCamera>(null)
-  const FocusRef = useRef<types.ThirdPersonCamera>(null)
+  const FocusRef = useRef<types.Camera>(null)
   const walking_speed = 20
   const [walking, setWalking] = useState(false)
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
@@ -858,6 +858,7 @@ const Game=() => {
                 texture={pos_tex[index]?.texture}
                 onClick={()=>{
                   setFocus(index+1)
+                  setWalking(false)
                 }}
               />
             </div>
