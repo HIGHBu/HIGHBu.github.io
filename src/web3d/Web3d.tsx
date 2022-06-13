@@ -999,14 +999,16 @@ const Game=() => {
 }
 
 const App = (props:{progress:number}) => {
+  const [done,setdone]=useState(false)
   useEffect(()=>{
     exhibit.fetchExhibits().then(res=>{
       pos_tex=res.map(item=>({
         texture: item.avatar
       }))
+      setdone(true)
     })
   },[])
-  if(props.progress<100)
+  if(props.progress<100 || !done)
     return (<img height={"100%"} width={"100%"} src={loading}></img>)
   else
   return (
