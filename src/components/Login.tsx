@@ -32,7 +32,7 @@ import {
     startVisit,
     unknownError,
     userLogin 
-} from '../text'
+} from '../glob'
 import { WelcomeProps } from './Welcome'
 function Prompt(){
     return (<div>

@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import demoPic from '../assets/APP.png'
 import { AppDispatch, RootState, store } from '../store/store';
 import { hideSkin } from '../store/modalSlice';
-import { progressComplete, progressNotComplete, saveSkin, skinPending, skinSuccess, skinTitle, unknownError, unlockCondition } from '../text';
+import { progressComplete, progressNotComplete, saveSkin, SkinList, skinPending, skinSuccess, skinTitle, unknownError, unlockCondition } from '../glob';
 import { useEffect, useState } from 'react';
 import { setClothes } from '../store/userSlice';
 import { apiModifyProfile } from '../api/user';
@@ -14,51 +14,6 @@ interface SkinItemProp {
     prefix: 'head'|'cloth'
 }
 
-const SkinList={
-    cloth: [{
-        path: import('../assets/skin/cloth/doughnut.png'),
-        name: '梦想甜甜圈',
-        desc: '进入展馆'
-    },{
-        path: import('../assets/skin/cloth/leaves.png'),
-        name: '火红枫叶',
-        desc: '浏览7件展品'
-    },{
-        path: import('../assets/skin/cloth/palette.png'),
-        name: '小画家',
-        desc: '分享3件展品'
-    },{
-        path: import('../assets/skin/cloth/star.png'),
-        name: '星星斗篷',
-        desc: '观展时长达到10min'
-    },{
-        path: import('../assets/skin/cloth/tie.png'),
-        name: '毕业礼',
-        desc: '评论3件展品'
-    }],
-    head: [{
-        name: '甜心圈',
-        path: import('../assets/skin/head/doughnut.png'),
-        desc: '进入展馆'
-    },{
-        name: '美梦睡帽',
-        path: import('../assets/skin/head/hat.png'),
-        desc: '观展时长达到3min'
-    },{
-        name: '小天使',
-        path: import('../assets/skin/head/ring.png'),
-        desc: '浏览5件展品'
-    },{
-        name: '时尚发带',
-        path: import('../assets/skin/head/band.png'),
-        desc: '分享1件展品'
-    },{
-        name: '好奇眼睛',
-        path: import('../assets/skin/head/glasses.png'),
-        desc: '评论1件展品'
-    }
-    ]
-}
 
 function SkinItem(props: SkinItemProp){
     const {selectedpair,prefix}=props
@@ -77,7 +32,7 @@ function SkinItem(props: SkinItemProp){
         settitle(SkinList[prefix][selected].name)
         setcondition(SkinList[prefix][selected].desc)
         settitle(SkinList[prefix][selected].name)
-        SkinList[prefix][selected].path.then(res=>{
+        import(`../assets/skin/${prefix}/${SkinList[prefix][selected].id}.png`).then(res=>{
             setthumb(res.default)
         })
     },[selected])

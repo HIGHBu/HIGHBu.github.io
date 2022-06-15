@@ -1,5 +1,5 @@
 import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarOutlined } from "@ant-design/icons"
-import { commentPlaceholder, noComment, showMoreComment } from "../text"
+import { commentPlaceholder, noComment, showMoreComment } from "../glob"
 import { Input, Pagination, Tooltip } from "antd"
 import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"

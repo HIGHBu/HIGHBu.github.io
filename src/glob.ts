@@ -52,3 +52,58 @@ export const pendingLoading='正在前往虚拟展厅'
 export const pendingFavor='正在获取收藏夹信息'
 export const skinPending='正在提交修改'
 export const skinSuccess='修改成功'
+
+
+export const SkinList={
+    cloth: [{
+        id: 'original',
+        name: '求是蓝',
+        desc: '进入展馆'
+    },{
+        id: 'doughnut',
+        name: '梦想甜甜圈',
+        desc: '进入展馆'
+    },{
+        id: 'leaves',
+        name: '火红枫叶',
+        desc: '浏览7件展品'
+    },{
+        id: 'palette',
+        name: '小画家',
+        desc: '分享3件展品'
+    },{
+        id: 'star',
+        name: '星星斗篷',
+        desc: '观展时长达到10min'
+    },{
+        id: 'tie',
+        name: '毕业礼',
+        desc: '评论3件展品'
+    }],
+    head: [{
+        name: '求是蓝',
+        id: 'basic',
+        desc: '进入展馆'
+    },{
+        name: '甜心圈',
+        id: 'doughnut',
+        desc: '进入展馆'
+    },{
+        name: '美梦睡帽',
+        id: 'hat',
+        desc: '观展时长达到3min'
+    },{
+        name: '小天使',
+        id: 'ring',
+        desc: '浏览5件展品'
+    },{
+        name: '时尚发带',
+        id: 'band',
+        desc: '分享1件展品'
+    },{
+        name: '好奇眼睛',
+        id: 'glasses',
+        desc: '评论1件展品'
+    }
+    ]
+}

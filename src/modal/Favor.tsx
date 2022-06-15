@@ -4,7 +4,7 @@ import { useDispatch,useSelector } from 'react-redux';
 import demoPic from '../assets/APP.png'
 import { AppDispatch, RootState } from '../store/store';
 import { hideFavor } from '../store/modalSlice';
-import { designerIs, favorTitle, saveSkin, unlockCondition } from '../text';
+import { designerIs, favorTitle, saveSkin, unlockCondition } from '../glob';
 
 interface FavorItemProp {
     eid:string;

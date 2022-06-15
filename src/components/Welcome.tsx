@@ -1,7 +1,7 @@
 import { MouseEventHandler, useState } from 'react'
 import ball from '../assets/ball.png'
 import Login from '../components/Login'
-import { welcomeText } from '../text'
+import { welcomeText } from '../glob'
 export interface WelcomeProps {
     onExit: ()=>void
 }

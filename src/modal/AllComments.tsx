@@ -1,7 +1,7 @@
 import { CloseOutlined, DislikeOutlined, LikeOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { Action } from "../api/action";
-import { allComments } from "../text";
+import { allComments } from "../glob";
 function Comment(props: {item: Action}){
     const {item}=props
     return (<div className='comment-item'>

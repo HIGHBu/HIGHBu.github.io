@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { apiModifyProfile, userProfile } from '../api/user'
 import { AppDispatch, RootState } from '../store/store'
 import { unsetGuest, UpdateProfile } from '../store/userSlice'
-import { changeNameAvatar, emptyNickname, emptyPassword, emptyUsername, generateTicket, nicknameLabel, nicknamePending, nicknameSubmit, nicknameSuccess, registerError, registerPassword, registerPending, registerSubmit, registerSuccess, registerTitle, registerUsername, regularUsername, unknownError, updateAccount } from '../text'
+import { changeNameAvatar, emptyNickname, emptyPassword, emptyUsername, generateTicket, nicknameLabel, nicknamePending, nicknameSubmit, nicknameSuccess, registerError, registerPassword, registerPending, registerSubmit, registerSuccess, registerTitle, registerUsername, regularUsername, unknownError, updateAccount } from '../glob'
 function Ticket(){
     const nickname=useSelector<RootState,string>(state=>state.userSlice.profile.nickname)
     const viewnum=0

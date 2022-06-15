@@ -1,7 +1,10 @@
 import {LingoEditor, Plane, Cube,  Find, Keyboard, Model, ThirdPersonCamera, types, usePreload, World, useLoop, Sprite, Camera } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
+import { useSelector } from 'react-redux';
 import * as exhibit from '../api/exhibit'
 import loading from '../assets/loading.png'
+import { SkinList } from '../glob';
+import { RootState, store } from '../store/store';
 
 var pos_tex: { texture: string; }[];
 
@@ -14,23 +17,28 @@ const Game=() => {
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
   const [mouseOver, setMouseOver] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
-  const [refresh, setRefresh] = useState(false);
-  const character_select = ["basic", "band", "doughnut", "glasses", "hat", "ring"]
-  const texture_select = ["doughnut", "leaves", "original", "palette", "star", "tie"]
+  //const [refresh, setRefresh] = useState(false);
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
   // var gallery_select_id = 0   
-  var character_select_id = 1   //TODO 后端接口
-  var texture_select_id = 0     //TODO 后端接口
+  const [head_id,cloth_id] = useSelector<RootState,number[]>(state=>state.userSlice.profile.clothes)
+  const [src_select,setsrc] = useState("character_model/character/basic/src.glb")
+  const [walk_select,setwalk] = useState("character_model/character/basic/walk.glb")
+  const [idle_select,setidle] = useState("character_model/character/basic/idle.glb")
+  const [detail_texture_select,settexture] = useState("character_model/texture/original.png")
   const gallery_scale = 6.40
-  const src_select = "character_model/character/"+character_select[character_select_id]+"/src.glb"
-  const walk_select = "character_model/character/"+character_select[character_select_id]+"/walk.glb"
-  const idle_select = "character_model/character/"+character_select[character_select_id]+"/idle.glb"
-  const detail_texture_select = "character_model/texture/"+texture_select[texture_select_id]+".png"
+  useEffect(()=>{
+    setsrc("character_model/character/"+SkinList.head[head_id].id+"/src.glb");
+    setwalk("character_model/character/"+SkinList.head[head_id].id+"/walk.glb");
+    setidle("character_model/character/"+SkinList.head[head_id].id+"/idle.glb");
+    settexture("character_model/texture/"+SkinList.cloth[cloth_id].id+".png");
+    console.log('skin')
+    console.log(head_id,cloth_id)
+  },[head_id,cloth_id])
   // const gallery_select = "plane/" + gallery_select_id == 1 ? "reality.png":"communication.png"
-  useEffect(() => {
+/*   useEffect(() => {
       refresh && setTimeout(() => setRefresh(false))
   }, [refresh])
-  const doRefresh = () => setRefresh(true)
+  const doRefresh = () => setRefresh(true) */
   //后端修改该数组，获得17个texture和要出现的人物模型的数量
   const poster = [
     {id: "1", name: "Board-1", number:2,position:[
