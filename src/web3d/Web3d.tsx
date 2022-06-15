@@ -19,16 +19,16 @@ const Game=() => {
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
   const [head_id,cloth_id] = useSelector<RootState,number[]>(state=>state.userSlice.profile.clothes)
-  const [src_select,setsrc] = useState("character_model/character/basic/src.glb")
-  const [walk_select,setwalk] = useState("character_model/character/basic/walk.glb")
-  const [idle_select,setidle] = useState("character_model/character/basic/idle.glb")  
-  const [detail_texture_select,settexture] = useState("character_model/texture/original.png")
+  const [src_select,setSrc] = useState("character_model/character/basic/src.glb")
+  const [walk_select,setWalk] = useState("character_model/character/basic/walk.glb")
+  const [idle_select,setIdle] = useState("character_model/character/basic/idle.glb")  
+  const [detail_texture_select,setTexture] = useState("character_model/texture/original.png")
   const gallery_scale = 6.40
   useEffect(()=>{
-    setsrc("character_model/character/"+SkinList.head[head_id].id+"/src.glb");
-    setwalk("character_model/character/"+SkinList.head[head_id].id+"/walk.glb");
-    setidle("character_model/character/"+SkinList.head[head_id].id+"/idle.glb");
-    settexture("character_model/texture/"+SkinList.cloth[cloth_id].id+".png");
+    setSrc("character_model/character/"+SkinList.head[head_id].id+"/src.glb");
+    setWalk("character_model/character/"+SkinList.head[head_id].id+"/walk.glb");
+    setIdle("character_model/character/"+SkinList.head[head_id].id+"/idle.glb");
+    setTexture("character_model/texture/"+SkinList.cloth[cloth_id].id+".png");
   },[head_id,cloth_id])
 
   const poster = [
@@ -695,13 +695,13 @@ const Game=() => {
 }
 
 const App = (props:{progress:number}) => {
-  const [done,setdone]=useState(false)
+  const [done,setDone]=useState(false)
   useEffect(()=>{
     exhibit.fetchExhibits().then(res=>{
       pos_tex=res.map(item=>({
         texture: item.avatar
       }))
-      setdone(true)
+      setDone(true)
     })
   },[])
   if(props.progress<100 || !done)
