@@ -68,6 +68,8 @@ function App() {
         "character_model/camera/camera.glb",
         "character_model/record/src.glb",
         "character_model/record/record.glb",
+        "plane/communication.png",
+        "plane/reality.png",
         "sky.jpg",
       ],
       "63.2mb"

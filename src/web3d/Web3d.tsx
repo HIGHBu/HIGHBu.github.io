@@ -17,7 +17,8 @@ const Game=() => {
   const [refresh, setRefresh] = useState(false);
   const character_select = ["basic", "band", "doughnut", "glasses", "hat", "ring"]
   const texture_select = ["doughnut", "leaves", "original", "palette", "star", "tie"]
-  var gallery_select_id = 0     //TODO 后端接口
+  const [gallery_select_id, setGallery_Select_Id] = useState(0)  
+  // var gallery_select_id = 0   
   var character_select_id = 1   //TODO 后端接口
   var texture_select_id = 0     //TODO 后端接口
   const gallery_scale = 6.40
@@ -25,6 +26,7 @@ const Game=() => {
   const walk_select = "character_model/character/"+character_select[character_select_id]+"/walk.glb"
   const idle_select = "character_model/character/"+character_select[character_select_id]+"/idle.glb"
   const detail_texture_select = "character_model/texture/"+texture_select[texture_select_id]+".png"
+  // const gallery_select = "plane/" + gallery_select_id == 1 ? "reality.png":"communication.png"
   useEffect(() => {
       refresh && setTimeout(() => setRefresh(false))
   }, [refresh])
@@ -779,8 +781,11 @@ const Game=() => {
   useLoop(()=>{
     let model = characterRef.current
     model?.moveForward(-1*walking_speed)
-    console.log(FocusRef.current?.x,FocusRef.current?.y,FocusRef.current?.z)
+    // console.log(FocusRef.current?.x,FocusRef.current?.y,FocusRef.current?.z)
   },walking)
+  // useLoop(()=>{
+  //   console.log("gallery select:",gallery_select)
+  // })
   return (
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
@@ -788,26 +793,13 @@ const Game=() => {
        skybox="sky.jpg"
       >
         <Plane
-          x={233.16} y={-190.27} z={-2872.50}
+          x={201.63} y={-199.47} z={-2872.50}
           width={54} height={18}
           visible={focus == 0 && mouseOver}
-          texture="plane/38.png"
+          texture={gallery_select_id==1?"plane/communication.png":"plane/reality.png"}
           onClick={()=>{
-            //到下一个场馆
-            doRefresh()
-          }}
-        />
-        <Plane
-          x={172.63}
-          y={-190.27}
-          z={-2872.50}
-          width={54}
-          height={18}
-          visible={focus == 0 && mouseOver}
-          texture="plane/39.png"
-          onClick={()=>{
-            doRefresh()
-            //到上一个场馆
+            setGallery_Select_Id(1-gallery_select_id)
+            setFocus(-1)
           }}
         />
 
@@ -855,7 +847,7 @@ const Game=() => {
             <div key={post.id}>
               <Find 
                 name={post.name} 
-                texture={pos_tex[index]?.texture}
+                texture={pos_tex[gallery_select_id*17+index]?.texture}
                 onClick={()=>{
                   setFocus(index+1)
                   setWalking(false)
