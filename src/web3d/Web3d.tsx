@@ -29,8 +29,6 @@ const Game=() => {
     setwalk("character_model/character/"+SkinList.head[head_id].id+"/walk.glb");
     setidle("character_model/character/"+SkinList.head[head_id].id+"/idle.glb");
     settexture("character_model/texture/"+SkinList.cloth[cloth_id].id+".png");
-    console.log('skin')
-    console.log(head_id,cloth_id)
   },[head_id,cloth_id])
 
   const poster = [
@@ -756,6 +754,7 @@ const Game=() => {
   ]
 
   const back_boards = [
+    {id: 0,x: 12.51,z: -447.03},
     {id: 1,x: 162.57,z: -419.37},
     {id: 2,x: 297.44,z: -338.79},
     {id: 3,x: 394.80,z: -216.22},
@@ -772,7 +771,7 @@ const Game=() => {
     {id: 14,x: -442.09,z: -88.37},
     {id: 15,x: -385.58,z: -233.24},
     {id: 16,x: -277.96,z: -347.01},
-    {id: 17,x: -144.60,z: -426.43}
+    {id: 17,x: -144.60,z: -426.43},
   ]
 
   const camX = 0
@@ -828,10 +827,11 @@ const Game=() => {
                 key={board.id}
                 name={board.id.toString()}
                 x={board.x}
-                y={-33.04}
+                y={focus != 0 ? -33.04 : -40.04}
                 z={board.z}
-                width={1.5} height={1.5}
-                visible={focus == index+1}
+                width={focus != 0 ? 1.5 : 0.75} 
+                height={focus != 0 ? 1.5 : 0.75}
+                visible={focus == index}
                 texture="plane/back.png"
                 onClick={()=>{
                   setFocus(-1)
