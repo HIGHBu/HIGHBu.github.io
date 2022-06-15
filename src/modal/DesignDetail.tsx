@@ -56,6 +56,8 @@ function DesignDetail(){
             eid: itemId
         })
     }
+
+    const [current,setcurrent]=useState(1)
     return (
     <div className='modal-design-detail'>
         <div className='left-col'>
@@ -68,7 +70,7 @@ function DesignDetail(){
                 {showMoreComment}
                 <DoubleRightOutlined />
             </a>
-            <img src={item?.avatar} className={(showmore?'blurred':undefined)}/>
+            <img src={'exhibits/'+item?.avatar} className={(showmore?'blurred':undefined)}/>
             <div className="comment-group">
                 <TextArea
                     placeholder={commentPlaceholder}
@@ -87,17 +89,23 @@ function DesignDetail(){
             </div>
         </div>
         <div className="right-col">
-            {/* <img src={item?.pics[0]}/> */}
-            <iframe src="//player.bilibili.com/player.html?aid=807745738&bvid=BV1J34y1z7WU&cid=471414089&page=1"
-                scrolling="no"
-                //border="0"
-                frameBorder="no"
-                //frameSpacing="0"
-                allowFullScreen={true}
-            />
+            {current<=item?.pics.length?
+                <img src={'exhibits/'+item?.pics[current-1]} style={{
+                    height: 504,
+                    width: 896
+                }}/>
+            :
+                <iframe src={"//player.bilibili.com/player.html?bvid="+item?.videos[current-item?.pics.length-1].match(/video\/([a-zA-Z0-9]*)[\?$]/)![1]}
+                    scrolling="no"
+                    //border="0"
+                    frameBorder="no"
+                    //frameSpacing="0"
+                    allowFullScreen={true}
+                />
+            }
             <div className="nav-and-action">
                 <div/>
-                <Pagination total={5}/>
+                <Pagination total={item?.pics.length+item?.videos.length} pageSize={1} current={current} onChange={page=>setcurrent(page)}/>
                 <div className="actions">
                     <button type='button' onClick={handleFavorite}>
                         <StarOutlined/>
