@@ -21,7 +21,7 @@ export const fetchCommentsByEid=async(eid: string):Promise<Action[]>=>{
         return []
 }
 export const fetchFavorite=async(uid: string):Promise<string[]>=>{
-    const res=await authoredGet(pathFetchExhibits+uid+'?action=farvorite')
+    const res=await authoredGet(pathFetchExhibits+uid+'?action=favorite')
     if(res.favorited instanceof Array<string>)
         return res.favorited
     else
