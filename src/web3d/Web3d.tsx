@@ -17,13 +17,11 @@ const Game=() => {
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
   const [mouseOver, setMouseOver] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
-  //const [refresh, setRefresh] = useState(false);
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
-  // var gallery_select_id = 0   
   const [head_id,cloth_id] = useSelector<RootState,number[]>(state=>state.userSlice.profile.clothes)
   const [src_select,setsrc] = useState("character_model/character/basic/src.glb")
   const [walk_select,setwalk] = useState("character_model/character/basic/walk.glb")
-  const [idle_select,setidle] = useState("character_model/character/basic/idle.glb")
+  const [idle_select,setidle] = useState("character_model/character/basic/idle.glb")  
   const [detail_texture_select,settexture] = useState("character_model/texture/original.png")
   const gallery_scale = 6.40
   useEffect(()=>{
@@ -34,12 +32,7 @@ const Game=() => {
     console.log('skin')
     console.log(head_id,cloth_id)
   },[head_id,cloth_id])
-  // const gallery_select = "plane/" + gallery_select_id == 1 ? "reality.png":"communication.png"
-/*   useEffect(() => {
-      refresh && setTimeout(() => setRefresh(false))
-  }, [refresh])
-  const doRefresh = () => setRefresh(true) */
-  //后端修改该数组，获得17个texture和要出现的人物模型的数量
+
   const poster = [
     {id: "1", name: "Board-1", number:2,position:[
       {
@@ -789,11 +782,8 @@ const Game=() => {
   useLoop(()=>{
     let model = characterRef.current
     model?.moveForward(-1*walking_speed)
-    // console.log(FocusRef.current?.x,FocusRef.current?.y,FocusRef.current?.z)
   },walking)
-  // useLoop(()=>{
-  //   console.log("gallery select:",gallery_select)
-  // })
+
   return (
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
@@ -816,7 +806,6 @@ const Game=() => {
         >
           <Find name="gallery" 
             onClick={(ev)=>{
-              console.log(ev.distance)
               if(ev.distance>=600){
                 ev.point.y = -234.02
                 setPosition(ev.point)
@@ -952,7 +941,8 @@ const Game=() => {
           ref={cameraRef}
         >
           <Model
-            src= {src_select}
+            key={src_select}
+            src={src_select}
             ref={characterRef}
             physics="character"
             scale={0.2}
@@ -970,6 +960,7 @@ const Game=() => {
             rotationY={84.34}
             boxVisible={false}
             innerY={-460}
+            frustumCulled={false}
             intersectIds={[
               "intersect_cube",
             ]}
