@@ -15,11 +15,7 @@ const exhibitSlice = createSlice({
       label: string,
       children: ({
         key: string,
-        label: string,
-        children: ({
-          key: string,
-          label:string
-        })[]
+        label: string
       })[]
     })[]
   },
@@ -29,7 +25,7 @@ const exhibitSlice = createSlice({
       state.items=action.payload
       console.log(action.payload)
       action.payload.forEach(item=>{
-        const [fir,sec]=item.location.split('-')
+        const fir=item.location
         let firdir=state.category.find(v=>v.key===fir)
         if(firdir===undefined){
           firdir=state.category[state.category.push({
@@ -38,15 +34,7 @@ const exhibitSlice = createSlice({
             children: []
           })-1]
         }
-        let secdir=firdir.children.find(v=>v.key===sec)
-        if(secdir===undefined){
-          secdir=firdir.children[firdir.children.push({
-            key: sec,
-            label: sec,
-            children: []
-          })-1]
-        }
-        secdir.children.push({
+        firdir.children.push({
           key: item.id,
           label: item.title
         })

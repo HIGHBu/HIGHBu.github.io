@@ -34,6 +34,9 @@ const userSlice = createSlice({
     },
     unsetGuest(state){
       state.isGuest=false;
+    },
+    setClothes(state,payload){
+      state.profile.clothes=payload.payload
     }
   },
   extraReducers: (builder)=>{
@@ -58,6 +61,7 @@ const userSlice = createSlice({
 
 export const {
   setGuest,
-  unsetGuest
+  unsetGuest,
+  setClothes
 }=userSlice.actions
 export default userSlice.reducer

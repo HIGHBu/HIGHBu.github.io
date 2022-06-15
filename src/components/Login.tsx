@@ -135,7 +135,7 @@ function Login(props:WelcomeProps){
                 password: generatedPassword,
                 nickname: username,
                 avatar: avatar.toString(),
-                clothes: []
+                clothes: [0,0]
             })
             hideInit()
             if(initResult==='unknown'){
