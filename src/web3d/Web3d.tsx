@@ -1,4 +1,4 @@
-import {LingoEditor, Plane, Cube,  Find, Keyboard, Model, ThirdPersonCamera, types, usePreload, World, useLoop, Sprite, Camera } from 'lingo3d-react'
+import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import * as exhibit from '../api/exhibit'
@@ -688,19 +688,6 @@ const Game=() => {
             <Find name="body" texture={detail_texture_select}/>
           </Model>
         </ThirdPersonCamera>
-
-        <Keyboard
-         onKeyPress={key => {
-           if (key === "Escape"){
-             if(focus != -1){
-              setFocus(-1)
-             }
-           }
-         }}
-         onKeyUp={key => {
-           
-         }}
-        />
         {/* <LingoEditor /> */}
       </World>
     </div>
