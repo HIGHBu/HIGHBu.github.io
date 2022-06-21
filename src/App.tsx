@@ -13,7 +13,7 @@ import { Button } from 'antd'
 import { SoundFilled, SoundOutlined } from '@ant-design/icons'
 import bgm from './assets/bgm.mp3'
 import Web3d from './web3d/Web3d'
-// import Fitting from './web3d/Fitting'
+import Fitting from './web3d/Fitting'
 import AudioOn from './assets/musicon.png'
 import AudioOff from './assets/musicoff.png'
 import { usePreload } from 'lingo3d-react'
@@ -72,6 +72,7 @@ function App() {
         "plane/communication.png",
         "plane/reality.png",
         "sky.jpg",
+        "background.png"
       ],
       "63.2mb"
     )
@@ -79,6 +80,7 @@ function App() {
   const mainStage=(
     <div>
       <Web3d progress={progress}/>
+      {/* <Fitting/> */}
       <MenuButton/>
       <div className='top-button-group'>
         <UserButton/>

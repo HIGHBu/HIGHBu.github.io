@@ -26,6 +26,7 @@ const Fit=() => {
     <div style={{width: '30%',height:'50%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
        position='relative'
+       skybox='background.png'
       >
         <ThirdPersonCamera
           name="FittingCamera"
