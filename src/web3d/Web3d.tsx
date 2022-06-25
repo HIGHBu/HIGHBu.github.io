@@ -534,10 +534,10 @@ const Game=() => {
           <Find name="gallery" 
             onClick={(ev)=>{
               if(ev.distance>=600){
-                ev.point.y = -234.02
+                let model=characterRef.current
+                ev.point.y = model!.y
                 setPosition(ev.point)
                 setWalking(true)
-                let model=characterRef.current
                 model?.lookAt(ev.point)  
               }
             }}
