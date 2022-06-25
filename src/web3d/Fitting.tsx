@@ -25,9 +25,8 @@ const Fit=() => {
   return (
     <div style={{width: '30%',height:'50%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
-       position='relative'
-      //  skybox='background.png'
-      color = "transparent"
+        position='relative'
+        color = "transparent"
       >
         <ThirdPersonCamera
           name="FittingCamera"
@@ -35,7 +34,7 @@ const Fit=() => {
           lockTargetRotation={false}
           zoom={1.0} fov={45} 
           width={50} height={50} depth={50}
-          minPolarAngle={90} maxPolarAngle={105}
+          minPolarAngle={90} maxPolarAngle={90}
           ref={cameraRef}
           active
         >
@@ -60,7 +59,6 @@ const Fit=() => {
             <Find name="body" texture={detail_texture_select}/>
           </Model>
         </ThirdPersonCamera>
-        {/* <LingoEditor /> */}
       </World>
     </div>
   )
