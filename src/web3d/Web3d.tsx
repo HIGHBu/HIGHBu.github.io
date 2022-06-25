@@ -18,6 +18,7 @@ const Game=() => {
   const [mouseOver, setMouseOver] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
   const [check, setCheck] = useState(0) // check为0代表正常视角，1-17代表点击了展位
+  const [clothes, setClothes] = useState(-1) // clothes为0代表第一次进入
   //TODO: check与前端的交互
   //check为1-17的时候出现对应的链接（根据gallery_select_id选择是哪一个场馆的），从链接返回后将check设为0
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
@@ -32,6 +33,7 @@ const Game=() => {
     setWalk("character_model/character/"+SkinList.head[head_id].id+"/walk.glb");
     setIdle("character_model/character/"+SkinList.head[head_id].id+"/idle.glb");
     setTexture("character_model/texture/"+SkinList.cloth[cloth_id].id+".png");
+    setClothes(clothes+1)
   },[head_id,cloth_id])
 
   const poster = [
@@ -502,15 +504,16 @@ const Game=() => {
     {id: 17,x: -144.60,z: -426.43},
   ]
 
-  const camX = 0
-  const camY = 50
-  const camZ = 400
-
   useLoop(()=>{
     let model = characterRef.current
     model?.moveForward(-1*walking_speed)
   },walking)
 
+  useLoop(()=>{
+    let camera = cameraRef.current
+    console.log("rotation:", camera?.rotationX, camera?.rotationY, camera?.rotationZ)
+    console.log("positon:",camera?.x,camera?.y,camera?.z)
+  })
   return (
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
@@ -578,11 +581,10 @@ const Game=() => {
                   if(focus == -1){
                     setFocus(index+1)
                     setWalking(false)
-                    console.log(focus)
                   }
                   else if(check == 0 && focus == index+1){
                     setCheck(index+1)
-                    console.log("click again!")
+                    console.log("click again! Show the detail web!")
                   }
                 }}
               />
@@ -650,23 +652,26 @@ const Game=() => {
           rotationX={focus != -1 ? camera_target[focus].rotationX : cameraRef.current?.rotationX}
           rotationY={focus != -1 ? camera_target[focus].rotationY : cameraRef.current?.rotationY}
           rotationZ={focus != -1 ? camera_target[focus].rotationZ : cameraRef.current?.rotationZ}
-          innerRotationX={focus != -1 ? 0 : cameraRef.current?.innerRotationX}
-          innerRotationY={focus != -1 ? 0 : cameraRef.current?.innerRotationY}
-          innerRotationZ={focus != -1 ? 0 : cameraRef.current?.innerRotationZ}
           innerX={focus != -1 ? 0 : cameraRef.current?.innerX}
           innerY={focus != -1 ? 0 : cameraRef.current?.innerY}
           innerZ={focus != -1 ? 200 : cameraRef.current?.innerZ}
         />
         <ThirdPersonCamera
+          key={src_select}
           name="CharacterCamera"
+          ref={cameraRef}
           mouseControl="drag" mouseControlMode="orbit" 
           active={focus == -1 ? true : false}
           lockTargetRotation={false}
-          innerX={camX} innerY={camY} innerZ={camZ}
+          innerX={0}
+          innerY={50} 
+          innerZ={400}
+          rotationX = {clothes <= 0 ? -180 : cameraRef.current!.rotationX}
+          rotationY = {clothes <= 0 ? -84.34 : cameraRef.current!.rotationY}
+          rotationZ = {clothes <= 0 ? -180 : cameraRef.current!.rotationZ}
           zoom={1.0} fov={45} 
           width={50} height={50} depth={50}
           minPolarAngle={90} maxPolarAngle={105}
-          ref={cameraRef}
         >
           <Model
             key={src_select}
@@ -679,13 +684,18 @@ const Game=() => {
               walk:walk_select,
             }}
             animation={walking? "walk": "idle"}
-            x={101.71}
-            y={-220.1}
-            z={-2510.98}
+            x = {clothes <= 0 ? 101.71 : characterRef.current!.x}
+            y = {-220.1}
+            z = {clothes <= 0 ? -2510.98 : characterRef.current!.z}
             width={400}
             height={1200}
             depth={400}
-            rotationY={84.34}
+            rotationX={clothes <= 0 ? 0 : characterRef.current!.rotationX}
+            rotationY={clothes <= 0 ? 84.34 : characterRef.current!.rotationY}
+            rotationZ={clothes <= 0 ? 0 : characterRef.current!.rotationZ}
+            innerRotationX={clothes <= 0 ? 0 : characterRef.current!.innerRotationX}
+            innerRotationY={clothes <= 0 ? 0 : characterRef.current!.innerRotationY}
+            innerRotationZ={clothes <= 0 ? 0 : characterRef.current!.innerRotationZ}
             boxVisible={false}
             innerY={-460}
             frustumCulled={false}
