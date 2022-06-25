@@ -17,6 +17,9 @@ const Game=() => {
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
   const [mouseOver, setMouseOver] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
+  const [check, setCheck] = useState(0) // check为0代表正常视角，1-17代表点击了展位
+  //TODO: check与前端的交互
+  //check为1-17的时候出现对应的链接（根据gallery_select_id选择是哪一个场馆的），从链接返回后将check设为0
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
   const [head_id,cloth_id] = useSelector<RootState,number[]>(state=>state.userSlice.profile.clothes)
   const [src_select,setSrc] = useState("character_model/character/basic/src.glb")
@@ -560,6 +563,7 @@ const Game=() => {
                 texture="plane/back.png"
                 onClick={()=>{
                   setFocus(-1)
+                  setCheck(0)
                 }}
               />
             )
@@ -571,8 +575,15 @@ const Game=() => {
                 name={post.name} 
                 texture={pos_tex[gallery_select_id*17+index]?.texture}
                 onClick={()=>{
-                  setFocus(index+1)
-                  setWalking(false)
+                  if(focus == -1){
+                    setFocus(index+1)
+                    setWalking(false)
+                    console.log(focus)
+                  }
+                  else if(check == 0 && focus == index+1){
+                    setCheck(index+1)
+                    console.log("click again!")
+                  }
                 }}
               />
             </div>
