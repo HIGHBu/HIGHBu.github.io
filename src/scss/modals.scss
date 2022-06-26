@@ -223,6 +223,7 @@
 .skin-favor-modal {
     padding: 17rem 16rem;
     display: flex;
+    user-select: none;
     .panel {
         flex-grow: 1;
         margin-left: 7rem;

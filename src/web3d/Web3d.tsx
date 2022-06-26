@@ -644,7 +644,7 @@ const Game=() => {
         <Camera 
           name="FocusCamera"
           ref={FocusRef}
-          active={focus != -1 ? "transition" : false}
+          active={focus != -1 ? true : false}
           mouseControl={false}
           x={focus != -1 ? camera_target[focus].x : cameraRef.current?.x}
           y={focus != -1 ? camera_target[focus].y : cameraRef.current?.y}

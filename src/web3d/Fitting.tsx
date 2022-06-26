@@ -1,8 +1,6 @@
 import {LingoEditor,  Model, ThirdPersonCamera, types, World, useLoop, Find} from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
-import * as exhibit from '../api/exhibit'
-import loading from '../assets/loading.png'
 import { SkinList } from '../glob';
 import { RootState, store } from '../store/store';
 
@@ -23,7 +21,7 @@ const Fit=() => {
   },[head_id,cloth_id])
 
   return (
-    <div style={{width: '30%',height:'50%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
+    //<div style={{width: '30%',height:'50%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
         position='relative'
         color = "transparent"
@@ -60,14 +58,8 @@ const Fit=() => {
           </Model>
         </ThirdPersonCamera>
       </World>
-    </div>
+    //</div>
   )
 }
 
-const App = () => {
-  return (
-    <Fit />
-  )
-}
-
-export default App
+export default Fit

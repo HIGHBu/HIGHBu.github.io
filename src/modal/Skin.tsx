@@ -8,6 +8,7 @@ import { progressComplete, progressNotComplete, saveSkin, SkinList, skinPending,
 import { useEffect, useState } from 'react';
 import { setClothes } from '../store/userSlice';
 import { apiModifyProfile } from '../api/user';
+import Fitting from '../web3d/Fitting';
 
 interface SkinItemProp {
     selectedpair: [number,(arg0:number)=>void],
@@ -87,7 +88,9 @@ function Skin(){
     },[])
     return (
         <div className='skin-favor-modal'>
-            <img src={demoPic}/>
+            <div style={{width: '30%'}}>
+                <Fitting/>
+            </div>
             <div className='panel'>
                 <div className='panel-head'>
                     <h1>{skinTitle}</h1>
