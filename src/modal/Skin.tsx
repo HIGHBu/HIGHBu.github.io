@@ -89,7 +89,7 @@ function Skin(){
     return (
         <div className='skin-favor-modal'>
             <div style={{width: '30%'}}>
-                <Fitting/>
+                {/* <Fitting/> */}
             </div>
             <div className='panel'>
                 <div className='panel-head'>
