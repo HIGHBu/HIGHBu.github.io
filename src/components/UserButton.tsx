@@ -13,7 +13,14 @@ function Ticket(){
     const nickname=useSelector<RootState,string>(state=>state.userSlice.profile.nickname)
     const viewnum=0
     const likenum=0
-    return (<div style={{display:'flex',alignItems: 'flex-end',justifyContent: 'center',flexDirection:'column',height: 300}}>
+    return (<div style={{
+        display:'flex',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        flexDirection:'column',
+        height: 450,
+        marginRight: 30
+    }}>
         <div>
             {nickname}
         </div>
@@ -161,6 +168,11 @@ function UserToolTip(){
                     visible={ticket}
                     footer={null}
                     onCancel={hideTicket}
+                    width={700}
+                    bodyStyle={{
+                        backgroundImage: 'url("ticket.png")',
+                        backgroundSize: 'cover'
+                    }}
                     //</div>modalRender={()=>(
                     //    <Ticket onClose={hideTicket}/>
                     //)}
