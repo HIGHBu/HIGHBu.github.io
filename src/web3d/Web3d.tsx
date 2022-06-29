@@ -609,7 +609,7 @@ const Game=() => {
                   }
                   else if(check == 0 && focus == index+1){
                     setCheck(index+1)
-                    //console.log("click again! Show the detail web!")
+                    console.log("click again! Show the detail web!")
                   }
                 }}
               />
@@ -645,7 +645,6 @@ const Game=() => {
                       rotationZ={m.rotationZ}
                       physics={false}
                       animations={{
-                        // anim: m.anim_src
                         anim: m.src=="character_model/camera/src.glb"? "character_model/camera/camera.glb": m.src=="character_model/record/src.glb" ? "character_model/record/record.glb" : "character_model/browse/browse.glb"
                       }}
                       animation="anim"
@@ -743,7 +742,7 @@ const App = (props:{progress:number}) => {
   useEffect(()=>{
     exhibit.fetchExhibits().then(res=>{
       pos_tex=res.map(item=>({
-        texture: "exhibits/"+item.avatar
+        texture: "poster/"+item.avatar
       }))
       setDone(true)
     })

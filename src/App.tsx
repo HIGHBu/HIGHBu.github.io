@@ -72,6 +72,8 @@ function App() {
         "plane/communication.png",
         "plane/reality.png",
         "sky.jpg",
+        "tutorial/Move_1.png",
+        "tutorial/Button_2.png",
         // "background.png"
       ],
       "63.2mb"
