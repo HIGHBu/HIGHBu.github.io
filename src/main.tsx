@@ -7,6 +7,7 @@ import { Provider } from 'react-redux'
 import { store } from './store/store'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import { Exhibitshow } from './components/Exhibitshow'
+import 'virtual:windi.css'
 
 ReactDOM.render(
   <React.StrictMode>
@@ -14,7 +15,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<App/>}/>
-          <Route path="show/:eid" element={<Exhibitshow/>}/>
+          <Route path="show/:path" element={<Exhibitshow/>}/>
         </Routes>
       </BrowserRouter>
     </Provider>

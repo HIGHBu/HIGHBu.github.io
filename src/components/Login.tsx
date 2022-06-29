@@ -180,7 +180,7 @@ function Login(props:WelcomeProps){
                 <span>{agreement}</span>
             </Checkbox>
         </div>
-        <h1 id='login-submit' onClick={handleSubmit}>{startVisit}</h1>
+        <h1 id='login-submit' className='text-4xl' onClick={handleSubmit}>{startVisit}</h1>
     </div>)
 }
 export default Login

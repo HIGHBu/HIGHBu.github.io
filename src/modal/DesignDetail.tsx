@@ -1,6 +1,6 @@
 import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarOutlined } from "@ant-design/icons"
 import { commentPlaceholder, noComment, showMoreComment } from "../glob"
-import { Input, Pagination, Tooltip } from "antd"
+import { Button, Input, message, Pagination, Tooltip } from "antd"
 import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch, RootState } from "../store/store"
@@ -10,6 +10,8 @@ import { useEffect, useState } from "react"
 import { updateActions } from "../store/actionSlice"
 import { TextAreaProps } from "antd/lib/input"
 import AllComments from "./AllComments"
+import { useNavigate } from "react-router-dom"
+import copy from 'copy-to-clipboard'
 const { TextArea } = Input
 function EmojiTooltip(){
     return (<div>
@@ -56,7 +58,14 @@ function DesignDetail(){
             eid: itemId
         })
     }
-
+    const navigate = useNavigate();
+    const handleShare=()=>{
+        navigate('/show/'+item.pics[0].slice(0,-6))
+    }
+    const handleCopy=()=>{
+        copy('http://next.zju.edu.cn/gallery_ui/show/'+item.pics[0].slice(0,-6))
+        message.success('链接已复制到粘贴板')
+    }
     const [current,setcurrent]=useState(1)
     return (
     <div className='modal-design-detail'>
@@ -110,9 +119,28 @@ function DesignDetail(){
                     <button type='button' onClick={handleFavorite}>
                         <StarOutlined/>
                     </button>
-                    <button type='button'>
-                        <ShareAltOutlined/>
-                    </button>
+                    <Tooltip title={
+                        (<div className='flex' style={{
+                            lineHeight: '100%',
+                            alignItems: 'center',
+                            backgroundColor: 'white'
+                        }}>
+                            <span className='flex-shrink-0'>作品链接</span>
+                            <Input
+                                disabled
+                                value={'http://next.zju.edu.cn/gallery_ui/show/'+item.pics[0].slice(0,-6)}
+                                suffix={<Button type='primary' onClick={handleCopy}>复制</Button>}
+                                size={'small'}
+                            />
+                        </div>)}
+                        overlayInnerStyle={{
+                            backgroundColor: 'white'
+                        }}
+                    >
+                        <button type='button'>
+                            <ShareAltOutlined/>
+                        </button>
+                    </Tooltip>
                 </div>
             </div>
         </div>

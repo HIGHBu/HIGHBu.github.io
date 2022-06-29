@@ -10,7 +10,7 @@ function Welcome(props:WelcomeProps){
     const [isLoginPage,setisLoginPage]=useState(false)
     return isLoginPage?(<Login onExit={onExit}/>):(<div id='welcome-page'>
         <img src={ball}/>
-        <h1 id='welcome-text' onClick={()=>{setisLoginPage(true)}}>{welcomeText}</h1>
+        <h1 id='welcome-text' className='text-4xl' onClick={()=>{setisLoginPage(true)}}>{welcomeText}</h1>
     </div>)
 }
 export default Welcome

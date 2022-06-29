@@ -511,8 +511,8 @@ const Game=() => {
 
   useLoop(()=>{
     let camera = cameraRef.current
-    console.log("rotation:", camera?.rotationX, camera?.rotationY, camera?.rotationZ)
-    console.log("positon:",camera?.x,camera?.y,camera?.z)
+    //console.log("rotation:", camera?.rotationX, camera?.rotationY, camera?.rotationZ)
+    //console.log("positon:",camera?.x,camera?.y,camera?.z)
   })
   return (
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
@@ -584,7 +584,7 @@ const Game=() => {
                   }
                   else if(check == 0 && focus == index+1){
                     setCheck(index+1)
-                    console.log("click again! Show the detail web!")
+                    //console.log("click again! Show the detail web!")
                   }
                 }}
               />
