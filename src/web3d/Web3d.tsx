@@ -1,4 +1,4 @@
-import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera } from 'lingo3d-react'
+import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera, useSpring } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
 import { useSelector } from 'react-redux';
 import * as exhibit from '../api/exhibit'
@@ -18,9 +18,13 @@ const Game=() => {
   const [mouseOver, setMouseOver] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
   const [check, setCheck] = useState(0) // check为0代表正常视角，1-17代表点击了展位
-  const [clothes, setClothes] = useState(-1) // clothes为0代表第一次进入
   //TODO: check与前端的交互
   //check为1-17的时候出现对应的链接（根据gallery_select_id选择是哪一个场馆的），从链接返回后将check设为0
+  const [clothes, setClothes] = useState(-1) // clothes为0代表第一次进入
+
+  //TODO: 点击换衣服的时候changing为true(当前设置成点传送门了)
+  const [changing, setChanging] = useState(false) 
+  
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
   const [head_id,cloth_id] = useSelector<RootState,number[]>(state=>state.userSlice.profile.clothes)
   const [src_select,setSrc] = useState("character_model/character/basic/src.glb")
@@ -35,6 +39,14 @@ const Game=() => {
     setTexture("character_model/texture/"+SkinList.cloth[cloth_id].id+".png");
     setClothes(clothes+1)
   },[head_id,cloth_id])
+
+  const camX = changing ? 200 : 0
+  const camY = changing ? 50 : 50
+  const camZ = changing ? 400 : 400
+
+  const xSpring = useSpring({ to: camX, bounce: 0 })
+  const ySpring = useSpring({ to: camY, bounce: 0 })
+  const zSpring = useSpring({ to: camZ, bounce: 0 })
 
   const poster = [
     {id: "1", name: "Board-1", number:2,position:[
@@ -505,15 +517,22 @@ const Game=() => {
   ]
 
   useLoop(()=>{
+    if(changing){
+      setWalking(false)
+    }
     let model = characterRef.current
     model?.moveForward(-1*walking_speed)
   },walking)
 
   useLoop(()=>{
     let camera = cameraRef.current
-    //console.log("rotation:", camera?.rotationX, camera?.rotationY, camera?.rotationZ)
-    //console.log("positon:",camera?.x,camera?.y,camera?.z)
-  })
+    let model = characterRef.current
+    if(!camera) return;
+    if(!model) return;
+    const position = camera.getWorldPosition()
+    model.lookAt(position.x, undefined, position.z)
+    console.log("positon:",camera.x,camera.y,camera.z)
+  },changing)
   return (
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
@@ -535,13 +554,18 @@ const Game=() => {
         <Model name="gallery_model" id="gallery_model" src="gallery_model/test4.glb" scale={gallery_scale} physics="map"
         >
           <Find name="gallery" 
-            onClick={(ev)=>{
-              if(ev.distance>=600){
+            onClick={(ev:types.MouseEvent)=>{
+              if(ev.distance>=200){
                 let model=characterRef.current
-                ev.point.y = model!.y
+                if(!model) return;
                 setPosition(ev.point)
                 setWalking(true)
-                model?.lookAt(ev.point)  
+                model.lookTo(ev.point.x, undefined, ev.point.z,0.1)  
+                setChanging(false)
+                
+                model.onMoveToEnd = () =>{
+                  setWalking(false);
+                }
               }
             }}
           />
@@ -550,6 +574,7 @@ const Game=() => {
             onMouseOut={() => setMouseOver(false)}
             onClick={() => {
               setFocus(0)
+              setChanging(true)
             }}
           />
           {
@@ -643,6 +668,7 @@ const Game=() => {
           }
         <Camera 
           name="FocusCamera"
+          transition={true}
           ref={FocusRef}
           active={focus != -1 ? true : false}
           mouseControl={false}
@@ -660,12 +686,12 @@ const Game=() => {
           key={src_select}
           name="CharacterCamera"
           ref={cameraRef}
-          mouseControl="drag" mouseControlMode="orbit" 
+          mouseControl="drag" 
           active={focus == -1 ? true : false}
           lockTargetRotation={false}
-          innerX={0}
-          innerY={50} 
-          innerZ={400}
+          innerX={xSpring}
+          innerY={ySpring} 
+          innerZ={zSpring}
           rotationX = {clothes <= 0 ? -180 : cameraRef.current!.rotationX}
           rotationY = {clothes <= 0 ? -84.34 : cameraRef.current!.rotationY}
           rotationZ = {clothes <= 0 ? -180 : cameraRef.current!.rotationZ}
@@ -693,10 +719,7 @@ const Game=() => {
             rotationX={clothes <= 0 ? 0 : characterRef.current!.rotationX}
             rotationY={clothes <= 0 ? 84.34 : characterRef.current!.rotationY}
             rotationZ={clothes <= 0 ? 0 : characterRef.current!.rotationZ}
-            innerRotationX={clothes <= 0 ? 0 : characterRef.current!.innerRotationX}
-            innerRotationY={clothes <= 0 ? 0 : characterRef.current!.innerRotationY}
-            innerRotationZ={clothes <= 0 ? 0 : characterRef.current!.innerRotationZ}
-            boxVisible={false}
+            boxVisible={true}
             innerY={-460}
             frustumCulled={false}
             intersectIds={[
