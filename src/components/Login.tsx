@@ -1,5 +1,5 @@
 import { QuestionCircleOutlined, UserOutlined } from '@ant-design/icons'
-import { Avatar, Checkbox, Input, message, Tooltip } from 'antd'
+import { Avatar, Checkbox, Input, message, Modal, Tooltip } from 'antd'
 import { MouseEventHandler, useEffect, useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { apiModifyProfile, apiSignup, resSignin } from '../api/user'
@@ -78,6 +78,8 @@ function Login(props:WelcomeProps){
     }
     const selectUser=()=>setisUser(true)
     const dispatch=useDispatch<AppDispatch>()
+    const [page1,setpage1]=useState(false)
+    const [page2,setpage2]=useState(false)
     const handleSubmit=async()=>{
         if(!checked){
             message.error(agreeWarning)
@@ -152,9 +154,18 @@ function Login(props:WelcomeProps){
         const hideFavor=message.loading(pendingFavor,0)
         await dispatch(UpdateFavorite((result as resSignin).id))
         hideFavor()
-        onExit()
+        if(isUser)
+            onExit()
+        else
+            setpage1(true)
     }
     return (<div id='login-page'>
+        <Modal title={"新手引导"} width={1000} visible={page1} footer={null} onCancel={()=>{setpage1(false);setpage2(true)}}>
+            <img src={'tutorial/Move_1.png'}></img>
+        </Modal>
+        <Modal title={"新手引导"} width={1000} visible={page2} footer={null} onCancel={()=>{setpage2(false);onExit()}}>
+            <img src={'tutorial/Button_2.png'}></img>
+        </Modal>
         <div id='login-select'>
             <span className={isUser?'unselected':'selected'} onClick={selectGuest}>{guestLogin}</span>
             <span>|</span>

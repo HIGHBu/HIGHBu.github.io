@@ -20,7 +20,9 @@ function MenuButton(){
             <button type="button" className="menu-button" onClick={()=>setCollapsed(!collapsed)}>
                 {collapsed?<MenuUnfoldOutlined/>:<MenuFoldOutlined/>}
             </button>
-            {collapsed && <Menu items={menuItems} mode='inline' className='menu' onSelect={handleSelect}/>}
+            {collapsed && <div>
+                <Menu items={menuItems} mode='inline' className='menu better-scroll' onSelect={handleSelect} style={{maxHeight: 600,overflowX:'hidden',overflowY:'scroll'}}/>
+            </div>}
         </div>
     )
 }
