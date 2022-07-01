@@ -1,4 +1,4 @@
-import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarOutlined } from "@ant-design/icons"
+import { DoubleRightOutlined, LeftOutlined, ShareAltOutlined, SmileOutlined, StarFilled, StarOutlined } from "@ant-design/icons"
 import { commentPlaceholder, noComment, showMoreComment } from "../glob"
 import { Button, Input, message, Pagination, Tooltip } from "antd"
 import { useDispatch, useSelector } from "react-redux"
@@ -12,6 +12,7 @@ import { TextAreaProps } from "antd/lib/input"
 import AllComments from "./AllComments"
 import { useNavigate } from "react-router-dom"
 import copy from 'copy-to-clipboard'
+import { popFavor, pushFavor } from "../store/userSlice"
 const { TextArea } = Input
 function EmojiTooltip(){
     return (<div>
@@ -27,6 +28,7 @@ function DesignDetail(){
     const itemId=useSelector<RootState,string>(state=>state.modalSlice.exhibitId)
     const item=useSelector<RootState,Exhibit>(state=>state.exhibitSlice.items.find(v=>v.id===itemId)!)
     const comments=useSelector<RootState,Action[]>(state=>state.actionSlice.items[itemId] || [])
+    const [favored,setf]=useState(false)
     useEffect(()=>{
         dispatch(updateActions(itemId))
     },[itemId])
@@ -54,9 +56,16 @@ function DesignDetail(){
         setshowmore(false)
     }
     const handleFavorite=()=>{
-        likeExhibit({
-            eid: itemId
-        })
+        setf(!favored)
+        if(favored){
+            likeExhibit({
+                eid: itemId
+            })
+            dispatch(pushFavor(itemId))
+        } else {
+            //todo
+            dispatch(popFavor(itemId))
+        }
     }
     const navigate = useNavigate();
     const handleShare=()=>{
@@ -117,7 +126,9 @@ function DesignDetail(){
                 <Pagination total={item?.pics.length+item?.videos.length} pageSize={1} current={current} onChange={page=>setcurrent(page)}/>
                 <div className="actions">
                     <button type='button' onClick={handleFavorite}>
-                        <StarOutlined/>
+                        {
+                            favored?<StarFilled/>:<StarOutlined/>
+                        }
                     </button>
                     <Tooltip title={
                         (<div className='flex' style={{

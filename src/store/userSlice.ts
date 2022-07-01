@@ -37,6 +37,13 @@ const userSlice = createSlice({
     },
     setClothes(state,payload){
       state.profile.clothes=payload.payload
+    },
+    pushFavor(state,payload){
+      state.favor.push(payload.payload)
+    },
+    popFavor(state,payload){
+      const pos=state.favor.indexOf(payload.payload)
+      state.favor=state.favor.slice(0,pos-1).concat(state.favor.slice(pos+1))
     }
   },
   extraReducers: (builder)=>{
@@ -51,7 +58,7 @@ const userSlice = createSlice({
       if(typeof action.payload==='string')
         return
       state.profile=action.payload
-      console.log(action.payload)
+      //console.log(action.payload)
     })
     builder.addCase(UpdateFavorite.fulfilled,(state,action)=>{
       state.favor=action.payload
@@ -62,6 +69,8 @@ const userSlice = createSlice({
 export const {
   setGuest,
   unsetGuest,
-  setClothes
+  setClothes,
+  pushFavor,
+  popFavor
 }=userSlice.actions
 export default userSlice.reducer

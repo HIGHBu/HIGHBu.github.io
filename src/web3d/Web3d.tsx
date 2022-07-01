@@ -1,14 +1,16 @@
 import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera, useSpring } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import * as exhibit from '../api/exhibit'
 import loading from '../assets/loading.png'
 import { SkinList } from '../glob';
-import { RootState, store } from '../store/store';
+import { showDisignDetail } from '../store/modalSlice';
+import { AppDispatch, RootState, store } from '../store/store';
 
 var pos_tex: { texture: string; }[];
 
 const Game=() => {
+  const dispatch=useDispatch<AppDispatch>()
   const characterRef = useRef<types.Model>(null)
   const cameraRef = useRef<types.ThirdPersonCamera>(null)
   const FocusRef = useRef<types.Camera>(null)
@@ -610,6 +612,7 @@ const Game=() => {
                   else if(check == 0 && focus == index+1){
                     setCheck(index+1)
                     //console.log("click again! Show the detail web!")
+                    dispatch(showDisignDetail(post.id))
                   }
                 }}
               />
