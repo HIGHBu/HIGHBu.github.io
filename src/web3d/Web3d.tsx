@@ -514,7 +514,7 @@ const Game=() => {
     {id: 13,x: -445.33,z: 68.04},
     {id: 14,x: -442.09,z: -88.37},
     {id: 15,x: -385.58,z: -233.24},
-    {id: 16,x: -277.96,z: -347.01},
+    {id: 16,x: -276.93,z: -354.46},
     {id: 17,x: -144.60,z: -426.43},
   ]
 
@@ -648,7 +648,6 @@ const Game=() => {
                       rotationZ={m.rotationZ}
                       physics={false}
                       animations={{
-                        // anim: m.anim_src
                         anim: m.src=="character_model/camera/src.glb"? "character_model/camera/camera.glb": m.src=="character_model/record/src.glb" ? "character_model/record/record.glb" : "character_model/browse/browse.glb"
                       }}
                       animation="anim"
@@ -722,7 +721,7 @@ const Game=() => {
             rotationX={clothes <= 0 ? 0 : characterRef.current!.rotationX}
             rotationY={clothes <= 0 ? 84.34 : characterRef.current!.rotationY}
             rotationZ={clothes <= 0 ? 0 : characterRef.current!.rotationZ}
-            boxVisible={true}
+            boxVisible={false}
             innerY={-460}
             frustumCulled={false}
             intersectIds={[
@@ -746,7 +745,7 @@ const App = (props:{progress:number}) => {
   useEffect(()=>{
     exhibit.fetchExhibits().then(res=>{
       pos_tex=res.map(item=>({
-        texture: item.avatar
+        texture: "poster/"+item.avatar
       }))
       setDone(true)
     })
