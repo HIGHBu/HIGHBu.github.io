@@ -7,8 +7,6 @@ import { SkinList } from '../glob';
 import { showDisignDetail } from '../store/modalSlice';
 import { AppDispatch, RootState, store } from '../store/store';
 
-var pos_tex: { texture: string; }[];
-
 const Game=() => {
   const dispatch=useDispatch<AppDispatch>()
   const characterRef = useRef<types.Model>(null)
@@ -23,7 +21,7 @@ const Game=() => {
   //TODO: check与前端的交互
   //check为1-17的时候出现对应的链接（根据gallery_select_id选择是哪一个场馆的），从链接返回后将check设为0
   const [clothes, setClothes] = useState(-1) // clothes为0代表第一次进入
-
+  const exhibits=useSelector<RootState,string[]>(state=>state.exhibitSlice.items.map(item=>item.avatar))
   //TODO: 点击换衣服的时候changing为true(当前设置成点传送门了)
   const [changing, setChanging] = useState(false) 
   
@@ -603,7 +601,7 @@ const Game=() => {
             <div key={post.id}>
               <Find 
                 name={post.name} 
-                texture={pos_tex[gallery_select_id*17+index]?.texture}
+                //texture={exhibits[gallery_select_id*17+index]}
                 onClick={()=>{
                   if(focus == -1){
                     setFocus(index+1)
@@ -655,7 +653,10 @@ const Game=() => {
                       {(m.img != "" && 
                         (
                           m.src == "character_model/browse/src.glb" &&
-                          <Sprite id={m.id} texture={m.img} width={27.3/0.19} height={19.05/0.19} y={270.59}/>
+                          <Sprite id={m.id} //texture={m.img}
+                            width={27.3/0.19}
+                            height={19.05/0.19}
+                            y={270.59}/>
                         )
                       )}
                     </Model>
@@ -741,16 +742,7 @@ const Game=() => {
 }
 
 const App = (props:{progress:number}) => {
-  const [done,setDone]=useState(false)
-  useEffect(()=>{
-    exhibit.fetchExhibits().then(res=>{
-      pos_tex=res.map(item=>({
-        texture: "poster/"+item.avatar
-      }))
-      setDone(true)
-    })
-  },[])
-  if(props.progress<100 || !done)
+  if(props.progress<100)
     return (<img height={"100%"} width={"100%"} src={loading}></img>)
   else
   return (

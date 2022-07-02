@@ -38,6 +38,8 @@ function App() {
 
     const progress = usePreload(
       [
+        "tutorial/Move_1.png",
+        "tutorial/Button_2.png",
         "gallery_model/test4.glb",
         "character_model/texture/doughnut.png",
         "character_model/texture/leaves.png", 
@@ -72,8 +74,6 @@ function App() {
         "plane/communication.png",
         "plane/reality.png",
         "sky.jpg",
-        "tutorial/Move_1.png",
-        "tutorial/Button_2.png",
         // "background.png"
       ],
       "63.2mb"
