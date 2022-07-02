@@ -10,10 +10,11 @@ export interface Exhibit {
     pics: string[],
     videos: string[],
     created_at: string,
-    updated_at: string
+    updated_at: string,
+    index: number,
 }
 
 const pathFetchExhibits='/api/exhibit'
 export const fetchExhibits=async()=>{
-    return await authoredGet(pathFetchExhibits) as Exhibit[]
+    return (await authoredGet(pathFetchExhibits) as Exhibit[]).sort((a,b)=>a.index-b.index)
 }

@@ -31,6 +31,7 @@ function DesignDetail(){
     const [favored,setf]=useState(false)
     useEffect(()=>{
         dispatch(updateActions(itemId))
+        console.log(item)
     },[itemId])
     const [commentInput,setCommentInput]=useState('')
     const handleChange:Required<TextAreaProps>['onChange']=(event)=>{

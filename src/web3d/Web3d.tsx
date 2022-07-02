@@ -1,11 +1,10 @@
 import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera, useSpring } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux';
-import * as exhibit from '../api/exhibit'
+import { useDispatch, useSelector } from 'react-redux'
 import loading from '../assets/loading.png'
 import { SkinList } from '../glob';
-import { showDisignDetail } from '../store/modalSlice';
-import { AppDispatch, RootState, store } from '../store/store';
+import { showDisignDetail } from '../store/modalSlice'
+import { AppDispatch, RootState, store } from '../store/store'
 
 const Game=() => {
   const dispatch=useDispatch<AppDispatch>()
@@ -21,7 +20,14 @@ const Game=() => {
   //TODO: check与前端的交互
   //check为1-17的时候出现对应的链接（根据gallery_select_id选择是哪一个场馆的），从链接返回后将check设为0
   const [clothes, setClothes] = useState(-1) // clothes为0代表第一次进入
-  const exhibits=useSelector<RootState,string[]>(state=>state.exhibitSlice.items.map(item=>item.avatar))
+  interface ex_abstract {
+    path: string,
+    id: string
+  }
+  const exhibits=useSelector<RootState,ex_abstract[]>(state=>state.exhibitSlice.items.map(item=>({
+    path: 'poster/'+item.avatar,
+    id: item.id
+  })))
   //TODO: 点击换衣服的时候changing为true(当前设置成点传送门了)
   const [changing, setChanging] = useState(false) 
   
@@ -601,7 +607,7 @@ const Game=() => {
             <div key={post.id}>
               <Find 
                 name={post.name} 
-                //texture={exhibits[gallery_select_id*17+index]}
+                texture={exhibits[gallery_select_id*17+index].path}
                 onClick={()=>{
                   if(focus == -1){
                     setFocus(index+1)
@@ -610,7 +616,8 @@ const Game=() => {
                   else if(check == 0 && focus == index+1){
                     setCheck(index+1)
                     //console.log("click again! Show the detail web!")
-                    dispatch(showDisignDetail(post.id))
+                    console.log(exhibits[gallery_select_id*17+index])
+                    dispatch(showDisignDetail(exhibits[gallery_select_id*17+index].id))
                   }
                 }}
               />
@@ -653,7 +660,7 @@ const Game=() => {
                       {(m.img != "" && 
                         (
                           m.src == "character_model/browse/src.glb" &&
-                          <Sprite id={m.id} //texture={m.img}
+                          <Sprite id={m.id} texture={m.img}
                             width={27.3/0.19}
                             height={19.05/0.19}
                             y={270.59}/>
