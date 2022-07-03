@@ -6,6 +6,14 @@ import { SkinList } from '../glob';
 import { showDisignDetail } from '../store/modalSlice'
 import { AppDispatch, RootState, store } from '../store/store'
 import * as visits from '../api/visits'
+var visits_data : {
+  visit : boolean,
+  comment: boolean,
+  favoriteOrShare: boolean,
+  index: number,
+  favoriteOrShareAction: string,
+  emoji: number,
+}[];
 
 const Game=() => {
   const dispatch=useDispatch<AppDispatch>()
@@ -31,7 +39,6 @@ const Game=() => {
   })))
   //TODO: 点击换衣服的时候changing为true(当前设置成点传送门了)
   const [changing, setChanging] = useState(false) 
-  
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
   const [head_id,cloth_id] = useSelector<RootState,number[]>(state=>state.userSlice.profile.clothes)
   const [src_select,setSrc] = useState("character_model/character/basic/src.glb")
@@ -538,8 +545,8 @@ const Game=() => {
     if(!model) return;
     const position = camera.getWorldPosition()
     model.lookAt(position.x, undefined, position.z)
-    console.log("positon:",camera.x,camera.y,camera.z)
   },changing)
+
   return (
     <div style={{width: '100%',height:'100%',position:'absolute',left:0,top:0,justifyContent:'center',alignItems:'center',color:'white',zIndex: 0}}>
       <World
@@ -556,7 +563,6 @@ const Game=() => {
             setFocus(-1)
           }}
         />
-
         <Cube id="intersect_cube" scale={0.5} x={position.x} y={position.y} z={position.z} visible={false}/>
         <Model name="gallery_model" id="gallery_model" src="gallery_model/test4.glb" scale={gallery_scale} physics="map"
         >
@@ -626,57 +632,82 @@ const Game=() => {
             )
           }
         </Model>
-        {
-          poster.map((post)=>
-          <div key={post.id}>
-            {
-              (post.position)?.map((m,index)=>{
-                if (index<post.number){
-                  return (
-                  <div key={m.id}>
+        <>
+          {
+            poster.map((post,idx)=>{
+              if(gallery_select_id*17+idx<visits_data.length){
+                return(
+                  <div key={post.id}>
                     <Model
-                      name={m.id}
-                      id={m.id}
+                      key={(gallery_select_id*17+idx)*3}
+                      id={post.id+"_visit"}
+                      name={post.id+"_visit"}
+                      visible={visits_data[gallery_select_id*17+idx].visit}
                       frustumCulled={false}
-                      src={m.src}
-                      width={m.src == "character_model/camera/src.glb"? 550: m.src=="character_model/record/src.glb" ? 91.05 : 650}
-                      height={m.src == "character_model/camera/src.glb"? 1100: m.src=="character_model/record/src.glb" ? 250 : 1100}
-                      depth={m.src == "character_model/camera/src.glb"? 400.73: m.src=="character_model/record/src.glb" ? 140.73 : 400.73}
-                      x={m.x}
-                      y={m.y}
-                      z={m.z}
-                      scale={m.src == "character_model/camera/src.glb"? 0.2: m.src=="character_model/record/src.glb" ? 0.8 : 0.19}
-                      innerX={0}
-                      innerY={m.src == "character_model/browse/src.glb"? -500 : 0}
-                      innerZ={0}
-                      rotationX={m.rotationX}
-                      rotationY={m.rotationY}
-                      rotationZ={m.rotationZ}
+                      src="character_model/browse/src.glb"
+                      width={650} height={1100} depth={400.73}
+                      x={post.position[0].x} y={-218.14} z={post.position[0].z}
+                      scale={0.19}
+                      innerX={0} innerY={-500} innerZ={0}
+                      rotationX={post.position[0].rotationX}
+                      rotationY={post.position[0].rotationY}
+                      rotationZ={post.position[0].rotationZ}
                       physics={false}
-                      animations={{
-                        anim: m.src=="character_model/camera/src.glb"? "character_model/camera/camera.glb": m.src=="character_model/record/src.glb" ? "character_model/record/record.glb" : "character_model/browse/browse.glb"
-                      }}
+                      animations={{anim:"character_model/browse/browse.glb"}}
+                      animation="anim"
+                    />
+                    <Model
+                      key={(gallery_select_id*17+idx)*3+1}
+                      id={post.id+"_recordOrCamera"}
+                      name={post.id+"_"+visits_data[gallery_select_id*17+idx].favoriteOrShareAction}
+                      visible={visits_data[gallery_select_id*17+idx].favoriteOrShare}
+                      frustumCulled={false}
+                      src={visits_data[gallery_select_id*17+idx].favoriteOrShareAction=="favorite"?"character_model/record/src.glb":"character_model/camera/src.glb"}
+                      width={visits_data[gallery_select_id*17+idx].favoriteOrShareAction=="favorite"?91.05:550} 
+                      height={visits_data[gallery_select_id*17+idx].favoriteOrShareAction=="favorite"?250:1100} 
+                      depth={visits_data[gallery_select_id*17+idx].favoriteOrShareAction=="favorite"?140.73:400.73}
+                      x={post.position[1].x} y={visits_data[gallery_select_id*17+idx].favoriteOrShareAction=="favorite"?-283.85:-310.22} z={post.position[1].z}
+                      scale={visits_data[gallery_select_id*17+idx].favoriteOrShareAction=="favorite"?0.8:0.2}
+                      innerX={0} innerY={0} innerZ={0}
+                      rotationX={post.position[1].rotationX}
+                      rotationY={post.position[1].rotationY}
+                      rotationZ={post.position[1].rotationZ}
+                      physics={false}
+                      animations={{anim:visits_data[gallery_select_id*17+idx].favoriteOrShareAction=="favorite"?"character_model/record/record.glb":"character_model/camera/camera.glb"}}
+                      animation="anim"
+                    />
+                    <Model
+                      key={(gallery_select_id*17+idx)*3+2}
+                      id={post.id+"_comment"}
+                      name={post.id+"_comment"}
+                      visible={visits_data[gallery_select_id*17+idx].comment}
+                      frustumCulled={false}
+                      src="character_model/browse/src.glb"
+                      width={650} height={1100} depth={400.73}
+                      x={post.position[2].x} y={-218.14} z={post.position[2].z}
+                      scale={0.19}
+                      innerX={0} innerY={-500} innerZ={0}
+                      rotationX={post.position[2].rotationX}
+                      rotationY={post.position[2].rotationY}
+                      rotationZ={post.position[2].rotationZ}
+                      physics={false}
+                      animations={{anim:"character_model/browse/browse.glb"}}
                       animation="anim"
                     >
-                      {(m.img != "" && 
-                        (
-                          m.src == "character_model/browse/src.glb" &&
-                          <Sprite id={m.id} texture={m.img}
-                            width={27.3/0.19}
-                            height={19.05/0.19}
-                            y={270.59}/>
-                        )
-                      )}
+                      <Sprite 
+                        texture={visits_data[gallery_select_id*17+idx].comment?"bubble/emotion"+visits_data[gallery_select_id*17+idx].emoji+".png":""}
+                        visible={visits_data[gallery_select_id*17+idx].comment}
+                        width={27.3/0.19}
+                        height={19.05/0.19}
+                        y={270.59}
+                      />
                     </Model>
                   </div>
-                  )                  
-                }
+                )
               }
-              )
-            }
-            </div>
-            )
+            })
           }
+        </>
         <Camera 
           name="FocusCamera"
           transition={true}
@@ -750,7 +781,22 @@ const Game=() => {
 }
 
 const App = (props:{progress:number}) => {
-  if(props.progress<100)
+  const [done,setDone]=useState(false)
+  useEffect(()=>{
+    visits.fetchVisits().then(res=>{
+      visits_data=res.map(item=>({
+        visit : item.visit,
+        comment: item.comment,
+        favoriteOrShare: item.favoriteOrShare,
+        index: item.index,
+        favoriteOrShareAction: item.favoriteOrShareAction,
+        emoji: item.emoji,
+      }))
+      setDone(true)
+    })
+  },[])
+
+  if(props.progress<100 || !done)
     return (<img height={"100%"} width={"100%"} src={loading}></img>)
   else
     return (<Game />)
