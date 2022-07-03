@@ -8,7 +8,6 @@ import { progressComplete, progressNotComplete, saveSkin, SkinList, skinPending,
 import { useEffect, useState } from 'react';
 import { setClothes } from '../store/userSlice';
 import { apiModifyProfile } from '../api/user';
-import Fitting from '../web3d/Fitting';
 
 interface SkinItemProp {
     selectedpair: [number,(arg0:number)=>void],
