@@ -5,6 +5,7 @@ import loading from '../assets/loading.png'
 import { SkinList } from '../glob';
 import { showDisignDetail } from '../store/modalSlice'
 import { AppDispatch, RootState, store } from '../store/store'
+import * as visits from '../api/visits'
 
 const Game=() => {
   const dispatch=useDispatch<AppDispatch>()
@@ -568,7 +569,6 @@ const Game=() => {
                 setWalking(true)
                 model.lookTo(ev.point.x, undefined, ev.point.z,0.1)  
                 setChanging(false)
-                
                 model.onMoveToEnd = () =>{
                   setWalking(false);
                 }
@@ -607,17 +607,18 @@ const Game=() => {
             <div key={post.id}>
               <Find 
                 name={post.name} 
-                texture={exhibits[gallery_select_id*17+index].path}
+                texture={gallery_select_id*17+index<exhibits.length ? exhibits[gallery_select_id*17+index].path : ""}
+                visible={gallery_select_id*17+index<exhibits.length ? true : false}
                 onClick={()=>{
-                  if(focus == -1){
-                    setFocus(index+1)
-                    setWalking(false)
-                  }
-                  else if(check == 0 && focus == index+1){
-                    setCheck(index+1)
-                    //console.log("click again! Show the detail web!")
-                    console.log(exhibits[gallery_select_id*17+index])
-                    dispatch(showDisignDetail(exhibits[gallery_select_id*17+index].id))
+                  if(gallery_select_id*17+index<exhibits.length){
+                    if(focus == -1){
+                      setFocus(index+1)
+                      setWalking(false)
+                    }
+                    else if(focus == index+1){
+                      setCheck(index+1)
+                      dispatch(showDisignDetail(exhibits[gallery_select_id*17+index].id))
+                    }
                   }
                 }}
               />
@@ -752,9 +753,7 @@ const App = (props:{progress:number}) => {
   if(props.progress<100)
     return (<img height={"100%"} width={"100%"} src={loading}></img>)
   else
-  return (
-    <Game />
-  )
+    return (<Game />)
 }
 
 export default App

@@ -1,14 +1,15 @@
-import { authoredGet, authoredPatch, authoredPost, resMessage } from "./util"
+import { authoredGet } from "./util"
 
 export interface Visits {
     results: {
-        eid:{
+        eid: {
             visit : boolean,
             comment: boolean,
             favoriteOrShare: boolean,
             comment_text: string,
             emoji: number,
             favoriteOrShareAction: string,
+            index: number,
         }[]
     }[]
 }
