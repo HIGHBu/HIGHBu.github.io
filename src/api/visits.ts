@@ -1,18 +1,15 @@
-import { authoredGet, authoredPatch, authoredPost, resMessage } from "./util"
+import { authoredGet } from "./util"
 
 export interface Visits {
-    results: {
-        eid:{
-            visit : boolean,
-            comment: boolean,
-            favoriteOrShare: boolean,
-            comment_text: string,
-            emoji: number,
-            favoriteOrShareAction: string,
-        }[]
-    }[]
+    visit : boolean,
+    comment: boolean,
+    favoriteOrShare: boolean,
+    emoji: number,
+    favoriteOrShareAction: string,
+    index: number,
 }
-const pathVisits='/api/visits'
+
+const pathFetchVisits='/api/visits'
 export const fetchVisits=async()=>{
-    return await authoredGet(pathVisits) as Visits[]
+    return (await authoredGet(pathFetchVisits) as Visits[]).sort((a,b)=>a.index-b.index)
 }
