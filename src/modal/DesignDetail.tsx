@@ -85,7 +85,7 @@ function DesignDetail(){
                 {showMoreComment}
                 <DoubleRightOutlined />
             </a>
-            <img src={'exhibits/'+item?.avatar} className={(showmore?'blurred':undefined)}/>
+            <img src={'exhibits/'+item?.avatar} className={('poster-avatar '+(showmore?'blurred':''))}/>
             <div className="comment-group">
                 <TextArea
                     placeholder={commentPlaceholder}

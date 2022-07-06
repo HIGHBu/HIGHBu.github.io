@@ -1,3 +1,4 @@
+import { Action } from "./action"
 import { authoredGet, authoredPatch, authoredPost, resMessage, unauthoredPost } from "./util"
 export interface authBody {
     username: string,
@@ -39,7 +40,7 @@ export interface userProfile {
     nickname: string;
     password: string;
     username: string;
-    history: string[];
+    history?: Action[];
 }
 export const apiFetchProfile=async(uid:string)=>{
     return await authoredGet(pathUser+uid) as userProfile

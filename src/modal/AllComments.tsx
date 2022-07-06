@@ -1,16 +1,29 @@
 import { CloseOutlined, DislikeOutlined, LikeOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
+import { useEffect, useState } from "react";
 import { Action } from "../api/action";
+import { apiFetchProfile } from "../api/user";
 import { allComments } from "../glob";
 import { emojilist } from "./DesignDetail";
 function Comment(props: {item: Action}){
     const {item}=props
+    const [name,setn]=useState('')
+    const [avatar,seta]=useState('')
+    const avatars=import.meta.glob('../assets/avatar/*.png')
+    useEffect(()=>{
+        apiFetchProfile(item.uid).then(res=>{
+            setn(res.username)
+            return res.avatar
+        }).then(avatar=>avatars[`../assets/avatar/${avatar}.png`]()).then(res=>{
+            seta(res.default)
+        })
+    },[])
     return (<div className='comment-item'>
-        <Avatar size={32} icon={<UserOutlined />} className='comment-avatar'/>
+        <Avatar size={32} icon={avatar===""?<UserOutlined />:<img src={avatar}></img>} className='comment-avatar'/>
         <div className='comment-body'>
             <div className='comment-header'>
                 <span className='comment-user'>
-                    {item.uid}
+                    {name}
                 </span>
                 <span className='comment-date'>
                     {new Date(item.created_at).toLocaleString().slice(5,14)}

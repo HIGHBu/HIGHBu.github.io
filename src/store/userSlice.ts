@@ -24,6 +24,8 @@ const userSlice = createSlice({
     favor: [] as string[],
     like_count: 0,
     visit_count: 0,
+    share_count: 0,
+    comment_count: 0,
     profile: {
       avatar:   "",
       clothes:  [],
@@ -56,7 +58,9 @@ const userSlice = createSlice({
       if(typeof action.payload==='string')
         return
       state.profile=action.payload
-      state.visit_count=action.payload.history.length
+      state.visit_count=action.payload.history!.filter(item=>item.action==='visit').length
+      state.share_count=action.payload.history!.filter(item=>item.action==='share').length
+      state.comment_count=action.payload.history!.filter(item=>item.action==='comment').length
       //console.log(action.payload)
     })
     builder.addCase(UpdateFavorite.fulfilled,(state,action)=>{

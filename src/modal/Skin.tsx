@@ -86,7 +86,7 @@ function Skin(){
         setcloth(store.getState().userSlice.profile.clothes[1])
     },[])
     return (
-        <div className='skin-favor-modal'>
+        <div className='skin-favor-modal' style={{backdropFilter: 'none'}}>
             <div style={{width: '30%'}}>
                 {/* <Fitting/> */}
             </div>
