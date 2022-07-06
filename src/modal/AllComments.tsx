@@ -14,7 +14,7 @@ function Comment(props: {item: Action}){
     const avatars=import.meta.glob('../assets/avatar/*.png')
     useEffect(()=>{
         apiFetchProfile(item.uid).then(res=>{
-            setn(res.username)
+            setn(res.nickname)
             return res.avatar
         }).then(avatar=>avatars[`../assets/avatar/${avatar}.png`]()).then(res=>{
             seta(res.default)
