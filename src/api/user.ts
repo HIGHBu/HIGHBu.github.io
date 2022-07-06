@@ -39,6 +39,7 @@ export interface userProfile {
     nickname: string;
     password: string;
     username: string;
+    history: string[];
 }
 export const apiFetchProfile=async(uid:string)=>{
     return await authoredGet(pathUser+uid) as userProfile

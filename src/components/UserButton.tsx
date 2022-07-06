@@ -7,12 +7,12 @@ import { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { apiModifyProfile, userProfile } from '../api/user'
 import { AppDispatch, RootState } from '../store/store'
-import { unsetGuest, UpdateProfile } from '../store/userSlice'
+import { unsetGuest, UpdateFavorite, UpdateProfile } from '../store/userSlice'
 import { changeNameAvatar, emptyNickname, emptyPassword, emptyUsername, generateTicket, nicknameLabel, nicknamePending, nicknameSubmit, nicknameSuccess, registerError, registerPassword, registerPending, registerSubmit, registerSuccess, registerTitle, registerUsername, regularUsername, unknownError, updateAccount } from '../glob'
 function Ticket(){
     const nickname=useSelector<RootState,string>(state=>state.userSlice.profile.nickname)
-    const viewnum=0
-    const likenum=useSelector<RootState,number>(state=>state.userSlice.favor.length)
+    const viewnum=useSelector<RootState,number>(state=>state.userSlice.visit_count)
+    const likenum=useSelector<RootState,number>(state=>state.userSlice.like_count)
     return (<div style={{
         display:'flex',
         alignItems: 'flex-end',
@@ -52,7 +52,9 @@ function UserToolTip(){
     const hideNickname=()=>{
         setnickname(false)
     }
-    const showTicket=()=>{
+    const showTicket=async ()=>{
+        await dispatch(UpdateFavorite(uid))
+        await dispatch(UpdateProfile(uid))
         setticket(true)
     }
     const hideTicket=()=>{

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch, RootState } from "../store/store"
 import { Exhibit } from "../api/exhibit"
-import { Action, likeExhibit, submitComment } from "../api/action"
+import { Action, likeExhibit, submitComment, visitExhibit } from "../api/action"
 import { useEffect, useMemo, useState } from "react"
 import { updateActions } from "../store/actionSlice"
 import { TextAreaProps } from "antd/lib/input"
@@ -28,7 +28,9 @@ function DesignDetail(){
     const [favored,setf]=useState(false)
     useEffect(()=>{
         dispatch(updateActions(itemId))
-        console.log(favor_list)
+        visitExhibit({
+            eid: itemId
+        })
         setf(favor_list.indexOf(itemId)>=0)
     },[itemId])
     const [commentInput,setCommentInput]=useState('')
@@ -97,7 +99,7 @@ function DesignDetail(){
                 <Tooltip title={(<div>
                     {
                         emojilist.map((emoji,index)=>
-                            <span onClick={()=>setemoji(index+1)}>{emoji}</span>
+                            <span key={'emoji'+index} onClick={()=>setemoji(index+1)}>{emoji}</span>
                         )
                     }
                 </div>)} trigger='hover' overlayClassName='emoji-bar'>

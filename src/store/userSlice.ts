@@ -9,7 +9,9 @@ export const UpdateProfile=createAsyncThunk('user/profile',async(uid:string)=>{
   return await apiFetchProfile(uid)
 })
 export const UpdateFavorite=createAsyncThunk('user/favor',async(uid:string)=>{
-  return await fetchFavorite(uid)
+  return {
+    favor: await fetchFavorite(uid)
+  }
 })
 
 const userSlice = createSlice({
@@ -27,7 +29,8 @@ const userSlice = createSlice({
       clothes:  [],
       nickname: "",
       password: "",
-      username: ""
+      username: "",
+      history: []
     } as userProfile
   },
   reducers: {
@@ -53,10 +56,12 @@ const userSlice = createSlice({
       if(typeof action.payload==='string')
         return
       state.profile=action.payload
+      state.visit_count=action.payload.history.length
       //console.log(action.payload)
     })
     builder.addCase(UpdateFavorite.fulfilled,(state,action)=>{
-      state.favor=action.payload
+      state.favor=action.payload.favor
+      state.like_count=action.payload.favor.length
     })
   }
 })
