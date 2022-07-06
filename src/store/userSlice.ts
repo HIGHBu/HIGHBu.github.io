@@ -20,6 +20,8 @@ const userSlice = createSlice({
     uid: '',
     isGuest: false,
     favor: [] as string[],
+    like_count: 0,
+    visit_count: 0,
     profile: {
       avatar:   "",
       clothes:  [],
@@ -37,13 +39,6 @@ const userSlice = createSlice({
     },
     setClothes(state,payload){
       state.profile.clothes=payload.payload
-    },
-    pushFavor(state,payload){
-      state.favor.push(payload.payload)
-    },
-    popFavor(state,payload){
-      const pos=state.favor.indexOf(payload.payload)
-      state.favor=state.favor.slice(0,pos-1).concat(state.favor.slice(pos+1))
     }
   },
   extraReducers: (builder)=>{
@@ -69,8 +64,6 @@ const userSlice = createSlice({
 export const {
   setGuest,
   unsetGuest,
-  setClothes,
-  pushFavor,
-  popFavor
+  setClothes
 }=userSlice.actions
 export default userSlice.reducer

@@ -14,9 +14,9 @@ export interface Action {
 
 const pathFetchExhibits='/api/action/'
 export const fetchCommentsByEid=async(eid: string):Promise<Action[]>=>{
-    const res=await authoredGet(pathFetchExhibits+eid+'?action=comment') as Action[] | resMessage
-    if(res instanceof Array)
-        return res
+    const res=await authoredGet(pathFetchExhibits+eid+'?action=comment') as {actions:Action[]} | resMessage
+    if(res.actions)
+        return res.actions
     else
         return []
 }
@@ -29,17 +29,19 @@ export const fetchFavorite=async(uid: string):Promise<string[]>=>{
 }
 export interface actionSubmission {
     eid: string,
-    comment_text: string
+    comment_text: string,
+    emoji: number | null
 }
 export const submitComment=async({
     eid,
-    comment_text
+    comment_text,
+    emoji
 }:actionSubmission):Promise<boolean>=>{
     await authoredPost(pathFetchExhibits,{
         action: 'comment',
         uid: (await import('../store/store')).store.getState().userSlice.uid,
         eid,
-        emoji: null,
+        emoji,
         comment_text,
         comment_likes: 0
     })

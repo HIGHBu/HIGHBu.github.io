@@ -3,17 +3,9 @@ import {useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import loading from '../assets/loading.png'
 import { SkinList } from '../glob';
+import { visit_type } from '../store/exhibitSlice';
 import { showDisignDetail } from '../store/modalSlice'
 import { AppDispatch, RootState, store } from '../store/store'
-import * as visits from '../api/visits'
-var visits_data : {
-  visit : boolean,
-  comment: boolean,
-  favoriteOrShare: boolean,
-  index: number,
-  favoriteOrShareAction: string,
-  emoji: number,
-}[];
 
 const Game=() => {
   const dispatch=useDispatch<AppDispatch>()
@@ -38,7 +30,8 @@ const Game=() => {
     id: item.id
   })))
   //TODO: 点击换衣服的时候changing为true(当前设置成点传送门了)
-  const [changing, setChanging] = useState(false) 
+  const changing = useSelector<RootState,boolean>(state=>state.modalSlice.skin)
+  const visits_data = useSelector<RootState,visit_type[]>(state=>state.exhibitSlice.visits)
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
   const [head_id,cloth_id] = useSelector<RootState,number[]>(state=>state.userSlice.profile.clothes)
   const [src_select,setSrc] = useState("character_model/character/basic/src.glb")
@@ -574,7 +567,7 @@ const Game=() => {
                 setPosition(ev.point)
                 setWalking(true)
                 model.lookTo(ev.point.x, undefined, ev.point.z,0.1)  
-                setChanging(false)
+                //setChanging(false)
                 model.onMoveToEnd = () =>{
                   setWalking(false);
                 }
@@ -586,7 +579,7 @@ const Game=() => {
             onMouseOut={() => setMouseOver(false)}
             onClick={() => {
               setFocus(0)
-              setChanging(true)
+              //setChanging(true)
             }}
           />
           {
@@ -613,7 +606,7 @@ const Game=() => {
             <div key={post.id}>
               <Find 
                 name={post.name} 
-                texture={gallery_select_id*17+index<exhibits.length ? exhibits[gallery_select_id*17+index].path : ""}
+                //={gallery_select_id*17+index<exhibits.length ? exhibits[gallery_select_id*17+index].path : undefined}
                 visible={gallery_select_id*17+index<exhibits.length ? true : false}
                 onClick={()=>{
                   if(gallery_select_id*17+index<exhibits.length){
@@ -695,7 +688,7 @@ const Game=() => {
                       animation="anim"
                     >
                       <Sprite 
-                        texture={visits_data[gallery_select_id*17+idx].comment?"bubble/emotion"+visits_data[gallery_select_id*17+idx].emoji+".png":""}
+                        texture={visits_data[gallery_select_id*17+idx].comment?"bubble/emotion"+visits_data[gallery_select_id*17+idx].emoji+".png":undefined}
                         visible={visits_data[gallery_select_id*17+idx].comment}
                         width={27.3/0.19}
                         height={19.05/0.19}
@@ -781,22 +774,7 @@ const Game=() => {
 }
 
 const App = (props:{progress:number}) => {
-  const [done,setDone]=useState(false)
-  useEffect(()=>{
-    visits.fetchVisits().then(res=>{
-      visits_data=res.map(item=>({
-        visit : item.visit,
-        comment: item.comment,
-        favoriteOrShare: item.favoriteOrShare,
-        index: item.index,
-        favoriteOrShareAction: item.favoriteOrShareAction,
-        emoji: item.emoji,
-      }))
-      setDone(true)
-    })
-  },[])
-
-  if(props.progress<100 || !done)
+  if(props.progress<100)
     return (<img height={"100%"} width={"100%"} src={loading}></img>)
   else
     return (<Game />)

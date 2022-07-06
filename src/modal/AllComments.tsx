@@ -2,6 +2,7 @@ import { CloseOutlined, DislikeOutlined, LikeOutlined, UserOutlined } from "@ant
 import { Avatar } from "antd";
 import { Action } from "../api/action";
 import { allComments } from "../glob";
+import { emojilist } from "./DesignDetail";
 function Comment(props: {item: Action}){
     const {item}=props
     return (<div className='comment-item'>
@@ -16,7 +17,7 @@ function Comment(props: {item: Action}){
                 </span>
             </div>
             <p className='comment-text'>
-                {item.comment_text}
+                {item.emoji && emojilist[item.emoji-1]}{item.comment_text}
             </p>
             <div className='comment-footer'>
                 <LikeOutlined className='like-button'/>

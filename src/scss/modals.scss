@@ -154,7 +154,7 @@
                     background-color: white;
                     padding: 5px 10px;
                 }
-                margin-top: 16px;
+                margin-bottom: 6px;
             }
             #no-comment {
                 user-select: none;
@@ -251,8 +251,8 @@
             cursor: pointer;
         }
         .thumb {
-            height: 21rem;
-            width: 21rem;
+            height: 140px;
+            width: 100px;
             background-color: $white-2;
             border-radius: 2px;
         }

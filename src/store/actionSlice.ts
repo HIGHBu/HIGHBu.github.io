@@ -2,7 +2,10 @@ import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
 import { Action, fetchCommentsByEid } from '../api/action'
 
 export const updateActions = createAsyncThunk('action/fetch',async(eid:string)=>{
-  return await fetchCommentsByEid(eid)
+  console.log(eid)
+  const res=await fetchCommentsByEid(eid)
+  console.log(res)
+  return res
 })
 
 const actionSlice = createSlice({
