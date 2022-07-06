@@ -585,7 +585,7 @@ const Game=() => {
           {
             back_boards.map((board,index)=>
               <Sprite
-                key={board.id}
+                key={'board'+board.id}
                 name={board.id.toString()}
                 x={board.x}
                 y={focus != 0 ? -33.04 : -40.04}
@@ -603,7 +603,7 @@ const Game=() => {
           }
           {
             poster.map((post,index)=>
-            <div key={post.id}>
+            <div key={'post'+post.id}>
               <Find 
                 name={post.name} 
                 //={gallery_select_id*17+index<exhibits.length ? exhibits[gallery_select_id*17+index].path : undefined}
@@ -630,9 +630,9 @@ const Game=() => {
             poster.map((post,idx)=>{
               if(gallery_select_id*17+idx<visits_data.length){
                 return(
-                  <div key={post.id}>
+                  <div key={'post2'+post.id}>
                     <Model
-                      key={(gallery_select_id*17+idx)*3}
+                      key={'post2'+((gallery_select_id*17+idx)*3)}
                       id={post.id+"_visit"}
                       name={post.id+"_visit"}
                       visible={visits_data[gallery_select_id*17+idx].visit}
@@ -650,7 +650,7 @@ const Game=() => {
                       animation="anim"
                     />
                     <Model
-                      key={(gallery_select_id*17+idx)*3+1}
+                      key={'model1'+((gallery_select_id*17+idx)*3+1)}
                       id={post.id+"_recordOrCamera"}
                       name={post.id+"_"+visits_data[gallery_select_id*17+idx].favoriteOrShareAction}
                       visible={visits_data[gallery_select_id*17+idx].favoriteOrShare}
@@ -670,7 +670,7 @@ const Game=() => {
                       animation="anim"
                     />
                     <Model
-                      key={(gallery_select_id*17+idx)*3+2}
+                      key={'model2'+((gallery_select_id*17+idx)*3+2)}
                       id={post.id+"_comment"}
                       name={post.id+"_comment"}
                       visible={visits_data[gallery_select_id*17+idx].comment}
@@ -718,7 +718,7 @@ const Game=() => {
           innerZ={focus != -1 ? 200 : cameraRef.current?.innerZ}
         />
         <ThirdPersonCamera
-          key={src_select}
+          key={'cam1'+src_select}
           name="CharacterCamera"
           ref={cameraRef}
           mouseControl="drag" 
@@ -735,7 +735,7 @@ const Game=() => {
           minPolarAngle={90} maxPolarAngle={105}
         >
           <Model
-            key={src_select}
+            key={'model123'+src_select}
             src={src_select}
             ref={characterRef}
             physics="character"

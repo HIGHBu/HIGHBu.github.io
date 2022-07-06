@@ -14,7 +14,7 @@ export interface Action {
 
 const pathFetchExhibits='/api/action/'
 export const fetchCommentsByEid=async(eid: string):Promise<Action[]>=>{
-    const res=await authoredGet(pathFetchExhibits+eid+'?action=comment') as {actions:Action[]} | resMessage
+    const res=await authoredGet(pathFetchExhibits+eid+'?action=comment')
     if(res.actions)
         return res.actions
     else

@@ -37,7 +37,7 @@ function AllComments(props:{items:Action[],onClose:React.MouseEventHandler<HTMLS
             <CloseOutlined onClick={onClose}/>
         </div>
         <div id="content">
-            {items.map(item=><Comment key={item.id} item={item}/>)}
+            {items.map(item=><Comment key={'comm'+item.id} item={item}/>)}
         </div>
     </div>)
 }

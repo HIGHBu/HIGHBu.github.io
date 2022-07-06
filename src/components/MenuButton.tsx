@@ -21,7 +21,7 @@ function MenuButton(){
                 {collapsed?<MenuUnfoldOutlined/>:<MenuFoldOutlined/>}
             </button>
             {collapsed && <div>
-                <Menu items={menuItems} mode='inline' className='menu better-scroll' onSelect={handleSelect} style={{maxHeight: 600,overflowX:'hidden',overflowY:'scroll'}}/>
+                <Menu selectedKeys={[]} items={menuItems} mode='inline' className='menu better-scroll' onSelect={handleSelect} style={{maxHeight: 600,overflowX:'hidden',overflowY:'scroll'}}/>
             </div>}
         </div>
     )

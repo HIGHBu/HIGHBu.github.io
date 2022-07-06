@@ -22,10 +22,12 @@ function DesignDetail(){
     const item=useSelector<RootState,Exhibit>(state=>state.exhibitSlice.items.find(v=>v.id===itemId)!)
     const all_comments=useSelector<RootState,Record<string, Action[]> >(state=>state.actionSlice.items)
     const comments=useMemo(()=>all_comments[itemId] || [],[itemId,all_comments])
+    const favor_list=useSelector<RootState,string[]>(state=>state.userSlice.favor)
     const [favored,setf]=useState(false)
     useEffect(()=>{
         dispatch(updateActions(itemId))
         console.log(item)
+        setf(favor_list.indexOf(itemId)>=0)
     },[itemId])
     const [commentInput,setCommentInput]=useState('')
     const handleChange:Required<TextAreaProps>['onChange']=(event)=>{
@@ -73,7 +75,7 @@ function DesignDetail(){
             {showmore && <AllComments onClose={handleCloseShowMore} items={comments}/>}
             <div className={'comment-danmaku '+(showmore && 'blurred')}>
                 {comments.length==0 && <span id='no-comment'>{noComment}</span>}
-                {comments.slice(0,3).map(item=>(<div key={item.id}><span className='main-text'>{item.emoji && emojilist[item.emoji-1]}{item.comment_text}</span></div>))}
+                {comments.slice(0,3).map(item=>(<div key={'comment'+item.id}><span className='main-text'>{item.emoji && emojilist[item.emoji-1]}{item.comment_text}</span></div>))}
             </div>
             <a className={'show-more text '+(showmore && 'blurred')} onClick={handleShowMore}>
                 {showMoreComment}
