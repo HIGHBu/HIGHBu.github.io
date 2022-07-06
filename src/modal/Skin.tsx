@@ -1,27 +1,38 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
-import { message, Progress } from 'antd';
+import { Button, message, Progress } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import demoPic from '../assets/APP.png'
 import { AppDispatch, RootState, store } from '../store/store';
 import { hideSkin } from '../store/modalSlice';
 import { progressComplete, progressNotComplete, saveSkin, SkinList, skinPending, skinSuccess, skinTitle, unknownError, unlockCondition } from '../glob';
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { setClothes } from '../store/userSlice';
 import { apiModifyProfile } from '../api/user';
 
 interface SkinItemProp {
+    okpair: [boolean,(arg0:boolean)=>void]
     selectedpair: [number,(arg0:number)=>void],
     prefix: 'head'|'cloth'
 }
 
 
 function SkinItem(props: SkinItemProp){
-    const {selectedpair,prefix}=props
+    const {selectedpair,okpair,prefix}=props
     const [selected,setselected]=selectedpair
+    const [ok,setok]=okpair
     const [thumb,setthumb]=useState('')
     const [title,settitle]=useState('')
     const [condition,setcondition]=useState('')
-    const percent:number=50
+    const v=useSelector<RootState,number>(state=>state.userSlice.visit_count)
+    const s=useSelector<RootState,number>(state=>state.userSlice.share_count)
+    const c=useSelector<RootState,number>(state=>state.userSlice.comment_count)
+    const login_time=useSelector<RootState,number>(state=>state.userSlice.login_time)
+    const percent=useMemo(()=>{
+        const np=Math.min(100,SkinList[prefix][selected].perc(v,s,c,(new Date().getTime()-login_time)/60000))
+        Promise.resolve().then(()=>setok(np==100))
+        return np
+    },[v,s,c,selected])
+    
     const handleDec=()=>{
         if(selected===0)
             setselected(SkinList[prefix].length-1)
@@ -64,6 +75,8 @@ function Skin(){
     const handleClose=()=>dispatch(hideSkin())
     const [head,sethead]=useState(0)
     const [cloth,setcloth]=useState(0)
+    const [headok,setheadok]=useState(false)
+    const [clothok,setclothok]=useState(false)
     const handleSubmit=async()=>{
         const hideSubmit=message.loading(skinPending)
         const res=await apiModifyProfile(store.getState().userSlice.uid,{
@@ -95,11 +108,11 @@ function Skin(){
                     <h1>{skinTitle}</h1>
                     <CloseOutlined onClick={handleClose}/>
                 </div>
-                <SkinItem prefix='head' selectedpair={[head,v=>{console.log(v);sethead(v)}]}/>
-                <SkinItem prefix='cloth' selectedpair={[cloth,setcloth]}/>
-                <button type='button' className='save-button text' onClick={submitSelection}>
+                <SkinItem prefix='head' okpair={[headok,setheadok]} selectedpair={[head,v=>{console.log(v);sethead(v)}]}/>
+                <SkinItem prefix='cloth' okpair={[clothok,setclothok]} selectedpair={[cloth,setcloth]}/>
+                <Button className='save-button' type="primary" disabled={!headok || !clothok} onClick={submitSelection}>
                     {saveSkin}
-                </button>
+                </Button>
             </div>
         </div>
     )

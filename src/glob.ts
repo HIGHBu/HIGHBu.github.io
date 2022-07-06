@@ -58,52 +58,88 @@ export const SkinList={
     cloth: [{
         id: 'original',
         name: '求是蓝',
-        desc: '进入展馆'
+        desc: '进入展馆',
+        perc: (_v: number,_s: number,_c: number,_t: number)=>{
+            return 100
+        }
     },{
         id: 'doughnut',
         name: '梦想甜甜圈',
-        desc: '进入展馆'
+        desc: '进入展馆',
+        perc: (_v: number,_s: number,_c: number,_t: number)=>{
+            return 100
+        }
     },{
         id: 'leaves',
         name: '火红枫叶',
-        desc: '浏览7件展品'
+        desc: '浏览7件展品',
+        perc: (v: number,_s: number,_c: number,_t: number)=>{
+            return v/7*100
+        }
     },{
         id: 'palette',
         name: '小画家',
-        desc: '分享3件展品'
+        desc: '分享3件展品',
+        perc: (_v: number,s: number,_c: number,_t: number)=>{
+            return s/3*100
+        }
     },{
         id: 'star',
         name: '星星斗篷',
-        desc: '观展时长达到10min'
+        desc: '观展时长达到10min',
+        perc: (_v: number,_s: number,_c: number,t: number)=>{
+            return t*10
+        }
     },{
         id: 'tie',
         name: '毕业礼',
-        desc: '评论3件展品'
+        desc: '评论3件展品',
+        perc: (_v: number,_s: number,c: number,_t: number)=>{
+            return c/3*100
+        }
     }],
     head: [{
         name: '求是蓝',
         id: 'basic',
-        desc: '进入展馆'
+        desc: '进入展馆',
+        perc: (_v: number,_s: number,_c: number,_t: number)=>{
+            return 100
+        }
     },{
         name: '甜心圈',
         id: 'doughnut',
-        desc: '进入展馆'
+        desc: '进入展馆',
+        perc: (_v: number,_s: number,_c: number,_t: number)=>{
+            return 100
+        }
     },{
         name: '美梦睡帽',
         id: 'hat',
-        desc: '观展时长达到3min'
+        desc: '观展时长达到3min',
+        perc: (_v: number,_s: number,_c: number,t: number)=>{
+            return t/3*100
+        }
     },{
         name: '小天使',
         id: 'ring',
-        desc: '浏览5件展品'
+        desc: '浏览5件展品',
+        perc: (v: number,_s: number,_c: number,_t: number)=>{
+            return v/5*100
+        }
     },{
         name: '时尚发带',
         id: 'band',
-        desc: '分享1件展品'
+        desc: '分享1件展品',
+        perc: (_v: number,s: number,_c: number,_t: number)=>{
+            return s*100
+        }
     },{
         name: '好奇眼睛',
         id: 'glasses',
-        desc: '评论1件展品'
+        desc: '评论1件展品',
+        perc: (_v: number,_s: number,c: number,_t: number)=>{
+            return c*100
+        }
     }
     ]
 }

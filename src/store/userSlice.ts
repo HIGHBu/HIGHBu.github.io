@@ -26,13 +26,14 @@ const userSlice = createSlice({
     visit_count: 0,
     share_count: 0,
     comment_count: 0,
+    login_time: 0,
     profile: {
       avatar:   "",
       clothes:  [],
       nickname: "",
       password: "",
       username: "",
-      history: []
+      history: [],
     } as userProfile
   },
   reducers: {
@@ -53,6 +54,7 @@ const userSlice = createSlice({
       //state.username=action.payload.username
       state.token=action.payload.accessToken
       state.uid=action.payload.id
+      state.login_time=new Date().getTime()
     })
     builder.addCase(UpdateProfile.fulfilled,(state,action)=>{
       if(typeof action.payload==='string')
@@ -61,7 +63,6 @@ const userSlice = createSlice({
       state.visit_count=action.payload.history!.filter(item=>item.action==='visit').length
       state.share_count=action.payload.history!.filter(item=>item.action==='share').length
       state.comment_count=action.payload.history!.filter(item=>item.action==='comment').length
-      //console.log(action.payload)
     })
     builder.addCase(UpdateFavorite.fulfilled,(state,action)=>{
       state.favor=action.payload.favor

@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux"
 import { hideDisignDetail } from "../store/modalSlice"
 import { AppDispatch, RootState } from "../store/store"
 import { Exhibit } from "../api/exhibit"
-import { Action, likeExhibit, submitComment, visitExhibit } from "../api/action"
+import { Action, likeExhibit, shareExhibit, submitComment, visitExhibit } from "../api/action"
 import { useEffect, useMemo, useState } from "react"
 import { updateActions } from "../store/actionSlice"
 import { TextAreaProps } from "antd/lib/input"
@@ -65,11 +65,9 @@ function DesignDetail(){
         }).then(()=>dispatch(UpdateFavorite(uid)))
     }
     const navigate = useNavigate();
-    const handleShare=()=>{
-        navigate('/show/'+item.pics[0].slice(0,-6))
-    }
     const handleCopy=()=>{
         copy('http://next.zju.edu.cn/gallery_ui/show/'+item.pics[0].slice(0,-6))
+        shareExhibit({eid:itemId})
         message.success('链接已复制到粘贴板')
     }
     const [current,setcurrent]=useState(1)

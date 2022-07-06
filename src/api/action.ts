@@ -69,3 +69,14 @@ export const visitExhibit=async({
     })
     return true
 }
+
+export const shareExhibit=async({
+    eid
+}:{eid:string}):Promise<boolean>=>{
+    await authoredPost(pathFetchExhibits,{
+        action: 'share',
+        uid: (await import('../store/store')).store.getState().userSlice.uid,
+        eid
+    })
+    return true
+}
