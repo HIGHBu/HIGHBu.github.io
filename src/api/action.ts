@@ -1,4 +1,4 @@
-import { authoredGet, authoredPost, resMessage } from "./util"
+import { authoredGet, authoredPatch, authoredPost, resMessage } from "./util"
 
 export interface Action {
     id: string,
@@ -79,4 +79,21 @@ export const shareExhibit=async({
         eid
     })
     return true
+}
+
+export const likeComment=async(cid:string):Promise<boolean>=>{
+    const res=await authoredPost(pathFetchExhibits,{
+        action: 'like',
+        cid
+    })
+    return true
+}
+export interface like_count {
+    likes: number;
+    liked: boolean;
+}
+export const updateLike=async(cid:string)=>{
+    const res=await authoredGet(pathFetchExhibits+cid+'?action=like')
+    console.log(res)
+    return res as like_count
 }

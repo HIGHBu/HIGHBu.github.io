@@ -1,7 +1,7 @@
-import { CloseOutlined, DislikeOutlined, LikeOutlined, UserOutlined } from "@ant-design/icons";
+import { CloseOutlined, DislikeOutlined, LikeFilled, LikeOutlined, UserOutlined } from "@ant-design/icons";
 import { Avatar } from "antd";
 import { useEffect, useState } from "react";
-import { Action } from "../api/action";
+import { Action, likeComment, updateLike } from "../api/action";
 import { apiFetchProfile } from "../api/user";
 import { allComments } from "../glob";
 import { emojilist } from "./DesignDetail";
@@ -9,6 +9,8 @@ function Comment(props: {item: Action}){
     const {item}=props
     const [name,setn]=useState('')
     const [avatar,seta]=useState('')
+    const [likes,sets]=useState(0)
+    const [liked,setd]=useState(false)
     const avatars=import.meta.glob('../assets/avatar/*.png')
     useEffect(()=>{
         apiFetchProfile(item.uid).then(res=>{
@@ -17,7 +19,20 @@ function Comment(props: {item: Action}){
         }).then(avatar=>avatars[`../assets/avatar/${avatar}.png`]()).then(res=>{
             seta(res.default)
         })
+        updateLike(item.id).then(res=>{
+            sets(res.likes)
+            setd(res.liked)
+        })
     },[])
+    const handleLike=async()=>{
+        await likeComment(item.id)
+        const res=await updateLike(item.id)
+        sets(res.likes)
+        setd(res.liked)
+    }
+    const handleDislike=()=>{
+        
+    }
     return (<div className='comment-item'>
         <Avatar size={32} icon={avatar===""?<UserOutlined />:<img src={avatar}></img>} className='comment-avatar'/>
         <div className='comment-body'>
@@ -33,11 +48,16 @@ function Comment(props: {item: Action}){
                 {item.emoji && emojilist[item.emoji-1]}{item.comment_text}
             </p>
             <div className='comment-footer'>
-                <LikeOutlined className='like-button'/>
+                {
+                    liked?
+                    <LikeFilled className="like-button"/>
+                    :
+                    <LikeOutlined className='like-button' onClick={handleLike}/>
+                }
                 <span className='comment-likes'>
-                    {item.comment_likes}
+                    {likes}
                 </span>
-                <DislikeOutlined className='dislike-button'/>
+                {/* <DislikeOutlined className='dislike-button' onClick={handleDislike}/> */}
             </div>
         </div>
     </div>)

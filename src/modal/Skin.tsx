@@ -1,7 +1,6 @@
 import { CloseOutlined, LeftOutlined, RightOutlined } from '@ant-design/icons'
 import { Button, message, Progress } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
-import demoPic from '../assets/APP.png'
 import { AppDispatch, RootState, store } from '../store/store';
 import { hideSkin } from '../store/modalSlice';
 import { progressComplete, progressNotComplete, saveSkin, SkinList, skinPending, skinSuccess, skinTitle, unknownError, unlockCondition } from '../glob';
