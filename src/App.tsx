@@ -79,7 +79,7 @@ function App() {
     )
   
   const mainStage=(
-    <div>
+    <div style={{height:'100%'}}>
       <Web3d progress={progress}/>
       {/* <Fitting/> */}
       <MenuButton/>
@@ -90,7 +90,8 @@ function App() {
       </div>
       <audio src={bgm} ref={audioRef} autoPlay loop></audio>
       {modal}
-      <Button type='link' size="large" className="bgm-button" icon={<img height={50} width={50} src={sound?AudioOn:AudioOff}/>} onClick={handleBgm}></Button>    </div>
+      <Button type='link' size="large" className="bgm-button" icon={<img height={50} width={50} src={sound?AudioOn:AudioOff}/>} onClick={handleBgm}></Button>
+    </div>
   )
   const welcomeStage=<Welcome onExit={()=>setcovered(false)}/>
   return covered?welcomeStage:mainStage

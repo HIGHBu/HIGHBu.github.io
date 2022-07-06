@@ -12,7 +12,7 @@ import { changeNameAvatar, emptyNickname, emptyPassword, emptyUsername, generate
 function Ticket(){
     const nickname=useSelector<RootState,string>(state=>state.userSlice.profile.nickname)
     const viewnum=0
-    const likenum=0
+    const likenum=useSelector<RootState,number>(state=>state.userSlice.favor.length)
     return (<div style={{
         display:'flex',
         alignItems: 'flex-end',
@@ -28,7 +28,7 @@ function Ticket(){
             {`观看了${viewnum}个精彩展品`}
         </div>
         <div>
-            {`点赞了${likenum}个趣味设计`}
+            {`收藏了${likenum}个趣味设计`}
         </div>
     </div>)
 }

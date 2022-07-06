@@ -1,7 +1,8 @@
+import { LoadingOutlined } from '@ant-design/icons';
 import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera, useSpring } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import loading from '../assets/loading.png'
+import ball from '../assets/ball.png'
 import { SkinList } from '../glob';
 import { visit_type } from '../store/exhibitSlice';
 import { showDisignDetail } from '../store/modalSlice'
@@ -775,7 +776,13 @@ const Game=() => {
 
 const App = (props:{progress:number}) => {
   if(props.progress<100)
-    return (<img height={"100%"} width={"100%"} src={loading}></img>)
+    return (
+      <div style={{height: '100%',display:'flex',flexDirection:'column',justifyContent:'center',margin: 'auto',width: 400}}>
+        <img width={400} height={400} src={ball}></img>
+        <h2 style={{textAlign:'center',fontSize: 16,fontWeight: 'bold'}}>正在前往虚拟展厅</h2>
+        <LoadingOutlined style={{fontSize: 50,marginTop: 30}}/>
+      </div>
+    )
   else
     return (<Game />)
 }
