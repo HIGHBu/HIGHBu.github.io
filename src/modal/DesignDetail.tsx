@@ -12,6 +12,7 @@ import { TextAreaProps } from "antd/lib/input"
 import AllComments from "./AllComments"
 import { useNavigate } from "react-router-dom"
 import copy from 'copy-to-clipboard'
+import { UpdateFavorite } from "../store/userSlice"
 const { TextArea } = Input
 export const emojilist=['😀','🤔','🙁','😓']
 function DesignDetail(){
@@ -23,10 +24,11 @@ function DesignDetail(){
     const all_comments=useSelector<RootState,Record<string, Action[]> >(state=>state.actionSlice.items)
     const comments=useMemo(()=>all_comments[itemId] || [],[itemId,all_comments])
     const favor_list=useSelector<RootState,string[]>(state=>state.userSlice.favor)
+    const uid=useSelector<RootState,string>(state=>state.userSlice.uid)
     const [favored,setf]=useState(false)
     useEffect(()=>{
         dispatch(updateActions(itemId))
-        console.log(item)
+        console.log(favor_list)
         setf(favor_list.indexOf(itemId)>=0)
     },[itemId])
     const [commentInput,setCommentInput]=useState('')
@@ -58,7 +60,7 @@ function DesignDetail(){
         setf(true)
         likeExhibit({
             eid: itemId
-        })
+        }).then(()=>dispatch(UpdateFavorite(uid)))
     }
     const navigate = useNavigate();
     const handleShare=()=>{

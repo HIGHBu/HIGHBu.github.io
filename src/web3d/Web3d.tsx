@@ -606,7 +606,7 @@ const Game=() => {
             <div key={'post'+post.id}>
               <Find 
                 name={post.name} 
-                //={gallery_select_id*17+index<exhibits.length ? exhibits[gallery_select_id*17+index].path : undefined}
+                texture={gallery_select_id*17+index<exhibits.length ? exhibits[gallery_select_id*17+index].path : undefined}
                 visible={gallery_select_id*17+index<exhibits.length ? true : false}
                 onClick={()=>{
                   if(gallery_select_id*17+index<exhibits.length){
