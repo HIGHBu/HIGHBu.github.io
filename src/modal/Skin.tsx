@@ -99,9 +99,6 @@ function Skin(){
     },[])
     return (
         <div className='skin-favor-modal' style={{backdropFilter: 'none'}}>
-            <div style={{width: '30%'}}>
-                {/* <Fitting/> */}
-            </div>
             <div className='panel'>
                 <div className='panel-head'>
                     <h1>{skinTitle}</h1>

@@ -20,6 +20,7 @@ function App() {
   const designDetailVisible=useSelector<RootState,boolean>(state=>state.modalSlice.disignDetail)
   const favorVisible=useSelector<RootState,boolean>(state=>state.modalSlice.favor)
   const skinVisible=useSelector<RootState,boolean>(state=>state.modalSlice.skin)
+  const shiftVisible=useSelector<RootState,boolean>(state=>state.modalSlice.shift)
   //const loginVisible=useSelector<RootState,boolean>(state=>state.modalSlice.login)
   const [covered,setcovered]=useState(true)
   const [sound,setsound]=useState(true)
@@ -33,8 +34,8 @@ function App() {
   }
   const modal=designDetailVisible && <DesignDetail/> || 
     favorVisible && <Favor/> ||
-    skinVisible && <Skin/>;
-
+    skinVisible && <Skin/> ||
+    shiftVisible && <img src="background.png" style={{height:'100%', width:'100%'}}/>;
     const progress = usePreload(
       [
         "tutorial/Move_1.png",
@@ -81,7 +82,6 @@ function App() {
   const mainStage=(
     <div style={{height:'100%'}}>
       <Web3d progress={progress}/>
-      {/* <Fitting/> */}
       <MenuButton/>
       <div className='top-button-group'>
         <UserButton/>

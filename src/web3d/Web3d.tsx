@@ -1,11 +1,11 @@
 import { LoadingOutlined } from '@ant-design/icons';
-import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera, useSpring } from 'lingo3d-react'
+import {LingoEditor, Plane, Cube,  Find, Model, ThirdPersonCamera, types, World, useLoop, Sprite, Camera, useSpring, HTML } from 'lingo3d-react'
 import {useEffect, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import ball from '../assets/ball.png'
 import { SkinList } from '../glob';
 import { visit_type } from '../store/exhibitSlice';
-import { showDisignDetail } from '../store/modalSlice'
+import { hideShift, showDisignDetail, showShift } from '../store/modalSlice'
 import { AppDispatch, RootState, store } from '../store/store'
 
 const Game=() => {
@@ -18,9 +18,6 @@ const Game=() => {
   const [position, setPosition] = useState({x: 0, y: 0,z:0})
   const [mouseOver, setMouseOver] = useState(false)
   const [focus, setFocus] = useState(-1) // focus为-1代表正常视角，0代表看portal，1-17代表看展位
-  const [check, setCheck] = useState(0) // check为0代表正常视角，1-17代表点击了展位
-  //TODO: check与前端的交互
-  //check为1-17的时候出现对应的链接（根据gallery_select_id选择是哪一个场馆的），从链接返回后将check设为0
   const [clothes, setClothes] = useState(-1) // clothes为0代表第一次进入
   interface ex_abstract {
     path: string,
@@ -30,7 +27,6 @@ const Game=() => {
     path: 'poster/'+item.avatar,
     id: item.id
   })))
-  //TODO: 点击换衣服的时候changing为true(当前设置成点传送门了)
   const changing = useSelector<RootState,boolean>(state=>state.modalSlice.skin)
   const visits_data = useSelector<RootState,visit_type[]>(state=>state.exhibitSlice.visits)
   const [gallery_select_id, setGallery_Select_Id] = useState(0)  
@@ -532,6 +528,14 @@ const Game=() => {
     model?.moveForward(-1*walking_speed)
   },walking)
 
+  useEffect(()=>{
+    console.log("gallery changed!")
+    const timer = setTimeout(()=>{
+      console.log("时间到！")
+      dispatch(hideShift())
+    }, 2000);
+  },[gallery_select_id])
+
   useLoop(()=>{
     let camera = cameraRef.current
     let model = characterRef.current
@@ -546,6 +550,7 @@ const Game=() => {
       <World
        position='relative'
        skybox="sky.jpg"
+      //  ambientOcclusion={true}
       >
         <Plane
           x={201.63} y={-199.47} z={-2872.50}
@@ -555,6 +560,7 @@ const Game=() => {
           onClick={()=>{
             setGallery_Select_Id(1-gallery_select_id)
             setFocus(-1)
+            dispatch(showShift())
           }}
         />
         <Cube id="intersect_cube" scale={0.5} x={position.x} y={position.y} z={position.z} visible={false}/>
@@ -568,7 +574,6 @@ const Game=() => {
                 setPosition(ev.point)
                 setWalking(true)
                 model.lookTo(ev.point.x, undefined, ev.point.z,0.1)  
-                //setChanging(false)
                 model.onMoveToEnd = () =>{
                   setWalking(false);
                 }
@@ -580,7 +585,6 @@ const Game=() => {
             onMouseOut={() => setMouseOver(false)}
             onClick={() => {
               setFocus(0)
-              //setChanging(true)
             }}
           />
           {
@@ -597,7 +601,6 @@ const Game=() => {
                 texture="plane/back.png"
                 onClick={()=>{
                   setFocus(-1)
-                  setCheck(0)
                 }}
               />
             )
@@ -616,7 +619,6 @@ const Game=() => {
                       setWalking(false)
                     }
                     else if(focus == index+1){
-                      setCheck(index+1)
                       dispatch(showDisignDetail(exhibits[gallery_select_id*17+index].id))
                     }
                   }

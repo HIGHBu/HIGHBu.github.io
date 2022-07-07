@@ -7,6 +7,7 @@ const modalSlice = createSlice({
     exhibitId: '',
     favor: false,
     skin: false,
+    shift: false,
     //login: true
   },
   reducers: {
@@ -28,6 +29,12 @@ const modalSlice = createSlice({
     },
     showSkin(state){
       state.skin=true;
+    },
+    showShift(state){
+      state.shift=true;
+    },
+    hideShift(state){
+      state.shift=false;
     }
   },
 })
@@ -38,7 +45,9 @@ export const {
   hideFavor,
   showFavor,
   hideSkin,
-  showSkin
+  showSkin,
+  showShift,
+  hideShift,
 } = modalSlice.actions
 
 export default modalSlice.reducer
