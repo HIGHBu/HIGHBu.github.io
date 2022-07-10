@@ -35,7 +35,11 @@ function App() {
   const modal=designDetailVisible && <DesignDetail/> || 
     favorVisible && <Favor/> ||
     skinVisible && <Skin/> ||
-    shiftVisible && <img src="background.png" style={{height:'100%', width:'100%'}}/>;
+    shiftVisible && 
+      <div>
+        <h1 style={{zIndex:2, position:'absolute', textAlign:'center',fontSize: 64,fontWeight: 'bold',top:'45%', left:'33%'}}>正在前往虚拟展厅...</h1>
+        <img src="background.png" style={{width:'100%', height:'100%', zIndex:1, position:'absolute',top:'0', left:'0',objectFit: 'cover'}}></img>
+      </div>;
     const progress = usePreload(
       [
         "tutorial/Move_1.png",

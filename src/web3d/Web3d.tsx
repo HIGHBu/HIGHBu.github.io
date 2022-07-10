@@ -500,7 +500,7 @@ const Game=() => {
   ]
 
   const back_boards = [
-    {id: 0,x: 12.51,z: -447.03},
+    {id: 0,x: 13.61,z: -448.27},
     {id: 1,x: 162.57,z: -419.37},
     {id: 2,x: 297.44,z: -338.79},
     {id: 3,x: 394.80,z: -216.22},
@@ -558,9 +558,11 @@ const Game=() => {
           visible={focus == 0 && mouseOver}
           texture={gallery_select_id==1?"plane/communication.png":"plane/reality.png"}
           onClick={()=>{
-            setGallery_Select_Id(1-gallery_select_id)
-            setFocus(-1)
-            dispatch(showShift())
+            if(focus == 0){
+              setGallery_Select_Id(1-gallery_select_id)
+              setFocus(-1)
+              dispatch(showShift())
+            }
           }}
         />
         <Cube id="intersect_cube" scale={0.5} x={position.x} y={position.y} z={position.z} visible={false}/>
@@ -578,6 +580,9 @@ const Game=() => {
                   setWalking(false);
                 }
               }
+              if(focus!=-1){//点旁边墙也返回
+                setFocus(-1)
+              }
             }}
           />
           <Find name="portal"
@@ -593,7 +598,7 @@ const Game=() => {
                 key={'board'+board.id}
                 name={board.id.toString()}
                 x={board.x}
-                y={focus != 0 ? -33.04 : -40.04}
+                y={focus != 0 ? -32.47 : -40.04}
                 z={board.z}
                 width={focus != 0 ? 1.5 : 0.75} 
                 height={focus != 0 ? 1.5 : 0.75}
